@@ -1,3 +1,5 @@
+>> FICHIER A ENLEVER DANS LE GIT FINAL <<
+
 12.02.24
 
 - Décorticage des règles  :
@@ -9,12 +11,22 @@
 		51 pions (marqueurs) blanc d'un côté et noir de l'autre	
 
 	- Autre (j'ai pas de nom pour définir)
-		2 modes de jeux : il y a la version blitz (on pourra l'impélementer) 
+		2 modes de jeux : il y a la version blitz (on doit l'impélementer) 
 
 
 
 Début de la partie :
 	- on choisit aléatoirement le joueur qui commence, il prend les blancs (on peut faire un système de dés avec un random, et le plus grand ou plus petit commence) 
-	- chaque joueurs placent, chacun leurs tour, leur 5 anneaux sur les intersections 
+	- chaque joueurs placent, chacun leurs tour, leurs 5 anneaux sur les intersections 
 
 
+Pas de répartition de pions entre les joueurs, tous les "marqueurs" sont mis de côté et forment une réserve. 
+
+	-On choisit donc un anneaux qu'on veut déplacer et on place un pion, coté de notre couleur, à la place
+
+Règles de déplacement de l'anneaux : 
+
+- On déplace juste le marqueurs
+- Ne peut pas passer par dessus les "marqueurs"
+- Se déplace en ligne droite vers une intersection vide 
+- Peut passer par dessus des marqueurs tant que ceux ci sont aligné, on doit placer l'anneau à la première intersection vide.
