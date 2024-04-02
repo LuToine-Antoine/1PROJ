@@ -1,0 +1,20 @@
+12.02.24
+
+- Décorticage des règles  :
+
+éléments importants : 
+	- pour jouer
+		Le plateau 
+		5 anneaux blanc/noir
+		51 pions (marqueurs) blanc d'un côté et noir de l'autre	
+
+	- Autre (j'ai pas de nom pour définir)
+		2 modes de jeux : il y a la version blitz (on pourra l'impélementer) 
+
+
+
+Début de la partie :
+	- on choisit aléatoirement le joueur qui commence, il prend les blancs (on peut faire un système de dés avec un random, et le plus grand ou plus petit commence) 
+	- chaque joueurs placent, chacun leurs tour, leur 5 anneaux sur les intersections 
+
+
