@@ -67,7 +67,7 @@ On doit aligner 5 marqueurs de la même couleurs, sur la même ligne et côte à
 Les 5 marqueurs qui sont aligné sont remit dans la réserve, puis le joueur retire un de ses anneaux.
 Si on a plusieurs marqueurs, s'il sont imbriquer on choisit l'aligenement qu'on veut enlever, sinon on retire les deux.
 Si on fait un alignement pour l'adversaire, celui ci retire les marqueurs et l'anneau de son choix avant de jouer.
-Si on forme 2 alignement, un pour soit et un pour son adversaire, on s'occupe d'abord du sien et l'adeversaire s'occupe du sien après
+Si on forme 2 alignement, un pour soit et un pour son adversaire, on s'occupe d'abord du sien et l'adversaire s'occupe du sien après
 
 Fin de la partie :
 
@@ -76,5 +76,42 @@ Si on fait notre 3 ème alignement et celui de l'adversaire, on gagne.
 Si tous les marqueurs sont sur le plateau, celui qui a enlever le plus d'anneaux qui gagne.
 
 
-Lautre mode de jeu :
+L'autre mode de jeu :
 Il faut faire qu'un seul alignement.
+
+
+========================================================================================================================
+
+06.04.2024
+
+
+Fonction a mettre et leur utilités
+
+
+>game_modes
+    > mod_blitz
+        >> set_blitz_mode()
+            retourne un booléen -> True = le jeu est en mode blitz (1 alignement) // False = mode normal (3 alignements)
+        >> blitz_win(board)
+            si la fonction set_blitz_mode() return True ==> on utilise cette condition de victoire
+
+    > mod_normal
+
+
+>structures
+    >board
+        > board_struct
+            >> __init__ (self, board)
+
+        > board_ui
+
+    > pieces
+        >> __init__ (self, x, y)
+
+    > rings
+        >> __init__ (self, x, y)
+> gui
+
+> main
+
+> menu
