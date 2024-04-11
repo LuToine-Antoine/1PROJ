@@ -115,3 +115,8 @@ Fonction a mettre et leur utilités
 > main
 
 > menu
+
+
+========================================================================================================================
+
+Pour la condition de victoire, on calcul en board[i+2] ou j+2 pour sauter les cases vides
