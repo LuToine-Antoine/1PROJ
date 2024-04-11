@@ -1,5 +1,9 @@
 from structures.board.board_struct import *
 from structures.board.board_ui import *
 
-see_board()
-draw_triangles(canvas)
+
+board = BoardStruct()
+board.see_board()
+
+ui_board = UIBoard()
+ui_board.draw_triangles()
