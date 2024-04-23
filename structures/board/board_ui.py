@@ -4,14 +4,15 @@ import tkinter as tk
 class UIBoard:
 
     def __init__(self):
-        self._window = tk.Tk()
-        self._window.title("Yinch by LuToine")
-        self._canvas = tk.Canvas(self._window, height=700, width=700)
+        self._root = tk.Tk()
+        self._root.title("Yinch by LuToine")
+        self._canvas = tk.Canvas(self._root, height=700, width=700)
 
-        self.draw_triangles()
+        tk.Button(self._root, text='Bouton 1').pack(side="top", padx=5, pady=5)
+        tk.Button(self._root, text='Bouton 2').pack(side="bottom", padx=5, pady=5)
 
         self._canvas.pack()
-        self._window.mainloop()
+        self._root.mainloop()
 
     def draw_triangles(self):
         """
