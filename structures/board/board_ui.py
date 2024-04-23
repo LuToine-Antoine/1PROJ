@@ -8,10 +8,16 @@ class UIBoard:
         self._window.title("Yinch by LuToine")
         self._canvas = tk.Canvas(self._window, height=700, width=700)
 
+        self.draw_triangles()
+
         self._canvas.pack()
         self._window.mainloop()
 
     def draw_triangles(self):
+        """
+        Draw the board in a window.
+        :return: nothing
+        """
         x1, y1 = 225, 25
         x2, y2 = 200, 75
         x3, y3 = 250, 75
