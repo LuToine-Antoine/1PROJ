@@ -33,10 +33,8 @@ class BoardStruct:
                     print("2", end='')
                 elif self.board[i][j] == 4:  # Player 1 pawns
                     print("3", end='')
-                else:  # Player 2 pawns
+                elif self.board[i][j] == 5:  # Player 2 pawns
                     print("4", end='')
             print(" ")
 
 
-board = BoardStruct()
-board.see_board()

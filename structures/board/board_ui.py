@@ -5,11 +5,13 @@ class UIBoard:
 
     def __init__(self):
         self._root = tk.Tk()
-        self._root.title("Yinch by LuToine")
+        self._root.title("Yinch by LLT")
         self._canvas = tk.Canvas(self._root, height=700, width=700)
 
         tk.Button(self._root, text='Bouton 1').pack(side="top", padx=5, pady=5)
         tk.Button(self._root, text='Bouton 2').pack(side="bottom", padx=5, pady=5)
+
+        self.draw_triangles()
 
         self._canvas.pack()
         self._root.mainloop()
