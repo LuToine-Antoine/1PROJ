@@ -32,14 +32,17 @@ class Paws:
         pawn_round = 0
 
         #while self.pawns_stock(board) == False:
-        while self._board[0][0] <= xpawn_player_1 > len(self._board) or self._board[0][0] <= ypawn_player_1 > len(self._board) or self._board[xpawn_player_1][ypawn_player_1] != 1:
-            xpawn_player_1 = int(input("Player 1, set x for your pawn : "))
-            ypawn_player_1 = int(input("Player 1, set y for your pawn : "))
-        self._board[xpawn_player_1][ypawn_player_1] = 4  # Changer l'état de la case du plateau
+        while pawn_round < 2:
+            print("Tour = : ", pawn_round)
+            while not (0 < xpawn_player_1 < 11) or not (0 < ypawn_player_1 < 19) or self._board[xpawn_player_1][ypawn_player_1] != 2:
+                xpawn_player_1 = int(input("Player 1, set x for your pawn : "))
+                ypawn_player_1 = int(input("Player 1, set y for your pawn : "))
+            self._board[xpawn_player_1][ypawn_player_1] = 4  # Changer l'état de la case du plateau
 
-        while self._board[0][0] <= xpawn_player_2 > len(self._board) or self._board[0][0] <= ypawn_player_2 > len(self._board) or self._board[xpawn_player_2][ypawn_player_2] != 1:
-            xpawn_player_2 = int(input("Player 2, set x for your pawn : "))
-            ypawn_player_2 = int(input("Player 2, set y for your pawn : "))
-        self._board[xpawn_player_2][ypawn_player_2] = 5  # Changer l'état de la case du plateau
+            while not (0 < xpawn_player_2 < 11) or not (0 < ypawn_player_2 < 19) or self._board[xpawn_player_2][ypawn_player_2] != 3:
+                xpawn_player_2 = int(input("Player 2, set x for your pawn : "))
+                ypawn_player_2 = int(input("Player 2, set y for your pawn : "))
+            self._board[xpawn_player_2][ypawn_player_2] = 5  # Changer l'état de la case du plateau
 
+            pawn_round += 1
 
