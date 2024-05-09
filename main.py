@@ -21,7 +21,7 @@ class Menu:
             return True
 
     def game_loop(self):
-        ui_board = UIBoard()
+        #ui_board = UIBoard()
 
         board = BoardStruct()
         board.see_board()
