@@ -36,3 +36,23 @@ class Rings:
             ring_round += 1
 
         return board
+
+    def set_player_1_ring(self):
+        """
+        Use to count how many player 1 get out of the board.
+        """
+        self._player_1_out_ring = None
+        pass
+
+    def get_player_1_ring(self):
+        return self._player_1_out_ring
+
+    def set_player_2_ring(self):
+        """
+        Use to count how many player 2 get out of the board.
+        """
+        self._player_2_out_ring = None
+        pass
+
+    def get_player_2_ring(self):
+        return self._player_2_out_ring

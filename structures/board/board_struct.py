@@ -18,7 +18,6 @@ class BoardStruct:
     def see_board(self):
         """
         Displays the board and the players rings and pawns in the terminal.
-        :return: nothing
         """
 
         for i in range(11):

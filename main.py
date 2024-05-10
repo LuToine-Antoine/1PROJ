@@ -4,6 +4,7 @@ from structures.board.board_struct import *
 from structures.board.board_ui import *
 from structures.rings import *
 from structures.pawn import *
+import win
 
 class Menu:
     def __init__(self):
