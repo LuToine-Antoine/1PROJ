@@ -4,7 +4,8 @@ from structures.board.board_struct import *
 from structures.board.board_ui import *
 from structures.rings import *
 from structures.pawn import *
-import win
+from possibilites.ringsmoves import *
+
 
 class Menu:
     def __init__(self):
@@ -27,14 +28,20 @@ class Menu:
         board = BoardStruct()
         board.see_board()
 
+        possibles = RingsMoves(4, 8, board.board)
         firstRing = Rings(0, 0, board.board)
         firstRing.put_rings(board.board)
+        possibles.set_vertical_moves()
+        possibles.set_horizontal_moves()
+        possibles.set_diagonal_moves()
+
+        print(possibles.get_vertical_moves(), possibles.get_horizontal_moves(), possibles.get_diagonal_moves(),  sep="\n")
 
         board.see_board()
 
-        pawns = Paws(0, 0, board.board)
-        pawns.put_paws(board.board)
-        board.see_board()
+       #pawns = Paws(0, 0, board.board)
+       #pawns.put_paws(board.board)
+        #board.see_board()
 
 
     #ui_board.draw_triangles()
