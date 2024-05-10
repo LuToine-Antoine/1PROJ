@@ -19,6 +19,8 @@ class Paws:
 
         if stock != 0:
             return False  # Stock is not empty
+        else:
+            return True
 
     def put_paws(self, board):
         """
