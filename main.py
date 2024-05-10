@@ -33,9 +33,10 @@ class Menu:
         firstRing.put_rings(board.board)
         possibles.set_vertical_moves()
         possibles.set_horizontal_moves()
-        possibles.set_diagonal_moves()
+        possibles.set_right_diagonal_moves()
+        possibles.set_left_diagonal_moves()
 
-        print(possibles.get_vertical_moves(), possibles.get_horizontal_moves(), possibles.get_diagonal_moves(),  sep="\n")
+        print(possibles.get_vertical_moves(), possibles.get_horizontal_moves(), possibles.get_right_diagonal_moves(), possibles.get_left_diagonal_moves(),  sep="\n")
 
         board.see_board()
 
