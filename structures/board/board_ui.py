@@ -8,9 +8,6 @@ class UIBoard:
         self._root.title("Yinch by LLT")
         self._canvas = tk.Canvas(self._root, height=700, width=700)
 
-        tk.Button(self._root, text='Bouton 1').pack(side="top", padx=5, pady=5)
-        tk.Button(self._root, text='Bouton 2').pack(side="bottom", padx=5, pady=5)
-
         self.draw_triangles()
 
         self._canvas.pack()
@@ -85,3 +82,5 @@ class UIBoard:
                     self._canvas.create_polygon(x1 + 25 + 50 * j, y1 + 450, x2 + 25 + 50 * j, y2 + 450,
                                                 x3 + 25 + 50 * j,
                                                 y3 + 450, fill="", outline="black")
+
+board = UIBoard()
