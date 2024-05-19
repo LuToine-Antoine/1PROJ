@@ -1,50 +1,70 @@
 import pygame as pygame
 
-class UImenue:
-    def __init__(self, height=500, width=800):
-        self._screen_height = height
-        self._screen_width = width
+height = 500
+width = 800
 
-        self._screen = pygame.display.set_mode((self._screen_width, self._screen_height))
-        pygame.display.set_caption('Yinch')
+screen_height = height
+screen_width = width
 
-        # Load button images
-        self._solo_img = pygame.image.load('images/menu/button_solo.png').convert_alpha()
-        self._local_img = pygame.image.load('images/menu/button_local.png').convert_alpha()
-        self._rules_img = pygame.image.load('images/menu/button_rules.png').convert_alpha()
-        self._setting_img = pygame.image.load('images/menu/button_settings.png').convert_alpha()
+screen = pygame.display.set_mode((screen_width, screen_height))
+pygame.display.set_caption('Yinch')
 
-        # Garde la fenêtre ouverte
-        run = True
-        while run:
-
-            self._screen.fill((202, 228, 241))
-            testButton.draw()
-
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    run = False
-
-            pygame.display.update()
-
-    def get_screen(self):
-        return self._screen
-
-    def get_solo_img(self):
-        return self._solo_img
+# Load button images
+solo_img = pygame.image.load('images/menu/button_solo.png').convert_alpha()
+local_img = pygame.image.load('images/menu/button_local.png').convert_alpha()
+rules_img = pygame.image.load('images/menu/button_rules.png').convert_alpha()
+setting_img = pygame.image.load('images/menu/button_settings.png').convert_alpha()
 
 
 class Button:
-    def __init__(self, x, y, image):
-        self._menu = UImenue()
-        self._image = image
-        self.rect = self._image.pygame.get_rect()
-        self.rect.pygame.topleft = (x, y)
+    def __init__(self, x, y, image, scale):
+        self._width = image.get_width()
+        self._height = image.get_height()
+        self._image = pygame.transform.scale(image, (int(self._width*scale), int(self._height*scale)))
+        self.rect = self._image.get_rect()
+        self.rect.topleft = (x, y)
+        self._clicked = False
 
     def draw(self):
-        self._menu.get_screen().blit(self._image, (self.rect.x, self.rect.y))
+        action = False
+
+        # get mouse position
+        pos = pygame.mouse.get_pos()
+
+        # check mouse hover and clicked condition
+        if self.rect.collidepoint(pos):
+            if pygame.mouse.get_pressed()[0] == 1 and not self._clicked:
+                self._clicked = True
+                action = True
+
+        if pygame.mouse.get_pressed()[0] == 1:
+            self._clicked = False
+
+        screen.blit(self._image, (self.rect.x, self.rect.y))
+
+        return action
 
 
-menu = UImenue()
+# Create buttons
+solo_button = Button(100, 200, solo_img, 0.5)
+local_button = Button(200, 210, local_img, 0.5)
+rules_button = Button(200, 220, rules_img, 0.5)
+setting_button = Button(220, 230, setting_img, 0.5)
 
-testButton = Button(100, 200, menu.get_solo_img())
+
+# Garde la fenêtre ouverte
+run = True
+while run:
+
+    screen.fill((202, 228, 241))
+
+    # appelle une fonction du jeu, ici le mode solo if solo_button.draw():
+    solo_button.draw()
+    local_button.draw()
+    rules_button.draw()
+    setting_button.draw()
+
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            run = False
+    pygame.display.update()
