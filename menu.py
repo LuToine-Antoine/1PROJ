@@ -1,7 +1,7 @@
 import pygame as pygame
 
-height = 500
-width = 800
+width = 1280
+height = 800
 
 screen_height = height
 screen_width = width
@@ -46,10 +46,10 @@ class Button:
 
 
 # Create buttons
-solo_button = Button(100, 200, solo_img, 0.5)
-local_button = Button(200, 210, local_img, 0.5)
-rules_button = Button(200, 220, rules_img, 0.5)
-setting_button = Button(220, 230, setting_img, 0.5)
+solo_button = Button(200, -190, solo_img, 0.4)
+local_button = Button(200, -40, local_img, 0.4)
+rules_button = Button(200, 160, rules_img, 0.4)
+setting_button = Button(200, 320, setting_img, 0.4)
 
 
 # Garde la fenêtre ouverte
