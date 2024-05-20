@@ -22,29 +22,18 @@ class Paws:
         else:
             return True
 
-    def put_paws(self, board):
+    def put_paws(self, x, y, board, player):
         """
         Use for player to put their paws on the board.
         """
-        # Set to default
-        xpawn_player_1 = 0
-        ypawn_player_1 = 0
-        xpawn_player_2 = 0
-        ypawn_player_2 = 0
-        pawn_round = 0
+        self._x = x
+        self._y = y
 
-        #while self._pawns_stock(board) == False:
-        while pawn_round < 2:
-            print("Tour = : ", pawn_round)
-            while not (0 < xpawn_player_1 < 11) or not (0 < ypawn_player_1 < 19) or self.__board[xpawn_player_1][ypawn_player_1] != 2:
-                xpawn_player_1 = int(input("Player 1, set x for your pawn : "))
-                ypawn_player_1 = int(input("Player 1, set y for your pawn : "))
-            self.__board[xpawn_player_1][ypawn_player_1] = 4  # Changer l'état de la case du plateau
+        if player == 1:
+            self._board[self._x][self._y] = 4  # Changer l'état de la case du plateau
+        elif player == 2:
+            self._board[self._x][self._y] = 5  # Changer l'état de la case du plateau
+        return board
 
-            while not (0 < xpawn_player_2 < 11) or not (0 < ypawn_player_2 < 19) or self.__board[xpawn_player_2][ypawn_player_2] != 3:
-                xpawn_player_2 = int(input("Player 2, set x for your pawn : "))
-                ypawn_player_2 = int(input("Player 2, set y for your pawn : "))
-            self.__board[xpawn_player_2][ypawn_player_2] = 5  # Changer l'état de la case du plateau
 
-            pawn_round += 1
 

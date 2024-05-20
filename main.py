@@ -54,6 +54,7 @@ class Game:
                     return 2 # Player 2 win
                 else:
                     return 3  # Equality
+
         elif self._round % 2 == 1:  # Check win during player 2 turn
             if numberRingPlayer2 == numberToWin:
                 return 2  # Player 2 win
@@ -66,6 +67,7 @@ class Game:
                     return 1  # Player 1 win
                 else:
                     return 3  # Equality
+
         else:  # Nobody Win, game continue
             return False
 
@@ -74,6 +76,9 @@ class Game:
 
         self._board = BoardStruct()
         self.main_put_first_rings()
+        self.main_put_pawns()
+        # - Condition de la boucle while tant que pas de win
+
         #possibles = RingsMoves(0, 0, board.board)
         #possibles.set_vertical_moves()
         #possibles.set_horizontal_moves()
@@ -86,9 +91,6 @@ class Game:
         #print("test voir choix d'anneau", a)
 
         #print("vertical", possibles.get_vertical_moves(), "horizontal", possibles.get_horizontal_moves(), "diagonale 1", possibles.get_right_diagonal_moves(), "diagonale 2", possibles.get_left_diagonal_moves(),  sep="\n")
-
-        #board.see_board()
-
        #pawns = Paws(0, 0, board.board)
        #pawns.put_paws(board.board)
         #board.see_board()
@@ -117,7 +119,24 @@ class Game:
             else:
                 self._player = 1
 
+    def main_put_pawns(self):
+        pawns = Paws(0, 0, self._board.board)
 
+        x = int(input(f"Player {self._player} : Set x for your pawn"))
+        y = int(input(f"Player {self._player} : Set y for your pawn"))
+
+        # In order to check if place selected is a ring of good player
+        if self._player == 1:
+            player_case = 2
+        else:
+            player_case = 3
+
+        while not self.in_board_verification(x, y) or self._board.board[x][y] != player_case:
+            x = int(input(f"Player {self._player} : Not valid re-set x for your pawn"))
+            y = int(input(f"Player {self._player} : Not valid re-set y for your pawn"))
+
+        pawns.put_paws(x, y, self._board.board, self._player)
+        self._board.see_board()
 
     #ui_board.draw_triangles()
 
