@@ -27,10 +27,10 @@ class RingsMoves:
         self._horizontal_moves.clear()
         for j in range(len(self._board[self._x])):
             if self._board[self._x][j] == 4 and self._board[self._x][j] == 5:
-                self._horizontal_moves.append((j, self._x))
+                self._horizontal_moves.append((j+1, self._x+1))
                 break
             if self._board[self._x][j] == 1:
-                self._horizontal_moves.append((j, self._x))
+                self._horizontal_moves.append((self._x, j))
 
     def get_horizontal_moves(self):
         return self._horizontal_moves

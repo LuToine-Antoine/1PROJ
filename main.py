@@ -10,6 +10,7 @@ from possibilites.ringsmoves import *
 class Game:
     def __init__(self):
         self._mode = None
+        self._board = None
         self._round = 0
         self._player = 1
         self._ring_move_x = 0
@@ -74,8 +75,6 @@ class Game:
             return False
 
     def game_loop(self):
-        #ui_board = UIBoard()
-
         self._board = BoardStruct()
         self._mode = self.blitz_mode()
         self.main_put_first_rings()
@@ -169,16 +168,6 @@ class Game:
         print("all_possibles_moves", self.all_possibles_moves)
 
         while not self.in_board_verification(x, y) or self._board.board[x][y] != 1 or (x,y) not in self.all_possibles_moves:
-            # dev tests
-            if self._board.board[x][y] not in self.all_possibles_moves:
-                print("Not a valid move")
-
-            elif not self.in_board_verification(x, y):
-                print("Not in board")
-
-            elif self._board.board[x][y] != 1:
-                print("Not 1")
-
             x = int(input(f"Player {self._player} : Not valid re-set x for your destination rings : "))
             y = int(input(f"Player {self._player} : Not valid re-set y for your destination rings : "))
 
