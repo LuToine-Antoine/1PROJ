@@ -5,17 +5,20 @@ from structures.board.board_ui import *
 from structures.rings import *
 from structures.pawn import *
 from possibilites.ringsmoves import *
+from possibilites.pawnsmoves import *
 
 
 class Game:
     def __init__(self):
+        self._rotation = None
         self._mode = None
-        self._board = None
+        self._board = BoardStruct()
         self._round = 0
         self._player = 1
         self._ring_move_x = 0
         self._ring_move_y = 0
         self.all_possibles_moves = []
+        self._possibles = RingsMoves(0, 0, self._board.board)
 
     def blitz_mode(self):
         """
@@ -142,21 +145,20 @@ class Game:
 
     def main_see_moves_rings(self):
         self.all_possibles_moves.clear()
-        possibles = RingsMoves(0, 0, self._board.board)
 
         # Get all possibles moves
-        possibles.get_possible_moves(self._ring_move_x, self._ring_move_y)
+        self._possibles.get_possible_moves(self._ring_move_x, self._ring_move_y)
 
         # Create a list of all possibles moves
-        self.all_possibles_moves = possibles.get_vertical_moves() + possibles.get_horizontal_moves() + possibles.get_right_diagonal_moves() + possibles.get_left_diagonal_moves()
+        self.all_possibles_moves = self._possibles.get_vertical_moves() + self._possibles.get_horizontal_moves() + self._possibles.get_right_diagonal_moves() + self._possibles.get_left_diagonal_moves()
         print("ring coordonnées", self._ring_move_x, self._ring_move_y)
-        print("Possible vertical : ", possibles.get_vertical_moves(), "Possible horizontal : ", possibles.get_horizontal_moves(), "Possible top left to bottom right : ", possibles.get_right_diagonal_moves(), "Possible bottom left to top right : ", possibles.get_left_diagonal_moves(), sep="\n")
+        print("Possible vertical : ", self._possibles.get_vertical_moves(), "Possible horizontal : ", self._possibles.get_horizontal_moves(), "Possible top left to bottom right : ", self._possibles.get_right_diagonal_moves(), "Possible bottom left to top right : ", self._possibles.get_left_diagonal_moves(), sep="\n")
         self._board.see_board()
 
         return self.all_possibles_moves
 
-
     def main_move_rings(self):
+        self._rotation = PawnRotate(self._board.board)
         x = int(input(f"Player {self._player} : Set x for your destination rings : "))
         y = int(input(f"Player {self._player} : Set y for your destination rings : "))
 
@@ -172,6 +174,21 @@ class Game:
             y = int(input(f"Player {self._player} : Not valid re-set y for your destination rings : "))
 
         self._board.board[x][y] = player_case
+
+        if (x, y) in self._possibles.get_vertical_moves():
+            self._rotation.vertical_rotate(self._ring_move_x, self._ring_move_y)
+            print("vertical", x, y, self._ring_move_x, self._ring_move_y)
+        elif (x, y) in self._possibles.get_horizontal_moves():
+            self._rotation.horizontal_rotate(self._ring_move_x, self._ring_move_y)
+            print("horizontal", x, y, self._ring_move_x, self._ring_move_y)
+        elif (x, y) in self._possibles.get_right_diagonal_moves():
+            self._rotation.right_diagonal_rotate(self._ring_move_x, self._ring_move_y)
+            print("right diagonal", x, y, self._ring_move_x, self._ring_move_y)
+        elif (x, y) in self._possibles.get_left_diagonal_moves():
+            self._rotation.left_diagonal_rotate(self._ring_move_x, self._ring_move_y)
+            print("left diagonal", x, y, self._ring_move_x, self._ring_move_y)
+        else:
+            print("Marche pas ta merde")
 
 
 game = Game()
