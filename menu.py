@@ -1,7 +1,7 @@
 import pygame as pygame
 
 width = 1280
-height = 800
+height = 720
 
 screen_height = height
 screen_width = width
@@ -46,17 +46,25 @@ class Button:
 
 
 # Create buttons
-solo_button = Button(200, -190, solo_img, 0.4)
-local_button = Button(200, -40, local_img, 0.4)
-rules_button = Button(200, 160, rules_img, 0.4)
-setting_button = Button(200, 320, setting_img, 0.4)
+solo_button = Button(288, -10, solo_img, 0.32)
+local_button = Button(288, 110, local_img, 0.32)
+rules_button = Button(288, 240, rules_img, 0.32)
+setting_button = Button(288, 360, setting_img, 0.32)
+
+# Background
+bg = pygame.image.load('images/menu/bg.jpg').convert_alpha()
 
 
 # Garde la fenêtre ouverte
 run = True
 while run:
 
-    screen.fill((202, 228, 241))
+    pygame.mixer.init()
+    pygame.mixer.music.load('musics/menu_music.ogg', "ogg")
+    # pygame.mixer.music.set_volume(1.0)
+    pygame.mixer.music.play(loops=-1, start=0.0)
+
+    screen.blit(bg, (0, 0))
 
     # appelle une fonction du jeu, ici le mode solo if solo_button.draw():
     solo_button.draw()
