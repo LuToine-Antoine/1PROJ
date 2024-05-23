@@ -1,19 +1,12 @@
 import pygame as pygame
 
 width = 1280
-height = 800
-
+height = 720
 screen_height = height
 screen_width = width
-
 screen = pygame.display.set_mode((screen_width, screen_height))
 pygame.display.set_caption('Yinch')
-
-# Load button images
-solo_img = pygame.image.load('images/menu/button_solo.png').convert_alpha()
-local_img = pygame.image.load('images/menu/button_local.png').convert_alpha()
-rules_img = pygame.image.load('images/menu/button_rules.png').convert_alpha()
-setting_img = pygame.image.load('images/menu/button_settings.png').convert_alpha()
+bg = pygame.image.load('images/menu/bg.jpg').convert_alpha()
 
 
 class Button:
@@ -45,26 +38,41 @@ class Button:
         return action
 
 
-# Create buttons
-solo_button = Button(200, -190, solo_img, 0.4)
-local_button = Button(200, -40, local_img, 0.4)
-rules_button = Button(200, 160, rules_img, 0.4)
-setting_button = Button(200, 320, setting_img, 0.4)
+def music_menu():
+    pygame.mixer.init()
+    pygame.mixer.music.load('musics/menu_music.ogg', "ogg")
+    pygame.mixer.music.set_volume(1.0)
+    pygame.mixer.music.play(loops=-1, start=0.0)
 
 
-# Garde la fenêtre ouverte
-run = True
-while run:
+def window():
 
-    screen.fill((202, 228, 241))
+    solo_img = pygame.image.load('images/menu/button_solo.png').convert_alpha()
+    local_img = pygame.image.load('images/menu/button_local.png').convert_alpha()
+    rules_img = pygame.image.load('images/menu/button_rules.png').convert_alpha()
+    setting_img = pygame.image.load('images/menu/button_settings.png').convert_alpha()
 
-    # appelle une fonction du jeu, ici le mode solo if solo_button.draw():
-    solo_button.draw()
-    local_button.draw()
-    rules_button.draw()
-    setting_button.draw()
+    solo_button = Button(288, -10, solo_img, 0.32)
+    local_button = Button(288, 110, local_img, 0.32)
+    rules_button = Button(288, 240, rules_img, 0.32)
+    setting_button = Button(288, 360, setting_img, 0.32)
 
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            run = False
-    pygame.display.update()
+    run = True
+    while run:
+
+        screen.blit(bg, (0, 0))
+
+        # appelle une fonction du jeu, ici le mode solo if solo_button.draw():
+        solo_button.draw()
+        local_button.draw()
+        rules_button.draw()
+        setting_button.draw()
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                run = False
+        pygame.display.update()
+
+
+music_menu()
+window()
