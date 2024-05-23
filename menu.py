@@ -57,21 +57,38 @@ def window():
     rules_button = Button(288, 240, rules_img, 0.32)
     setting_button = Button(288, 360, setting_img, 0.32)
 
+    logo_img = pygame.image.load('images/menu/logo_yinch.png').convert_alpha()
+    logo_button = Button(550, 0, logo_img, 0.1)
+
     run = True
     while run:
 
         screen.blit(bg, (0, 0))
 
-        # appelle une fonction du jeu, ici le mode solo if solo_button.draw():
+        # if solo_button.draw():
         solo_button.draw()
         local_button.draw()
         rules_button.draw()
         setting_button.draw()
+        sound_button()
+        logo_button.draw()
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
         pygame.display.update()
+
+
+def sound_button():
+
+    on_sound_img = pygame.image.load('images/menu/sound_on.png').convert_alpha()
+    off_sound_img = pygame.image.load('images/menu/sound_off.png').convert_alpha()
+
+    on_sound_button = Button(1200, 650, on_sound_img, 0.1)
+    off_sound_button = Button(1200, 650, off_sound_img, 0.1)
+
+    on_sound_button.draw()
+    off_sound_button.draw()
 
 
 music_menu()
