@@ -87,8 +87,9 @@ def sound_button():
     on_sound_button = Button(1200, 650, on_sound_img, 0.1)
     off_sound_button = Button(1200, 650, off_sound_img, 0.1)
 
-    on_sound_button.draw()
-    off_sound_button.draw()
+    if on_sound_button.draw():
+
+        off_sound_button.draw()
 
 
 music_menu()
