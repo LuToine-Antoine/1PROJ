@@ -173,7 +173,6 @@ class Game:
             x = int(input(f"Player {self._player} : Not valid re-set x for your destination rings : "))
             y = int(input(f"Player {self._player} : Not valid re-set y for your destination rings : "))
 
-        self._board.board[x][y] = player_case
 
         if (x, y) in self._possibles.get_vertical_moves():
             self._rotation.vertical_rotate(self._ring_move_x, self._ring_move_y)
@@ -190,6 +189,6 @@ class Game:
         else:
             print("Marche pas ta merde")
 
-
+        self._board.board[x][y] = player_case
 game = Game()
 game.game_loop()
