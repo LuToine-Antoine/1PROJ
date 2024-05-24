@@ -170,6 +170,8 @@ class Game:
 
         # Get all possibles moves
         self._possibles.get_possible_moves(self._ring_move_x, self._ring_move_y)
+        if self._possibles.get_horizontal_moves() is None:
+            self.main_put_pawns()
 
         # Create a list of all possibles moves
         self.all_possibles_moves =  self._possibles.get_horizontal_moves() + self._possibles.get_right_diagonal_moves() + self._possibles.get_left_diagonal_moves()
@@ -194,9 +196,6 @@ class Game:
         while not self.in_board_verification(x, y) or self._board.board[x][y] != 1 or (x,y) not in self.all_possibles_moves:
             x = int(input(f"Player {self._player} : Not valid re-set x for your destination rings : "))
             y = int(input(f"Player {self._player} : Not valid re-set y for your destination rings : "))
-            if (x,y) not in self.all_possibles_moves:
-                x = int(input(f"Player {self._player} : No moves possibles : "))
-                y = int(input(f"Player {self._player} : No moves possibles : "))
 
         if (x, y) in self._possibles.get_horizontal_moves():
             self._rotation.horizontal_rotate(self._ring_move_x, self._ring_move_y)
