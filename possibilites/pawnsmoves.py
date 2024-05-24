@@ -2,16 +2,6 @@ class PawnRotate:
     def __init__(self, board):
         self._board = board
 
-    def vertical_rotate(self, departure_x, departure_y):
-        for i in range(len(self._board)):
-            if i != departure_x:
-                if self._board[i][departure_y] == 4:
-                    self._board[i][departure_y] = 5
-                elif self._board[i][departure_y] == 5:
-                    self._board[i][departure_y] = 4
-
-        return self._board
-
     def horizontal_rotate(self, departure_x, departure_y):
         for j in range(len(self._board[departure_x])):
             if j != departure_y:

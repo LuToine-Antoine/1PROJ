@@ -8,21 +8,6 @@ class RingsMoves:
         self._right_diagonal_moves = []
         self._left_diagonal_moves = []
 
-    def set_vertical_moves(self):
-        """
-        Return a list of possibles vertical moves:
-        """
-        self._vertical_moves.clear()
-        for i in range(len(self._board)):
-            if self._board[i][self._y] == 1:
-                if self._board[i][self._y] == 4 and self._board[i][self._y] == 5:  # Check if it's a pawn or not
-                    self._vertical_moves.append((i+1, self._y+1))
-                    break
-                self._vertical_moves.append((i, self._y))
-
-    def get_vertical_moves(self):
-        return self._vertical_moves
-
     def set_horizontal_moves(self):
         self._horizontal_moves.clear()
         for j in range(len(self._board[self._x])):
