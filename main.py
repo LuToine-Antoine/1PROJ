@@ -170,10 +170,12 @@ class Game:
 
         # Get all possibles moves
         self._possibles.get_possible_moves(self._ring_move_x, self._ring_move_y)
+        if self._possibles.get_horizontal_moves() is None:
+            self.main_put_pawns()
 
         # Create a list of all possibles moves
-        self.all_possibles_moves = self._possibles.get_vertical_moves() + self._possibles.get_horizontal_moves() + self._possibles.get_right_diagonal_moves() + self._possibles.get_left_diagonal_moves()
-        print("Possible vertical : ", self._possibles.get_vertical_moves(), "Possible horizontal : ", self._possibles.get_horizontal_moves(), "Possible top left to bottom right : ", self._possibles.get_right_diagonal_moves(), "Possible bottom left to top right : ", self._possibles.get_left_diagonal_moves(), sep="\n")
+        self.all_possibles_moves =  self._possibles.get_horizontal_moves() + self._possibles.get_right_diagonal_moves() + self._possibles.get_left_diagonal_moves()
+        print("Possible horizontal : ", self._possibles.get_horizontal_moves(), "Possible top left to bottom right : ", self._possibles.get_right_diagonal_moves(), "Possible bottom left to top right : ", self._possibles.get_left_diagonal_moves(), sep="\n")
         self._board.see_board()
 
         return self.all_possibles_moves
@@ -195,10 +197,7 @@ class Game:
             x = int(input(f"Player {self._player} : Not valid re-set x for your destination rings : "))
             y = int(input(f"Player {self._player} : Not valid re-set y for your destination rings : "))
 
-
-        if (x, y) in self._possibles.get_vertical_moves():
-            self._rotation.vertical_rotate(self._ring_move_x, self._ring_move_y)
-        elif (x, y) in self._possibles.get_horizontal_moves():
+        if (x, y) in self._possibles.get_horizontal_moves():
             self._rotation.horizontal_rotate(self._ring_move_x, self._ring_move_y)
         elif (x, y) in self._possibles.get_right_diagonal_moves():
             self._rotation.right_diagonal_rotate(self._ring_move_x, self._ring_move_y)

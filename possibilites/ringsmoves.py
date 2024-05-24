@@ -8,28 +8,15 @@ class RingsMoves:
         self._right_diagonal_moves = []
         self._left_diagonal_moves = []
 
-    def set_vertical_moves(self):
-        """
-        Return a list of possibles vertical moves:
-        """
-        self._vertical_moves.clear()
-        for i in range(len(self._board)):
-            if self._board[i][self._y] == 1:
-                if self._board[i][self._y] == 4 and self._board[i][self._y] == 5:  # Check if it's a pawn or not
-                    self._vertical_moves.append((i+1, self._y+1))
-                    break
-                self._vertical_moves.append((i, self._y))
-
-    def get_vertical_moves(self):
-        return self._vertical_moves
-
     def set_horizontal_moves(self):
         self._horizontal_moves.clear()
         for j in range(len(self._board[self._x])):
-            if self._board[self._x][j] == 4 and self._board[self._x][j] == 5:
+            if self._board[self._x][j] == 4 or self._board[self._x][j] == 5:
                 self._horizontal_moves.append((j+1, self._x+1))
                 break
-            if self._board[self._x][j] == 1:
+            elif self._board[self._x][j] == 2 or self._board[self._x][j] == 3:
+                break
+            elif self._board[self._x][j] == 1:
                 self._horizontal_moves.append((self._x, j))
 
     def get_horizontal_moves(self):
@@ -39,14 +26,26 @@ class RingsMoves:
         self._right_diagonal_moves.clear()
         min_left = min(self._x + 1, self._y + 1)  # For no out of range
         for i in range(1, min_left):
-            if self._x - i < len(self._board) and self._y - i < len(self._board[0]) and self._board[self._x - i][self._y - i] == 1:
-                self._right_diagonal_moves.append((self._x - i, self._y - i))
+            if self._x - i < len(self._board) and self._y - i < len(self._board[0]):
+                if self._board[self._x - i][self._y - i] == 4 or self._board[self._x - i][self._y - i] == 5:
+                    self._right_diagonal_moves.append((self._x - i, self._y - i))
+                    break
+                elif self._board[self._x - i][self._y - i] == 2 or self._board[self._x - i][self._y - i] == 3:
+                    break
+                elif self._board[self._x - i][self._y - i] == 1:
+                    self._right_diagonal_moves.append((self._x - i, self._y - i))
 
         max_right = min(len(self._board) - self._x, len(self._board[0]) - self._y)  # For no out of range
 
         for i in range(1, max_right):
-            if self._x + i < len(self._board) and self._y + i < len(self._board[0]) and self._board[self._x + i][self._y + i] == 1:
-                self._right_diagonal_moves.append((self._x + i, self._y + i))
+            if self._x + i < len(self._board) and self._y + i < len(self._board[0]):
+                if self._board[self._x + i][self._y + i] == 4 or self._board[self._x + i][self._y + i] == 5:
+                    self._right_diagonal_moves.append((self._x - i, self._y - i))
+                    break
+                elif self._board[self._x + i][self._y + i] == 2 or self._board[self._x + i][self._y + i] == 3:
+                    break
+                elif self._board[self._x + i][self._y + i] == 1:
+                    self._right_diagonal_moves.append((self._x + i, self._y + i))
 
     def get_right_diagonal_moves(self):
         return self._right_diagonal_moves
