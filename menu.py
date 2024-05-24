@@ -1,5 +1,5 @@
 import pygame as pygame
-from menu.rules import *
+
 
 class Menu:
     def __init__(self, width=1280, height=720):
@@ -39,11 +39,10 @@ class Menu:
 
             self.get_screen().blit(self._bg, (0, 0))
 
-            # if solo_button.draw():
             solo_button.draw()
             local_button.draw()
             if rules_button.draw():
-                Rules()
+                Rules().tg()
             setting_button.draw()
             local_button.draw()
             logo_button.draw()
@@ -102,6 +101,61 @@ class Button:
         self._menu.get_screen().blit(self._image, (self.rect.x, self.rect.y))
 
         return action
+
+
+class Rules:
+
+    def __init__(self, width=1280, height=720):
+        self._width = width
+        self._height = height
+
+
+    def tg(self):
+        white = (255, 255, 255)
+        green = (0, 255, 0)
+        blue = (0, 0, 128)
+
+        # create the display surface object
+        # of specific dimension..e(X, Y).
+        display_surface = pygame.display.set_mode((self._width, self._height))
+
+        # set the pygame window name
+        pygame.display.set_caption('Yinch Rules')
+
+        # create a font object.
+        # 1st parameter is the font file
+        # which is present in pygame.
+        # 2nd parameter is size of the font
+        pygame.font.init()
+        font = pygame.font.Font('freesansbold.ttf', 32)
+
+        # create a text surface object,
+        # on which text is drawn on it.
+        text = font.render('test', True, green, blue)
+
+        # create a rectangular object for the
+        # text surface object
+        textRect = text.get_rect()
+
+        # set the center of the rectangular object.
+        textRect.center = (self._width // 2, self._height // 2)
+
+        # infinite loop
+        while True:
+
+            display_surface.fill(white)
+
+            display_surface.blit(text, textRect)
+
+            for event in pygame.event.get():
+
+                if event.type == pygame.QUIT:
+
+                    pygame.quit()
+
+                    quit()
+
+                pygame.display.update()
 
 
 menu = Menu()
