@@ -133,7 +133,6 @@ class Game:
             x = int(input(f"Player {self._player} : Not valid re-set x for your pawn : "))
             y = int(input(f"Player {self._player} : Not valid re-set y for your pawn : "))
 
-
         pawns.put_paws(x, y, self._board.board, self._player)
         self._board.see_board()
 
@@ -196,24 +195,25 @@ class Game:
             for j in range(19):
                 if self._board[i][j] > 3:
                     align = 1
-                    for k in range(1,5):
-                        if self._board[i][j] == self._board[i][j+k*2]:
+                    for k in range(1, 5):
+                        if self._board.board[i][j] == self._board.board[i][j+k*2]:
                             align += 1
                             if align == 5:
                                 return True
                     align = 1
-                    for k in range(1,5):
-                        if self._board[i][j] == self._board[i+k][j+k]:
+                    for k in range(1, 5):
+                        if self._board.board[i][j] == self._board.board[i+k][j+k]:
                             align += 1
                             if align == 5:
                                 return True
                     align = 1
-                    for k in range(1,5):
-                        if self._board[i][j] == self._board[i-k][j+k]:
+                    for k in range(1, 5):
+                        if self._board.board[i][j] == self._board.board[i-k][j+k]:
                             align += 1
                             if align == 5:
                                 return True
         return False
-                            
+
+
 game = Game()
 game.game_loop()

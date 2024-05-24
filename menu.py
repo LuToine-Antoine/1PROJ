@@ -1,4 +1,5 @@
 import pygame as pygame
+from menu.rules import *
 
 class Menu:
     def __init__(self, width=1280, height=720):
@@ -41,7 +42,8 @@ class Menu:
             # if solo_button.draw():
             solo_button.draw()
             local_button.draw()
-            rules_button.draw()
+            if rules_button.draw():
+                Rules()
             setting_button.draw()
             local_button.draw()
             logo_button.draw()
