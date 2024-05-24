@@ -78,6 +78,9 @@ class Game:
             return False
 
     def game_loop(self):
+        """
+        Use to run the game
+        """
         self._board = BoardStruct()
         self._mode = self.blitz_mode()
         self.main_put_first_rings()
@@ -93,13 +96,27 @@ class Game:
             else:
                 self._player = 1
 
+        # End of the game
+        if self.win() == 1:
+            print("Player 1 win")
+        elif self.win() == 2:
+            print("Player 2 win")
+        else:
+            print("Equality")
+
     def in_board_verification(self, x, y):
+        """
+        Use to check if the place selected is in the board
+        """
         if 0 < x < 11 and 0 < y < 19:
             return True
         else:
             return False
 
     def main_put_first_rings(self):
+        """
+        Use to place 5 rings for each player at the start of the game
+        """
         firstRing = Rings(0, 0, self._board.board)
 
         while self._round < 4:  #A CHANGER PLUS TARD C'EST JUSTE POUR LES TESTs !!!!!!!!!!!!!!!!!!!!!!!
@@ -118,6 +135,9 @@ class Game:
                 self._player = 1
 
     def main_put_pawns(self):
+        """
+        Use to place pawns on the board
+        """
         pawns = Paws(0, 0, self._board.board)
 
         # In order to check if place selected is a ring of good player
@@ -143,6 +163,9 @@ class Game:
         return self._ring_move_x, self._ring_move_y
 
     def main_see_moves_rings(self):
+        """
+        Check all possibles moves for rings where player has put his pawn
+        """
         self.all_possibles_moves.clear()
 
         # Get all possibles moves
@@ -150,13 +173,15 @@ class Game:
 
         # Create a list of all possibles moves
         self.all_possibles_moves = self._possibles.get_vertical_moves() + self._possibles.get_horizontal_moves() + self._possibles.get_right_diagonal_moves() + self._possibles.get_left_diagonal_moves()
-        print("ring coordonnées", self._ring_move_x, self._ring_move_y)
         print("Possible vertical : ", self._possibles.get_vertical_moves(), "Possible horizontal : ", self._possibles.get_horizontal_moves(), "Possible top left to bottom right : ", self._possibles.get_right_diagonal_moves(), "Possible bottom left to top right : ", self._possibles.get_left_diagonal_moves(), sep="\n")
         self._board.see_board()
 
         return self.all_possibles_moves
 
     def main_move_rings(self):
+        """
+        Use to choose ring's destination
+        """
         self._rotation = PawnRotate(self._board.board)
         x = int(input(f"Player {self._player} : Set x for your destination rings : "))
         y = int(input(f"Player {self._player} : Set y for your destination rings : "))
@@ -166,8 +191,6 @@ class Game:
         else:
             player_case = 3
 
-        print("all_possibles_moves", self.all_possibles_moves)
-
         while not self.in_board_verification(x, y) or self._board.board[x][y] != 1 or (x,y) not in self.all_possibles_moves:
             x = int(input(f"Player {self._player} : Not valid re-set x for your destination rings : "))
             y = int(input(f"Player {self._player} : Not valid re-set y for your destination rings : "))
@@ -175,18 +198,12 @@ class Game:
 
         if (x, y) in self._possibles.get_vertical_moves():
             self._rotation.vertical_rotate(self._ring_move_x, self._ring_move_y)
-            print("vertical", x, y, self._ring_move_x, self._ring_move_y)
         elif (x, y) in self._possibles.get_horizontal_moves():
             self._rotation.horizontal_rotate(self._ring_move_x, self._ring_move_y)
-            print("horizontal", x, y, self._ring_move_x, self._ring_move_y)
         elif (x, y) in self._possibles.get_right_diagonal_moves():
             self._rotation.right_diagonal_rotate(self._ring_move_x, self._ring_move_y)
-            print("right diagonal", x, y, self._ring_move_x, self._ring_move_y)
         elif (x, y) in self._possibles.get_left_diagonal_moves():
             self._rotation.left_diagonal_rotate(self._ring_move_x, self._ring_move_y)
-            print("left diagonal", x, y, self._ring_move_x, self._ring_move_y)
-        else:
-            print("Marche pas ta merde")
 
         self._board.board[x][y] = player_case
     
