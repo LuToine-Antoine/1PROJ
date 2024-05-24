@@ -190,5 +190,30 @@ class Game:
             print("Marche pas ta merde")
 
         self._board.board[x][y] = player_case
+    
+    def alignement(self):
+        for i in range(11):
+            for j in range(19):
+                if self._board[i][j] > 3:
+                    align = 1
+                    for k in range(1,5):
+                        if self._board[i][j] == self._board[i][j+k*2]:
+                            align += 1
+                            if align == 5:
+                                return True
+                    align = 1
+                    for k in range(1,5):
+                        if self._board[i][j] == self._board[i+k][j+k]:
+                            align += 1
+                            if align == 5:
+                                return True
+                    align = 1
+                    for k in range(1,5):
+                        if self._board[i][j] == self._board[i-k][j+k]:
+                            align += 1
+                            if align == 5:
+                                return True
+        return False
+                            
 game = Game()
 game.game_loop()
