@@ -42,7 +42,7 @@ class Menu:
             solo_button.draw()
             local_button.draw()
             if rules_button.draw():
-                Rules().tg()
+                Rules().display_rules()
             setting_button.draw()
             local_button.draw()
             logo_button.draw()
@@ -109,8 +109,7 @@ class Rules:
         self._width = width
         self._height = height
 
-
-    def tg(self):
+    def display_rules(self):
         white = (255, 255, 255)
         green = (0, 255, 0)
         blue = (0, 0, 128)
@@ -157,6 +156,10 @@ class Rules:
 
                 pygame.display.update()
 
+
+class SoloMode:
+    def __init__(self):
+        pass
 
 menu = Menu()
 menu.music_menu()
