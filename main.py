@@ -1,7 +1,6 @@
 import tkinter as tk
 
 from structures.board.board_struct import *
-from structures.board.board_ui import *
 from structures.rings import *
 from structures.pawn import *
 from possibilites.ringsmoves import *

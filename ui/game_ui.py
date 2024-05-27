@@ -34,7 +34,6 @@ class GameUI:
 
             #print(pos, click)
 
-
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     run = False
@@ -51,6 +50,7 @@ class GameUI:
                     pass
                 else:
                     pygame.draw.rect(self._screen, (255, 0, 0), (27 + j * 54, 15 + i * 33, 54, 33))
+
 
 game_ui = GameUI()
 game_ui.get_screen()
