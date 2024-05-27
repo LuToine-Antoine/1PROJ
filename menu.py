@@ -91,7 +91,6 @@ class Menu:
     def display_rules(self):
         white = (255, 255, 255)
         gray = (91, 91, 91)
-        blue = (0, 0, 128)
 
         display_surface = pygame.display.set_mode((self._screen_width, self._screen_height))
 
