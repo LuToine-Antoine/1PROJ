@@ -1,4 +1,5 @@
 import pygame as pygame
+from main import *
 
 
 class Menu:
@@ -9,6 +10,7 @@ class Menu:
 
         pygame.display.set_caption('Yinch')
         self._bg = pygame.image.load('images/menu/bg.jpg').convert_alpha()
+        self._main = Game()
 
     def get_screen(self):
         return self._screen
@@ -46,13 +48,15 @@ class Menu:
             self.get_screen().blit(self._bg, (0, 0))
 
             if solo_button.draw():
-                self.display_solo()
+                self.display_solo()[0].draw()
+                self.display_solo()[1].draw()
             local_button.draw()
             if rules_button.draw():
                 self.display_rules()
             setting_button.draw()
             local_button.draw()
             logo_button.draw()
+
 
             if on_sound_button.draw():
                 pygame.mixer.music.set_volume(0)
@@ -68,9 +72,20 @@ class Menu:
                     run = False
             pygame.display.update()
 
-    # def display_solo(self):
+    def display_solo(self):
+        self._main.set_game_mode(0)
 
-    # def display_local(self):
+        normal_img = pygame.image.load('images/menu/button_classic.png').convert_alpha()
+        blitz_img = pygame.image.load('images/menu/button_blitz.png').convert_alpha()
+
+        normal_btn = Button(288, -10, normal_img, 0.32)
+        blitz_btn = Button(288, 110, blitz_img, 0.32)
+
+        return normal_btn, blitz_btn
+
+    def display_local(self):
+        self._main.set_game_mode(1)
+
 
 
     def display_rules(self):

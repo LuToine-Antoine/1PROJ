@@ -28,6 +28,9 @@ class Game:
     def get_game_mode(self):
         return self._game_mode
 
+    def get_board(self):
+        return self._board.board
+
     def set_blitz_mode(self, mode=0):
         """
         True = blitz mode; False = normal mode
@@ -91,8 +94,7 @@ class Game:
         """
         Use to run the game
         """
-        self._board = BoardStruct()
-        self._game_mode = self.blitz_mode()
+        self._game_mode = self.get_blitz_mode()
         self.main_put_first_rings()
 
         while not self.win():
@@ -241,5 +243,5 @@ class Game:
         return False
 
 
-game = Game()
-game.game_loop()
+# game = Game()
+# game.game_loop()
