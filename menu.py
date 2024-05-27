@@ -1,5 +1,6 @@
 import pygame as pygame
 from main import *
+from ui.game_ui import *
 
 
 class Menu:
@@ -11,6 +12,7 @@ class Menu:
         pygame.display.set_caption('Yinch')
         self._bg = pygame.image.load('images/menu/bg.jpg').convert_alpha()
         self._main = Game()
+        self._board_ui = GameUI()
 
     def get_screen(self):
         return self._screen
@@ -48,8 +50,7 @@ class Menu:
             self.get_screen().blit(self._bg, (0, 0))
 
             if solo_button.draw():
-                self.display_solo()[0].draw()
-                self.display_solo()[1].draw()
+                self.display_solo()
             local_button.draw()
             if rules_button.draw():
                 self.display_rules()
@@ -57,14 +58,14 @@ class Menu:
             local_button.draw()
             logo_button.draw()
 
-            if on_sound_button.draw():
-                pygame.mixer.music.set_volume(0)
-                off_sound_button.draw()
-                pygame.display.update(on_sound_button)
+            # if on_sound_button.draw():
+            #     pygame.mixer.music.set_volume(0)
+            #     off_sound_button.draw()
+            #     pygame.display.update(on_sound_button)
 
-            if off_sound_button.draw():
-                pygame.mixer.music.set_volume(1)
-                on_sound_button.draw()
+            # if off_sound_button.draw():
+            #     pygame.mixer.music.set_volume(1)
+            #     on_sound_button.draw()
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -74,16 +75,60 @@ class Menu:
     def display_solo(self):
         self._main.set_game_mode(0)
 
+        display_surface = pygame.display.set_mode((self._screen_width, self._screen_height))
+        pygame.display.set_caption('Yinch Solo mode')
+
         normal_img = pygame.image.load('images/menu/button_classic.png').convert_alpha()
         blitz_img = pygame.image.load('images/menu/button_blitz.png').convert_alpha()
 
         normal_btn = Button(288, -10, normal_img, 0.32)
         blitz_btn = Button(288, 110, blitz_img, 0.32)
 
-        return normal_btn, blitz_btn
+        while True:
+
+            display_surface.fill((255, 0, 0))
+
+            if normal_btn.draw():
+                self._main.set_game_mode(0)
+                self._board_ui.window()
+            if blitz_btn.draw():
+                self._main.set_game_mode(1)
+                self._board_ui.window()
+
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    quit()
+                pygame.display.update()
 
     def display_local(self):
         self._main.set_game_mode(1)
+
+        display_surface = pygame.display.set_mode((self._screen_width, self._screen_height))
+        pygame.display.set_caption('Yinch Solo mode')
+
+        normal_img = pygame.image.load('images/menu/button_classic.png').convert_alpha()
+        blitz_img = pygame.image.load('images/menu/button_blitz.png').convert_alpha()
+
+        normal_btn = Button(288, -10, normal_img, 0.32)
+        blitz_btn = Button(288, 110, blitz_img, 0.32)
+
+        while True:
+
+            display_surface.fill((255, 0, 0))
+
+            if normal_btn.draw():
+                self._main.set_game_mode(0)
+                self._board_ui.window()
+            if blitz_btn.draw():
+                self._main.set_game_mode(1)
+                self._board_ui.window()
+
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    quit()
+                pygame.display.update()
 
     def display_rules(self):
         white = (255, 255, 255)
