@@ -34,42 +34,81 @@ class Menu:
         logo_img = pygame.image.load('images/menu/logo_yinch.png').convert_alpha()
         logo_button = Button(550, 0, logo_img, 0.1)
 
-        run = True
-        while run:
-
-            self.get_screen().blit(self._bg, (0, 0))
-
-            solo_button.draw()
-            local_button.draw()
-            if rules_button.draw():
-                Rules().display_rules()
-            setting_button.draw()
-            local_button.draw()
-            logo_button.draw()
-
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    run = False
-            pygame.display.update()
-
-    def sound_button(self):
-
         on_sound_img = pygame.image.load('images/menu/sound_on.png').convert_alpha()
         off_sound_img = pygame.image.load('images/menu/sound_off.png').convert_alpha()
 
         on_sound_button = Button(1200, 650, on_sound_img, 0.1)
         off_sound_button = Button(1200, 650, off_sound_img, 0.1)
 
-        on_sound_button.draw()
-        off_sound_button.draw()
+        run = True
+        while run:
 
-        if on_sound_button.draw():
-            pygame.mixer.music.set_volume(0)
-            off_sound_button.draw()
+            self.get_screen().blit(self._bg, (0, 0))
 
-        # if off_sound_button.draw():
-        #     pygame.mixer.music.set_volume(1)
-        #     on_sound_button.draw()
+            if solo_button.draw():
+                self.display_solo()
+            local_button.draw()
+            if rules_button.draw():
+                self.display_rules()
+            setting_button.draw()
+            local_button.draw()
+            logo_button.draw()
+
+            if on_sound_button.draw():
+                pygame.mixer.music.set_volume(0)
+                off_sound_button.draw()
+                pygame.display.update(on_sound_button)
+
+            if off_sound_button.draw():
+                pygame.mixer.music.set_volume(1)
+                on_sound_button.draw()
+
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    run = False
+            pygame.display.update()
+
+    # def display_solo(self):
+
+    # def display_local(self):
+
+
+    def display_rules(self):
+        white = (255, 255, 255)
+        gray = (91, 91, 91)
+        blue = (0, 0, 128)
+
+        display_surface = pygame.display.set_mode((self._screen_width, self._screen_height))
+
+        pygame.display.set_caption('Yinch Rules')
+
+        pygame.font.init()
+        font_title = pygame.font.SysFont('freesansbold.ttf', 50)
+        font_text = pygame.font.Font('freesansbold.ttf', 20)
+
+        title = font_title.render('Yinsh - Règles', True, white)
+        text_0 = font_text.render("Le but du jeu est d'aligner 5 pions afin de retirer 3 anneaux (en mode normal) ou 1 anneau (en mode blitz, rapide).", True, white)
+        text_1 = font_text.render("En début de partie, chaques joueurs pose ses 5 anneaux sur le plateau a tour de rôle. Les pions se placent ensuite", True, white)
+        text_2 = font_text.render("dans 1 anneaux et cet anneau se déplace sur les lignes à partir de sa position initiale.", True, white)
+
+        title_rect = title.get_rect()
+        title_rect.center = (self._screen_width // 2, 35)
+
+        # infinite loop
+        while True:
+
+            display_surface.fill(gray)
+
+            display_surface.blit(title, title_rect)
+            display_surface.blit(text_0, (100, 100))
+            display_surface.blit(text_1, (100, 130))
+            display_surface.blit(text_2, (100, 160))
+
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    quit()
+                pygame.display.update()
 
 
 class Button:
@@ -102,64 +141,6 @@ class Button:
 
         return action
 
-
-class Rules:
-
-    def __init__(self, width=1280, height=720):
-        self._width = width
-        self._height = height
-
-    def display_rules(self):
-        white = (255, 255, 255)
-        green = (0, 255, 0)
-        blue = (0, 0, 128)
-
-        # create the display surface object
-        # of specific dimension..e(X, Y).
-        display_surface = pygame.display.set_mode((self._width, self._height))
-
-        # set the pygame window name
-        pygame.display.set_caption('Yinch Rules')
-
-        # create a font object.
-        # 1st parameter is the font file
-        # which is present in pygame.
-        # 2nd parameter is size of the font
-        pygame.font.init()
-        font = pygame.font.Font('freesansbold.ttf', 32)
-
-        # create a text surface object,
-        # on which text is drawn on it.
-        text = font.render('test', True, green, blue)
-
-        # create a rectangular object for the
-        # text surface object
-        textRect = text.get_rect()
-
-        # set the center of the rectangular object.
-        textRect.center = (self._width // 2, self._height // 2)
-
-        # infinite loop
-        while True:
-
-            display_surface.fill(white)
-
-            display_surface.blit(text, textRect)
-
-            for event in pygame.event.get():
-
-                if event.type == pygame.QUIT:
-
-                    pygame.quit()
-
-                    quit()
-
-                pygame.display.update()
-
-
-class SoloMode:
-    def __init__(self):
-        pass
 
 menu = Menu()
 menu.music_menu()

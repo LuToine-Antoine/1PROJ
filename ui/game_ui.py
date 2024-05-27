@@ -23,6 +23,11 @@ class GameUI:
 
             self.get_screen().blit(self.board(), (0, 0))
 
+            # get mouse position
+            pos = pygame.mouse.get_pos()
+            click = pygame.mouse.get_pressed()
+            print(click)
+
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     run = False

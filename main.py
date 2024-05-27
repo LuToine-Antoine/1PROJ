@@ -12,6 +12,7 @@ class Game:
     def __init__(self):
         self._rotation = None
         self._mode = None
+        self._game_mode = None
         self._board = BoardStruct()
         self._round = 0
         self._player = 1
@@ -20,16 +21,25 @@ class Game:
         self.all_possibles_moves = []
         self._possibles = RingsMoves(0, 0, self._board.board)
 
-    def blitz_mode(self):
+
+    def set_game_mode(self, mode=0):
+        self._game_mode = mode
+
+    def get_game_mode(self):
+        return self._game_mode
+
+    def set_blitz_mode(self, mode=0):
         """
         True = blitz mode; False = normal mode
         """
-        setMode = int(input("Choose a mode : 1 for normal (3 for win) mode, 2 for blitz (1 for win) mode : "))
 
-        if setMode == 1:
-            self._mode = False  # Isn't blitz mode
+        if mode == 1:
+            self._game_mode = False  # Isn't blitz mode
         else:
-            self._mode = True  # It's blitz mode
+            self._game_mode = True  # It's blitz mode
+
+    def get_blitz_mode(self):
+        return self._game_mode
 
     def win(self):
         """
@@ -42,7 +52,7 @@ class Game:
         numberRingPlayer1 = numberRing.get_player_1_ring()
         numberRingPlayer2 = numberRing.get_player_2_ring()
 
-        if self._mode == False:
+        if self._game_mode == False:
             numberToWin = 3
         else:
             numberToWin = 1
@@ -82,7 +92,7 @@ class Game:
         Use to run the game
         """
         self._board = BoardStruct()
-        self._mode = self.blitz_mode()
+        self._game_mode = self.blitz_mode()
         self.main_put_first_rings()
 
         while not self.win():
