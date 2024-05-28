@@ -98,31 +98,28 @@ class Game:
         print(self._round, self._player)
         if self._round <= 10:
             self.main_put_first_rings(x, y)
-        if self._player == 1:
-            self._player = 2
-        else:
-            self._player = 1
 
-        self.main_put_pawns(x, y)
-        self.main_see_moves_rings()
-        self.main_move_rings(x, y)
-        self._board.see_board()
-        self._round += 1
-
-        if self._player == 1:
-            self._player = 2
         else:
-            self._player = 1
+            self.main_put_pawns(x, y)
+            self.main_see_moves_rings()
+            self.main_move_rings(x, y)
+            self._board.see_board()
+            self._round += 1
 
         # End of the game
-        if not self.win():
-            if self.win() == 1:
+        match self.win():
+            case 1:
                 print("Player 1 win")
-            elif self.win() == 2:
+            case 2:
                 print("Player 2 win")
-            else:
+            case 3:
                 print("Equality")
-
+            case False:
+                pass
+        if self._player == 1:
+            self._player = 2
+        else:
+            self._player = 1
     def in_board_verification(self, x, y):
         """
         Use to check if the place selected is in the board
@@ -141,13 +138,6 @@ class Game:
             return False
 
         self._firstRing.put_rings(x, y, self._board.board, self._player)
-        self._board.see_board()
-        self._round += 1
-        if self._player == 1:
-            self._player = 2
-        else:
-            self._player = 1
-
         self._round += 1
 
     def main_put_pawns(self, x, y):
@@ -167,7 +157,6 @@ class Game:
 
         pawns.put_paws(x, y, self._board.board, self._player)
         self._board.board[x][y] = self._player + 5
-        self._board.see_board()
 
         # Use to check automaticaly ring's possibilities
         self._ring_move_x = x
@@ -187,8 +176,8 @@ class Game:
             self.main_put_pawns()
 
         # Create a list of all possibles moves
-        self.all_possibles_moves =  self._possibles.get_horizontal_moves() + self._possibles.get_right_diagonal_moves() + self._possibles.get_left_diagonal_moves()
-        print("Possible horizontal : ", self._possibles.get_horizontal_moves(), "Possible top left to bottom right : ", self._possibles.get_right_diagonal_moves(), "Possible bottom left to top right : ", self._possibles.get_left_diagonal_moves(), sep="\n")
+        self.all_possibles_moves =  self._possibles.get_horizontal_moves() + self._possibles.get_diagonal_moves()
+        print("Possible horizontal : ", self._possibles.get_horizontal_moves(), "Possible top left to bottom right : ", self._possibles.get_diagonal_moves(), sep="\n")
         self._board.see_board()
 
         return self.all_possibles_moves
@@ -209,15 +198,13 @@ class Game:
 
         if (x, y) in self._possibles.get_horizontal_moves():
             self._rotation.horizontal_rotate(self._ring_move_x, self._ring_move_y)
-        elif (x, y) in self._possibles.get_right_diagonal_moves():
+        elif (x, y) in self._possibles.get_diagonal_moves():
             self._rotation.right_diagonal_rotate(self._ring_move_x, self._ring_move_y)
-        elif (x, y) in self._possibles.get_left_diagonal_moves():
-            self._rotation.left_diagonal_rotate(self._ring_move_x, self._ring_move_y)
 
         self._board.board[x][y] = player_case
         self._board.board[self._ring_move_x][self._ring_move_y] = self._player + 3
 
-    
+
     def alignement(self):
         for i in range(11):
             for j in range(19):
