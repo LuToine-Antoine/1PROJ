@@ -245,5 +245,5 @@ class Game:
         return False
 
 
-game = Game()
-game.game_loop()
+#game = Game()
+#game.game_loop()
