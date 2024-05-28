@@ -2,7 +2,7 @@ import pygame as pygame
 
 
 class Button:
-    def __init__(self, x, y, image, scale):
+    def __init__(self, x, y, image, scale, screen_width=1280, screen_height=720,):
         self._width = image.get_width()
         self._height = image.get_height()
         self._image = pygame.transform.scale(image, (int(self._width*scale), int(self._height*scale)))
@@ -10,7 +10,7 @@ class Button:
         self.rect.topleft = (x, y)
         self._clicked = False
 
-        self._screen = pygame.display.set_mode((1280, 720))
+        self._screen = pygame.display.set_mode((screen_width, screen_height))
 
     def draw(self):
         action = False

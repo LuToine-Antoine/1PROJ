@@ -31,12 +31,11 @@ class GameUI:
         while run:
             self._screen.fill((255, 255, 255))
 
-            self.get_screen().blit(self.board(), (-20, -10))
-            self.afficher_plateau()
-
-
             if leave_btn.draw():
                 sys.exit("Game leave")
+
+            self.get_screen().blit(self.board(), (-20, -10))
+            self.afficher_plateau()
 
             # get mouse position
             click = False
