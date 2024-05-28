@@ -34,16 +34,15 @@ class GameUI:
 
             #print(pos, click)
 
-
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     run = False
             pygame.display.update()
 
     def afficher_plateau(self):
-        ring_1 = pygame.image.load('../images/game/ring_player_1.png').convert_alpha()
+        # ring_1 = pygame.image.load('../images/game/ring_player_1.png').convert_alpha()
         sizex, sizey = 100, 100
-        look_1 = pygame.transform.scale(ring_1, (sizex, sizey))
+        # look_1 = pygame.transform.scale(ring_1, (sizex, sizey))
         for i in range(len(self._main.get_board()[0])):
             for j in range(len(self._main.get_board())):
                 if self._main.get_board()[j][i] == 1:
@@ -52,6 +51,7 @@ class GameUI:
                 else:
                     pygame.draw.rect(self._screen, (255, 0, 0), (27 + j * 54, 15 + i * 33, 54, 33))
 
-game_ui = GameUI()
-game_ui.get_screen()
-game_ui.window()
+
+# game_ui = GameUI()
+# game_ui.get_screen()
+# game_ui.window()
