@@ -14,7 +14,12 @@ class Menu:
 
         pygame.display.set_caption('Yinch')
         self._bg = pygame.image.load('images/menu/bg.jpg').convert_alpha()
+
         self._leave_img = pygame.image.load('images/leave.png').convert_alpha()
+        self._leave_btn = Button(1200, 0, self._leave_img, 0.03)
+
+        self._back_img = pygame.image.load('images/back.png').convert_alpha()
+        self._back_btn = Button(500, 700, self._back_img, 1)
 
         self._main = Game()
         self._board_ui = GameUI()
@@ -29,8 +34,6 @@ class Menu:
         pygame.mixer.music.play(loops=-1, start=0.0)
 
     def window(self):
-
-        leave_btn = Button(1200, 0, self._leave_img, 0.03)
 
         solo_img = pygame.image.load('images/menu/button_solo.png').convert_alpha()
         local_img = pygame.image.load('images/menu/button_local.png').convert_alpha()
@@ -50,7 +53,7 @@ class Menu:
 
             self.get_screen().blit(self._bg, (0, 0))
 
-            if leave_btn.draw():
+            if self._leave_btn.draw():
                 sys.exit("Game leave")
 
             if solo_button.draw():
@@ -68,8 +71,6 @@ class Menu:
 
     def display_solo(self):
         self._main.set_game_mode(0)
-
-        leave_btn = Button(1200, 0, self._leave_img, 0.03)
         pygame.display.set_caption('Yinch Solo mode')
 
         normal_img = pygame.image.load('images/menu/button_classic.png').convert_alpha()
@@ -82,8 +83,11 @@ class Menu:
 
             self.get_screen().blit(self._bg, (0, 0))
 
-            if leave_btn.draw():
+            if self._leave_btn.draw():
                 sys.exit("Game leave")
+
+            if self._back_btn.draw():
+                Menu()
 
             if normal_btn.draw():
                 self._main.set_game_mode(0)
@@ -105,8 +109,6 @@ class Menu:
 
         pygame.display.set_caption('Yinch Local Mode')
 
-        leave_btn = Button(1200, 0, self._leave_img, 0.03)
-
         normal_img = pygame.image.load('images/menu/button_classic.png').convert_alpha()
         blitz_img = pygame.image.load('images/menu/button_blitz.png').convert_alpha()
 
@@ -117,8 +119,11 @@ class Menu:
 
             self.get_screen().blit(self._bg, (0, 0))
 
-            if leave_btn.draw():
+            if self._leave_btn.draw():
                 sys.exit("Game leave")
+
+            if self._back_btn.draw():
+                Menu()
 
             if normal_btn.draw():
                 self._main.set_game_mode(0)
@@ -143,8 +148,6 @@ class Menu:
         scale = 0.2
 
         pygame.display.set_caption('Yinch Rules')
-
-        leave_btn = Button(1200, 0, self._leave_img, 0.03)
 
         pygame.font.init()
         font_title = pygame.font.SysFont('freesansbold.ttf', 50)
@@ -190,8 +193,11 @@ class Menu:
 
             display_surface.fill(sakura)
 
-            if leave_btn.draw():
+            if self._leave_btn.draw():
                 sys.exit("Game leave")
+
+            if self._back_btn.draw():
+                Menu()
 
             display_surface.blit(title, title_rect)
             display_surface.blit(text_0, (100, 100))
