@@ -166,6 +166,7 @@ class Game:
             y = int(input(f"Player {self._player} : Not valid re-set y for your pawn : "))
 
         pawns.put_paws(x, y, self._board.board, self._player)
+        self._board.board[x][y] = self._player + 5
         self._board.see_board()
 
         # Use to check automaticaly ring's possibilities
@@ -217,6 +218,8 @@ class Game:
             self._rotation.left_diagonal_rotate(self._ring_move_x, self._ring_move_y)
 
         self._board.board[x][y] = player_case
+        self._board.board[self._ring_move_x][self._ring_move_y] = self._player + 3
+
     
     def alignement(self):
         for i in range(11):
@@ -243,5 +246,5 @@ class Game:
         return False
 
 
-# game = Game()
-# game.game_loop()
+game = Game()
+game.game_loop()
