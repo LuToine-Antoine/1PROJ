@@ -86,7 +86,7 @@ class Menu:
 
         while True:
 
-            display_surface.fill((255, 0, 0))
+            self.get_screen().blit(self._bg, (0, 0))
 
             if normal_btn.draw():
                 self._main.set_game_mode(0)
@@ -115,7 +115,7 @@ class Menu:
 
         while True:
 
-            display_surface.fill((255, 0, 0))
+            self.get_screen().blit(self._bg, (0, 0))
 
             if normal_btn.draw():
                 self._main.set_game_mode(0)
@@ -131,7 +131,7 @@ class Menu:
                 pygame.display.update()
 
     def display_rules(self):
-        white = (255, 255, 255)
+        white = (0, 0, 0)
         gray = (91, 91, 91)
 
         display_surface = pygame.display.set_mode((self._screen_width, self._screen_height))
@@ -181,7 +181,8 @@ class Menu:
         # infinite loop
         while True:
 
-            display_surface.fill(gray)
+            # display_surface.fill(gray)
+            self.get_screen().blit(self._bg, (0, 0))
 
             display_surface.blit(title, title_rect)
             display_surface.blit(text_0, (100, 100))

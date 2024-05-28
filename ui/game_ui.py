@@ -53,6 +53,6 @@ class GameUI:
 
 
 
-game_ui = GameUI()
-game_ui.get_screen()
-game_ui.window()
+# game_ui = GameUI()
+# game_ui.get_screen()
+# game_ui.window()
