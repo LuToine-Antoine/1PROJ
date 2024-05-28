@@ -28,13 +28,16 @@ class GameUI:
             self.afficher_plateau()
 
             # get mouse position
-            pos = pygame.mouse.get_pos()
-            click = pygame.mouse.get_pressed()
+            click = False
+            for event in pygame.event.get():
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    if event.button == 1:
+                        click = True
 
-            isintable = ((pos[0] // (535 // len(self._main.get_board())*1.10),
-                         (pos[1] // (540 // len(self._main.get_board())*0.67))))
-
-            if click[0]:
+            if click:
+                pos = pygame.mouse.get_pos()
+                isintable = ((pos[0] // (535 // len(self._main.get_board()) * 1.10),
+                              (pos[1] // (540 // len(self._main.get_board()) * 0.67))))
                 self._main.game_loop(int(isintable[0]), int(isintable[1]))
 
             for event in pygame.event.get():
@@ -62,20 +65,20 @@ class GameUI:
         for i in range(len(self._main.get_board()[0])):
             for j in range(len(self._main.get_board())):
                 pygame.draw.rect(self._screen, (255, 0, 0), (j * 54, i * 33, 54, 33), 1)
-        for i in range(len(self._main.get_board()[0])):
-            for j in range(len(self._main.get_board())):
-                if self._main.get_board()[j][i] == 2:
-                    self._screen.blit(ring_1, ((-15) +j * 54,(-15) + i * 33))
-                elif self._main.get_board()[j][i] == 3:
-                    self._screen.blit(ring_2, ((-15) +j * 54,(-15) + i * 33))
-                elif self._main.get_board()[j][i] == 4:
-                    self._screen.blit(pawn_1, ((-15) +j * 54,(-15) + i * 33))
-                elif self._main.get_board()[j][i] == 5:
-                    self._screen.blit(pawn_2, ((-15) +j * 54, (-15) + i * 33))
-                elif self._main.get_board()[j][i] == 6:
-                    self._screen.blit(pawn_ring_1, ((-15) +j * 54,(-15) + i * 33))
-                elif self._main.get_board()[j][i] == 7:
-                    self._screen.blit(pawn_ring_2, ((-15) +j * 54,(-15) + i * 33))
+        for i in range(len(self._main.get_board())):
+            for j in range(len(self._main.get_board()[0])):
+                if self._main.get_board()[i][j] == 2:
+                    self._screen.blit(ring_1, ((-15) +i * 54,(-15) + j * 33))
+                elif self._main.get_board()[i][j] == 3:
+                    self._screen.blit(ring_2, ((-15) +i * 54,(-15) + j * 33))
+                elif self._main.get_board()[i][j] == 4:
+                    self._screen.blit(pawn_1, ((-15) +i * 54,(-15) + j * 33))
+                elif self._main.get_board()[i][j] == 5:
+                    self._screen.blit(pawn_2, ((-20) +i * 54, (-15) + j * 33))
+                elif self._main.get_board()[i][j] == 6:
+                    self._screen.blit(pawn_ring_1, ((-15) +i * 54,(-15) + j * 33))
+                elif self._main.get_board()[i][j] == 7:
+                    self._screen.blit(pawn_ring_2, ((-15) +i * 54,(-15) + j * 33))
 
 
 
