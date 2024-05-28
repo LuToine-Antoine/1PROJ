@@ -103,24 +103,25 @@ class Game:
         else:
             self._player = 1
 
-
         self.main_put_pawns(x, y)
         self.main_see_moves_rings()
         self.main_move_rings(x, y)
         self._board.see_board()
         self._round += 1
+
         if self._player == 1:
             self._player = 2
         else:
             self._player = 1
 
         # End of the game
-        if self.win() == 1:
-            print("Player 1 win")
-        elif self.win() == 2:
-            print("Player 2 win")
-        else:
-            print("Equality")
+        if not self.win():
+            if self.win() == 1:
+                print("Player 1 win")
+            elif self.win() == 2:
+                print("Player 2 win")
+            else:
+                print("Equality")
 
     def in_board_verification(self, x, y):
         """
