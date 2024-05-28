@@ -96,13 +96,13 @@ class Game:
         Use to run the game
         """
         print(self._round, self._player)
-        if self._round <= 10:
+        if self._round < 10:
             self.main_put_first_rings(x, y)
 
         else:
-            self.main_put_pawns(x, y)
+            self.main_put_pawns(x, y, self._player)
             self.main_see_moves_rings()
-            self.main_move_rings(x, y)
+            self.main_move_rings(x, y, self._player)
             self._board.see_board()
             self._round += 1
 
@@ -140,7 +140,7 @@ class Game:
         self._firstRing.put_rings(x, y, self._board.board, self._player)
         self._round += 1
 
-    def main_put_pawns(self, x, y):
+    def main_put_pawns(self, x, y, player):
         """
         Use to place pawns on the board
         """
@@ -155,14 +155,15 @@ class Game:
         if not self.in_board_verification(x, y) or self._board.board[x][y] != player_case:
             return False
 
-        pawns.put_paws(x, y, self._board.board, self._player)
-        self._board.board[x][y] = self._player + 5
+        else :
+            pawns.put_paws(x, y, self._board.board, self._player)
+            self._board.board[x][y] = self._player + 5
 
-        # Use to check automaticaly ring's possibilities
-        self._ring_move_x = x
-        self._ring_move_y = y
+            # Use to check automaticaly ring's possibilities
+            self._ring_move_x = x
+            self._ring_move_y = y
 
-        return self._ring_move_x, self._ring_move_y
+            return self._ring_move_x, self._ring_move_y
 
     def main_see_moves_rings(self):
         """
@@ -176,13 +177,13 @@ class Game:
             self.main_put_pawns()
 
         # Create a list of all possibles moves
-        self.all_possibles_moves =  self._possibles.get_horizontal_moves() + self._possibles.get_diagonal_moves()
+        self.all_possibles_moves = self._possibles.get_horizontal_moves() + self._possibles.get_diagonal_moves()
         print("Possible horizontal : ", self._possibles.get_horizontal_moves(), "Possible top left to bottom right : ", self._possibles.get_diagonal_moves(), sep="\n")
         self._board.see_board()
 
         return self.all_possibles_moves
 
-    def main_move_rings(self, x, y):
+    def main_move_rings(self, x, y, player):
         """
         Use to choose ring's destination
         """
