@@ -19,6 +19,8 @@ class Game:
         self._ring_move_y = 0
         self.all_possibles_moves = []
         self._possibles = RingsMoves(0, 0, self._board.board)
+        self._firstRing = Rings(0, 0, self._board.board)
+
 
 
     def set_game_mode(self, mode=0):
@@ -54,7 +56,7 @@ class Game:
         numberRingPlayer1 = numberRing.get_player_1_ring()
         numberRingPlayer2 = numberRing.get_player_2_ring()
 
-        if self._game_mode == False:
+        if not self._game_mode:
             numberToWin = 3
         else:
             numberToWin = 1
@@ -89,23 +91,28 @@ class Game:
         else:  # Nobody Win, game continue
             return False
 
-    def game_loop(self):
+    def game_loop(self, x, y):
         """
         Use to run the game
         """
-        self._game_mode = self.get_blitz_mode()
-        self.main_put_first_rings()
+        print(self._round, self._player)
+        if self._round <= 10:
+            self.main_put_first_rings(x, y)
+        if self._player == 1:
+            self._player = 2
+        else:
+            self._player = 1
 
-        while not self.win():
-            self.main_put_pawns()
-            self.main_see_moves_rings()
-            self.main_move_rings()
-            self._board.see_board()
-            self._round += 1
-            if self._player == 1:
-                self._player = 2
-            else:
-                self._player = 1
+
+        self.main_put_pawns(x, y)
+        self.main_see_moves_rings()
+        self.main_move_rings(x, y)
+        self._board.see_board()
+        self._round += 1
+        if self._player == 1:
+            self._player = 2
+        else:
+            self._player = 1
 
         # End of the game
         if self.win() == 1:
@@ -124,28 +131,25 @@ class Game:
         else:
             return False
 
-    def main_put_first_rings(self):
+    def main_put_first_rings(self, x, y):
         """
         Use to place 5 rings for each player at the start of the game
         """
-        firstRing = Rings(0, 0, self._board.board)
 
-        while self._round < 4:  #A CHANGER PLUS TARD C'EST JUSTE POUR LES TESTs !!!!!!!!!!!!!!!!!!!!!!!
-            x = int(input(f"Player {self._player} : Set x for your ring : "))
-            y = int(input(f"Player {self._player} : Set y for your ring : "))
-            while not self.in_board_verification(x, y) or self._board.board[x][y] != 1:
-                x = int(input(f"Player {self._player} : Not valid re-set x for your ring : "))
-                y = int(input(f"Player {self._player} : Not valid re-set y for your ring : "))
+        if not self.in_board_verification(x, y) or self._board.board[x][y] != 1:
+            return False
 
-            firstRing.put_rings(x, y, self._board.board, self._player)
-            self._board.see_board()
-            self._round += 1
-            if self._player == 1:
-                self._player = 2
-            else:
-                self._player = 1
+        self._firstRing.put_rings(x, y, self._board.board, self._player)
+        self._board.see_board()
+        self._round += 1
+        if self._player == 1:
+            self._player = 2
+        else:
+            self._player = 1
 
-    def main_put_pawns(self):
+        self._round += 1
+
+    def main_put_pawns(self, x, y):
         """
         Use to place pawns on the board
         """
@@ -157,12 +161,8 @@ class Game:
         else:
             player_case = 3
 
-        x = int(input(f"Player {self._player} : Set x for your pawn : "))
-        y = int(input(f"Player {self._player} : Set y for your pawn : "))
-
-        while not self.in_board_verification(x, y) or self._board.board[x][y] != player_case:
-            x = int(input(f"Player {self._player} : Not valid re-set x for your pawn : "))
-            y = int(input(f"Player {self._player} : Not valid re-set y for your pawn : "))
+        if not self.in_board_verification(x, y) or self._board.board[x][y] != player_case:
+            return False
 
         pawns.put_paws(x, y, self._board.board, self._player)
         self._board.board[x][y] = self._player + 5
@@ -192,22 +192,19 @@ class Game:
 
         return self.all_possibles_moves
 
-    def main_move_rings(self):
+    def main_move_rings(self, x, y):
         """
         Use to choose ring's destination
         """
         self._rotation = PawnRotate(self._board.board)
-        x = int(input(f"Player {self._player} : Set x for your destination rings : "))
-        y = int(input(f"Player {self._player} : Set y for your destination rings : "))
 
         if self._player == 1:
             player_case = 2
         else:
             player_case = 3
 
-        while not self.in_board_verification(x, y) or self._board.board[x][y] != 1 or (x,y) not in self.all_possibles_moves:
-            x = int(input(f"Player {self._player} : Not valid re-set x for your destination rings : "))
-            y = int(input(f"Player {self._player} : Not valid re-set y for your destination rings : "))
+        if not self.in_board_verification(x, y) or self._board.board[x][y] != 1 or (x,y) not in self.all_possibles_moves:
+            return False
 
         if (x, y) in self._possibles.get_horizontal_moves():
             self._rotation.horizontal_rotate(self._ring_move_x, self._ring_move_y)
