@@ -1,7 +1,6 @@
 import tkinter as tk
 
 from structures.board.board_struct import *
-from structures.board.board_ui import *
 from structures.rings import *
 from structures.pawn import *
 from possibilites.ringsmoves import *
@@ -12,6 +11,7 @@ class Game:
     def __init__(self):
         self._rotation = None
         self._mode = None
+        self._game_mode = None
         self._board = BoardStruct()
         self._round = 0
         self._player = 1
@@ -19,17 +19,31 @@ class Game:
         self._ring_move_y = 0
         self.all_possibles_moves = []
         self._possibles = RingsMoves(0, 0, self._board.board)
+        self._firstRing = Rings(0, 0, self._board.board)
 
-    def blitz_mode(self):
+
+
+    def set_game_mode(self, mode=0):
+        self._game_mode = mode
+
+    def get_game_mode(self):
+        return self._game_mode
+
+    def get_board(self):
+        return self._board.board
+
+    def set_blitz_mode(self, mode=0):
         """
         True = blitz mode; False = normal mode
         """
-        setMode = int(input("Choose a mode : 1 for normal (3 for win) mode, 2 for blitz (1 for win) mode : "))
 
-        if setMode == 1:
-            self._mode = False  # Isn't blitz mode
+        if mode == 1:
+            self._game_mode = False  # Isn't blitz mode
         else:
-            self._mode = True  # It's blitz mode
+            self._game_mode = True  # It's blitz mode
+
+    def get_blitz_mode(self):
+        return self._game_mode
 
     def win(self):
         """
@@ -42,7 +56,7 @@ class Game:
         numberRingPlayer1 = numberRing.get_player_1_ring()
         numberRingPlayer2 = numberRing.get_player_2_ring()
 
-        if self._mode == False:
+        if not self._game_mode:
             numberToWin = 3
         else:
             numberToWin = 1
@@ -77,33 +91,35 @@ class Game:
         else:  # Nobody Win, game continue
             return False
 
-    def game_loop(self):
+    def game_loop(self, x, y):
         """
         Use to run the game
         """
-        self._board = BoardStruct()
-        self._mode = self.blitz_mode()
-        self.main_put_first_rings()
+        print(self._round, self._player)
+        if self._round <= 10:
+            self.main_put_first_rings(x, y)
 
-        while not self.win():
-            self.main_put_pawns()
+        else:
+            self.main_put_pawns(x, y)
             self.main_see_moves_rings()
-            self.main_move_rings()
+            self.main_move_rings(x, y)
             self._board.see_board()
             self._round += 1
-            if self._player == 1:
-                self._player = 2
-            else:
-                self._player = 1
 
         # End of the game
-        if self.win() == 1:
-            print("Player 1 win")
-        elif self.win() == 2:
-            print("Player 2 win")
+        match self.win():
+            case 1:
+                print("Player 1 win")
+            case 2:
+                print("Player 2 win")
+            case 3:
+                print("Equality")
+            case False:
+                pass
+        if self._player == 1:
+            self._player = 2
         else:
-            print("Equality")
-
+            self._player = 1
     def in_board_verification(self, x, y):
         """
         Use to check if the place selected is in the board
@@ -113,28 +129,18 @@ class Game:
         else:
             return False
 
-    def main_put_first_rings(self):
+    def main_put_first_rings(self, x, y):
         """
         Use to place 5 rings for each player at the start of the game
         """
-        firstRing = Rings(0, 0, self._board.board)
 
-        while self._round < 4:  #A CHANGER PLUS TARD C'EST JUSTE POUR LES TESTs !!!!!!!!!!!!!!!!!!!!!!!
-            x = int(input(f"Player {self._player} : Set x for your ring : "))
-            y = int(input(f"Player {self._player} : Set y for your ring : "))
-            while not self.in_board_verification(x, y) or self._board.board[x][y] != 1:
-                x = int(input(f"Player {self._player} : Not valid re-set x for your ring : "))
-                y = int(input(f"Player {self._player} : Not valid re-set y for your ring : "))
+        if not self.in_board_verification(x, y) or self._board.board[x][y] != 1:
+            return False
 
-            firstRing.put_rings(x, y, self._board.board, self._player)
-            self._board.see_board()
-            self._round += 1
-            if self._player == 1:
-                self._player = 2
-            else:
-                self._player = 1
+        self._firstRing.put_rings(x, y, self._board.board, self._player)
+        self._round += 1
 
-    def main_put_pawns(self):
+    def main_put_pawns(self, x, y):
         """
         Use to place pawns on the board
         """
@@ -146,15 +152,11 @@ class Game:
         else:
             player_case = 3
 
-        x = int(input(f"Player {self._player} : Set x for your pawn : "))
-        y = int(input(f"Player {self._player} : Set y for your pawn : "))
-
-        while not self.in_board_verification(x, y) or self._board.board[x][y] != player_case:
-            x = int(input(f"Player {self._player} : Not valid re-set x for your pawn : "))
-            y = int(input(f"Player {self._player} : Not valid re-set y for your pawn : "))
+        if not self.in_board_verification(x, y) or self._board.board[x][y] != player_case:
+            return False
 
         pawns.put_paws(x, y, self._board.board, self._player)
-        self._board.see_board()
+        self._board.board[x][y] = self._player + 5
 
         # Use to check automaticaly ring's possibilities
         self._ring_move_x = x
@@ -174,38 +176,35 @@ class Game:
             self.main_put_pawns()
 
         # Create a list of all possibles moves
-        self.all_possibles_moves =  self._possibles.get_horizontal_moves() + self._possibles.get_right_diagonal_moves() + self._possibles.get_left_diagonal_moves()
-        print("Possible horizontal : ", self._possibles.get_horizontal_moves(), "Possible top left to bottom right : ", self._possibles.get_right_diagonal_moves(), "Possible bottom left to top right : ", self._possibles.get_left_diagonal_moves(), sep="\n")
+        self.all_possibles_moves =  self._possibles.get_horizontal_moves() + self._possibles.get_diagonal_moves()
+        print("Possible horizontal : ", self._possibles.get_horizontal_moves(), "Possible top left to bottom right : ", self._possibles.get_diagonal_moves(), sep="\n")
         self._board.see_board()
 
         return self.all_possibles_moves
 
-    def main_move_rings(self):
+    def main_move_rings(self, x, y):
         """
         Use to choose ring's destination
         """
         self._rotation = PawnRotate(self._board.board)
-        x = int(input(f"Player {self._player} : Set x for your destination rings : "))
-        y = int(input(f"Player {self._player} : Set y for your destination rings : "))
 
         if self._player == 1:
             player_case = 2
         else:
             player_case = 3
 
-        while not self.in_board_verification(x, y) or self._board.board[x][y] != 1 or (x,y) not in self.all_possibles_moves:
-            x = int(input(f"Player {self._player} : Not valid re-set x for your destination rings : "))
-            y = int(input(f"Player {self._player} : Not valid re-set y for your destination rings : "))
+        if not self.in_board_verification(x, y) or self._board.board[x][y] != 1 or (x,y) not in self.all_possibles_moves:
+            return False
 
         if (x, y) in self._possibles.get_horizontal_moves():
             self._rotation.horizontal_rotate(self._ring_move_x, self._ring_move_y)
-        elif (x, y) in self._possibles.get_right_diagonal_moves():
+        elif (x, y) in self._possibles.get_diagonal_moves():
             self._rotation.right_diagonal_rotate(self._ring_move_x, self._ring_move_y)
-        elif (x, y) in self._possibles.get_left_diagonal_moves():
-            self._rotation.left_diagonal_rotate(self._ring_move_x, self._ring_move_y)
 
         self._board.board[x][y] = player_case
-    
+        self._board.board[self._ring_move_x][self._ring_move_y] = self._player + 3
+
+
     def alignement(self):
         for i in range(11):
             for j in range(19):
@@ -231,5 +230,5 @@ class Game:
         return False
 
 
-game = Game()
-game.game_loop()
+#game = Game()
+#game.game_loop()
