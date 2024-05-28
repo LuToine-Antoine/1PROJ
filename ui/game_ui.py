@@ -24,15 +24,18 @@ class GameUI:
         while run:
             self._screen.fill((255, 255, 255))
 
-
-            self.get_screen().blit(self.board(), (0, 0))
+            self.get_screen().blit(self.board(), (-20, -10))
             self.afficher_plateau()
 
             # get mouse position
             pos = pygame.mouse.get_pos()
-            #click = pygame.mouse.get_pressed()
+            click = pygame.mouse.get_pressed()
+            print(pos, click)
 
-            #print(pos, click)
+            isintable = ((pos[0] // (535 // len(self._main.get_board())*1.10),
+                         (pos[1] // (540 // len(self._main.get_board())*0.67))))
+
+            print(isintable)
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -58,7 +61,7 @@ class GameUI:
 
         for i in range(len(self._main.get_board()[0])):
             for j in range(len(self._main.get_board())):
-                pygame.draw.rect(self._screen, (255, 0, 0), (27 + j * 54, 15 + i * 33, 54, 33), 2)
+                pygame.draw.rect(self._screen, (255, 0, 0), (j * 54, i * 33, 54, 33), 2)
         for i in range(len(self._main.get_board()[0])):
             for j in range(len(self._main.get_board())):
                 if self._main.get_board()[j][i] == 2:
