@@ -14,7 +14,7 @@ class GameUI:
 
     def board(self):
         pygame.display.set_caption('Yinch')
-        board_img = pygame.image.load('../images/game/plateau_yinch.png').convert_alpha()
+        board_img = pygame.image.load('images/game/plateau_yinch.png').convert_alpha()
         board = pygame.transform.scale(board_img, (int(self._screen_width * 0.5), int(self._screen_height * 0.9)))
 
         return board
@@ -40,9 +40,9 @@ class GameUI:
             pygame.display.update()
 
     def afficher_plateau(self):
-        ring_1 = pygame.image.load('../images/game/pawn_and_ring_1.png').convert_alpha()
+        #ring_1 = pygame.image.load('../images/game/pawn_and_ring_1.png').convert_alpha()
         sizex, sizey = 100, 100
-        look_1 = pygame.transform.scale(ring_1, (sizex, sizey))
+        #look_1 = pygame.transform.scale(ring_1, (sizex, sizey))
         for i in range(len(self._main.get_board()[0])):
             for j in range(len(self._main.get_board())):
                 if self._main.get_board()[j][i] == 1:
