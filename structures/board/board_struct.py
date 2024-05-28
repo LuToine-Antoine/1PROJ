@@ -34,6 +34,10 @@ class BoardStruct:
                     print("3", end='')
                 elif self.board[i][j] == 5:  # Player 2 pawns
                     print("4", end='')
+                elif self.board[i][j] == 6:  # Player 1 ring + pawn
+                    print("5", end='')
+                elif self.board[i][j] == 7:  # Player 2 ring + pawn
+                    print("6", end='')
             print(" ")
 
 
