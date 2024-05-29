@@ -175,8 +175,8 @@ class Game:
 
         # Get all possibles moves
         self._possibles.get_possible_moves(self._ring_move_x, self._ring_move_y)
-        if self._possibles.get_horizontal_moves() is None:
-            self.main_put_pawns()
+        #if self._possibles.get_horizontal_moves() is None:
+        #    self.main_put_pawns()
 
         # Create a list of all possibles moves
         self.all_possibles_moves = self._possibles.get_horizontal_moves() + self._possibles.get_diagonal_moves()

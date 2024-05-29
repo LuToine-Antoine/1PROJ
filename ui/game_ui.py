@@ -69,13 +69,13 @@ class GameUI:
         pawn_1 = pygame.transform.scale(pawn_1, (sizex, sizey))
         pawn_2 = pygame.transform.scale(pawn_2, (sizex, sizey))
 
-        #for i in range(len(self._main.get_board()[0])):
-        #    for j in range(len(self._main.get_board())):
-        #        pygame.draw.rect(self._screen, (255, 0, 0), (j * 54, i * 33, 54, 33), 1)
+        #for i in range(len(self._main.get_board())):
+        #    for j in range(len(self._main.get_board()[0])):
+        #        pygame.draw.rect(self._screen, (255, 0, 0), (i * 54, j * 33, 54, 33), 1)
 
 
-        for j in range(len(self._main.get_board()[0])):
-            for i in range(len(self._main.get_board())):
+        for i in range(len(self._main.get_board())):
+            for j in range(len(self._main.get_board()[0])):
                 board_ui = self._main.get_board()[i][j]
                 match board_ui:
                     case 2:
