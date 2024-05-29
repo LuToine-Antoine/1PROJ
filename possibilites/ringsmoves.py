@@ -140,15 +140,6 @@ class RingsMoves:
 
 
 
-
-=======
-                break
-            elif self._board[self._x][i] == 2 or self._board[self._x][i] == 3:
-                continue
-            elif self._board[self._x][i] == 1:
-                self._horizontal_moves.append((self._x, i))
-                break
-
         for j in range(self._y - 1, -1, -1):
             if self._board[self._x][j] == 4 or self._board[self._x][j] == 5:
                 break
@@ -157,7 +148,6 @@ class RingsMoves:
             elif self._board[self._x][j] == 1:
                 self._horizontal_moves.append((self._x, j))
                 break
->>>>>>> 13c48f5ce89cd277600119840d12e064cddc134a
 
     def get_horizontal_moves(self):
         return self._horizontal_moves
