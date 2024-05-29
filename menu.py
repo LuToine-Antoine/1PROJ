@@ -73,11 +73,11 @@ class Menu:
         self._main.set_game_mode(0)
         pygame.display.set_caption('Yinch Solo mode')
 
-        # normal_img = pygame.image.load('images/menu/button_classic.png').convert_alpha()
-        # blitz_img = pygame.image.load('images/menu/button_blitz.png').convert_alpha()
+        normal_img = pygame.image.load('images/menu/button_classic.png').convert_alpha()
+        blitz_img = pygame.image.load('images/menu/button_blitz.png').convert_alpha()
 
-        # normal_btn = Button(288, -10, normal_img, 0.32)
-        # blitz_btn = Button(288, 110, blitz_img, 0.32)
+        normal_btn = Button(288, -10, normal_img, 0.32)
+        blitz_btn = Button(288, 110, blitz_img, 0.32)
 
         while True:
 
@@ -89,38 +89,20 @@ class Menu:
             if self._back_btn.draw():
                 Menu()
 
-            # if normal_btn.draw():
-            #     self._main.set_game_mode(0)
-            #     pygame.mixer.music.pause()
-            #     self._board_ui.window()
-            # if blitz_btn.draw():
-            #     self._main.set_game_mode(1)
-            #     pygame.mixer.music.pause()
-            #     self._board_ui.window()
-
-            self.test()
+            if normal_btn.draw():
+                self._main.set_game_mode(0)
+                pygame.mixer.music.pause()
+                self._board_ui.window()
+            if blitz_btn.draw():
+                self._main.set_game_mode(1)
+                pygame.mixer.music.pause()
+                self._board_ui.window()
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()
                     sys.exit("Game leave")
                 pygame.display.update()
-
-    def test(self):
-        normal_img = pygame.image.load('images/menu/button_classic.png').convert_alpha()
-        blitz_img = pygame.image.load('images/menu/button_blitz.png').convert_alpha()
-
-        normal_btn = Button(288, -10, normal_img, 0.32)
-        blitz_btn = Button(288, 110, blitz_img, 0.32)
-
-        if normal_btn.draw():
-            self._main.set_game_mode(0)
-            pygame.mixer.music.pause()
-            self._board_ui.window()
-        if blitz_btn.draw():
-            self._main.set_game_mode(1)
-            pygame.mixer.music.pause()
-            self._board_ui.window()
 
     def display_local(self):
         self._main.set_game_mode(1)
