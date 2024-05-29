@@ -32,6 +32,8 @@ class GameUI:
 
         run = True
         while run:
+            pos = pygame.mouse.get_pos()
+
 
             # get mouse position
             click = False
@@ -39,10 +41,9 @@ class GameUI:
                 if event.type == pygame.QUIT:
                     run = False
                 elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
-                    pos = pygame.mouse.get_pos()
-                    isintable = ((pos[0] // (535 // len(self._main.get_board()) * 1.10),
-                                  (pos[1] // (540 // len(self._main.get_board()) * 0.67))))
-                    self._main.game_loop(int(isintable[0]), int(isintable[1]))
+                    isintable = ((pos[0] // (530 // len(self._main.get_board())) * 0.5525),
+                                 (pos[1] // (535 // len(self._main.get_board()) * 1.10)))
+                    self._main.game_loop(int(isintable[1]), int(isintable[0]))
                     self._screen.fill((255, 255, 255))
                     self.get_screen().blit(self.board(), (-20, -10))
 
@@ -69,14 +70,17 @@ class GameUI:
         pawn_1 = pygame.transform.scale(pawn_1, (sizex, sizey))
         pawn_2 = pygame.transform.scale(pawn_2, (sizex, sizey))
 
-        #for i in range(len(self._main.get_board())):
-        #    for j in range(len(self._main.get_board()[0])):
-        #        pygame.draw.rect(self._screen, (255, 0, 0), (i * 54, j * 33, 54, 33), 1)
+        #for j in range(len(self._main.get_board())):
+        #    for i in range(len(self._main.get_board()[0])):
+        #        if self._main.get_board()[j][i] == 1:
+        #            pygame.draw.rect(self._screen, (0, 0, 0), (i * 54, j * 33, 54, 33), 0)
+        #        else :
+        #            pygame.draw.rect(self._screen, (255, 0, 0), (i * 54, j * 33, 54, 33), 1)
 
 
-        for i in range(len(self._main.get_board())):
-            for j in range(len(self._main.get_board()[0])):
-                board_ui = self._main.get_board()[i][j]
+        for i in range(len(self._main.get_board()[0])):
+            for j in range(len(self._main.get_board())):
+                board_ui = self._main.get_board()[j][i]
                 match board_ui:
                     case 2:
                         self._screen.blit(ring_1, ((-15) + i * 54, (-15) + j * 33))

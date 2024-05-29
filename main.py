@@ -110,6 +110,7 @@ class Game:
             else:
                 self._player = 1
 
+
         # End of the game
         match self.win():
             case 1:
@@ -120,12 +121,11 @@ class Game:
                 print("Equality")
             case False:
                 pass
-
     def in_board_verification(self, x, y):
         """
         Use to check if the place selected is in the board
         """
-        if 0 < x < 11 and 0 < y < 19:
+        if 0 < x < 19 and 0 < y < 11:
             return True
         else:
             return False
@@ -149,7 +149,7 @@ class Game:
         """
         Use to place pawns on the board
         """
-        pawns = Paws(0, 0, self._board.board)
+        pawns = Paws(x, y, self._board.board)
 
         # In order to check if place selected is a ring of good player
         if self._player == 1:
