@@ -1,5 +1,8 @@
+import sys
 import pygame as pygame
+
 from main import *
+from ui.buttons import *
 
 
 class GameUI:
@@ -8,6 +11,7 @@ class GameUI:
         self._screen_width = width
         self._screen = pygame.display.set_mode((self._screen_width, self._screen_height))
         self._main = Game()
+        self._leave_img = pygame.image.load('images/leave.png').convert_alpha()
 
     def get_screen(self):
         return self._screen
@@ -20,9 +24,15 @@ class GameUI:
         return board
 
     def window(self):
+
+        leave_btn = Button(1200, 0, self._leave_img, 0.03)
+
         run = True
         while run:
             self._screen.fill((255, 255, 255))
+
+            if leave_btn.draw():
+                sys.exit("Game leave")
 
             self.get_screen().blit(self.board(), (-20, -10))
             self.afficher_plateau()
@@ -62,9 +72,9 @@ class GameUI:
         pawn_1 = pygame.transform.scale(pawn_1, (sizex, sizey))
         pawn_2 = pygame.transform.scale(pawn_2, (sizex, sizey))
 
-        for i in range(len(self._main.get_board()[0])):
-            for j in range(len(self._main.get_board())):
-                pygame.draw.rect(self._screen, (255, 0, 0), (j * 54, i * 33, 54, 33), 1)
+        #for i in range(len(self._main.get_board()[0])):
+        #    for j in range(len(self._main.get_board())):
+        #        pygame.draw.rect(self._screen, (255, 0, 0), (j * 54, i * 33, 54, 33), 1)
         for i in range(len(self._main.get_board())):
             for j in range(len(self._main.get_board()[0])):
                 if self._main.get_board()[i][j] == 2:
