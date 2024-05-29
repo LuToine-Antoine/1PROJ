@@ -39,18 +39,6 @@ class RingsMoves:
                 if self._board[self._x][j] == 1:
                     self._horizontal_moves.append((self._x, j))
 
-
-
-
-
-
-
-
-
-
-
-
-
     def set_diagonal_moves(self):
         self._right_diagonal_moves.clear()
         self._left_diagonal_moves.clear()
@@ -113,7 +101,6 @@ class RingsMoves:
             j += 1
         
         # Scan bottom-left diagonal
-<<<<<<< HEAD
         i, j = self._x + 1, self._y - 1
         while i < len(self._board) and j >= 0:
             if self._board[self._x][i] == 4 or self._board[self._x][i] == 5:
@@ -131,42 +118,6 @@ class RingsMoves:
                     self._left_diagonal_moves.append((i, j))
             i += 1
             j -= 1
-
-
-
-#        i, j = self._x + 1, self._y - 1
-#        while i < len(self._board) and j >= 0:
-#            if self._board[self._x][i] == 4 or self._board[self._x][i] == 5:
-#                for k in range(1, min(i - self._x, self._y - j)):
-#                    if self._board[self._x + k][self._y - k] == 1:
-#                        self._left_diagonal_moves.append((self._x + k, self._y - k))
-#                if self._board[i - 2][j + 2] != 1:
-#                    self._left_diagonal_moves.append((i - 2, j + 2))
-#            elif self._board[self._x][i] == 2 or self._board[self._x][i] == 3:
-#                for k in range(1, min(i - self._x, self._y - j)):
-#                    if self._board[self._x + k][self._y - k] == 1:
-#                        self._left_diagonal_moves.append((self._x + k, self._y - k))
-#            else:
-#                if self._board[i][j] == 1:
-#                    self._left_diagonal_moves.append((i, j))
-#            i += 1
-#            j -= 1
-#
-#                break
-#            elif self._board[self._x][i] == 2 or self._board[self._x][i] == 3:
-#                continue
-#            elif self._board[self._x][i] == 1:
-#                self._horizontal_moves.append((self._x, i))
-#                break
-#
-#        for j in range(self._y - 1, -1, -1):
-#            if self._board[self._x][j] == 4 or self._board[self._x][j] == 5:
-#                break
-#            elif self._board[self._x][j] == 2 or self._board[self._x][j] == 3:
-#                continue
-#            elif self._board[self._x][j] == 1:
-#                self._horizontal_moves.append((self._x, j))
-#                break
 
     def get_horizontal_moves(self):
         return self._horizontal_moves
