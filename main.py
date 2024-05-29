@@ -105,6 +105,10 @@ class Game:
             self.main_move_rings(x, y, self._player)
             self._board.see_board()
             self._round += 1
+            if self._player == 1:
+                self._player = 2
+            else:
+                self._player = 1
 
         # End of the game
         match self.win():
@@ -116,10 +120,7 @@ class Game:
                 print("Equality")
             case False:
                 pass
-        if self._player == 1:
-            self._player = 2
-        else:
-            self._player = 1
+
     def in_board_verification(self, x, y):
         """
         Use to check if the place selected is in the board
@@ -139,6 +140,10 @@ class Game:
 
         self._firstRing.put_rings(x, y, self._board.board, self._player)
         self._round += 1
+        if self._player == 1:
+            self._player = 2
+        else:
+            self._player = 1
 
     def main_put_pawns(self, x, y, player):
         """
@@ -152,10 +157,7 @@ class Game:
         else:
             player_case = 3
 
-        if not self.in_board_verification(x, y) or self._board.board[x][y] != player_case:
-            return False
-
-        else :
+        if self.in_board_verification(x, y) and self._board.board[x][y] == player_case:
             pawns.put_paws(x, y, self._board.board, self._player)
             self._board.board[x][y] = self._player + 5
 
