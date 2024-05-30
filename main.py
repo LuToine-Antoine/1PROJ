@@ -148,6 +148,9 @@ class Game:
         print("Player : ", self._player)
         print("Click count : ", self._clickCount)
 
+    def get_player(self):
+        return self._player
+
     def in_board_verification(self, x, y):
         """
         Use to check if the place selected is in the board
