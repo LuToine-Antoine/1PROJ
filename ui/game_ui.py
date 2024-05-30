@@ -74,14 +74,31 @@ class GameUI:
             text_turn = font_title.render(f'Tour {self._main.get_turn()}', True, black)
             self.get_screen().blit(text_turn, (860, 30))
 
-            text_action_1 = font_action.render('Placer un pion dans un anneau', True, black)
-            text_action_2 = font_action.render('Déplacez un anneau', True, black)
+            texts = {
+                (0, 1): font_action.render('Placez vos premiers anneaux', True, blue),
+                (1, 1): font_action.render("Déplacez l'anneau", True, blue),
+                (2, 1): font_action.render('Placez un pion dans un anneau', True, blue),
+                (0, 2): font_action.render('Placez vos premiers anneaux', True, red),
+                (1, 2): font_action.render("Déplacez l'anneau", True, red),
+                (2, 2): font_action.render('Placez un pion dans un anneau', True, red),
+            }
 
-            if self._main.get_turn() == 1:
-                if self._main.get_click_count() == 0:
-                    self.get_screen().blit(text_action_1, (760, 70))
-                if self._main.get_click_count() == 1:
-                    self.get_screen().blit(text_action_2, (760, 70))
+            click_count = self._main.get_click_count()
+            player = self._main.get_player()
+
+            if self._main.get_turn() < 10:
+                if click_count == 0:
+                    action_key = (0, player)
+                else:
+                    action_key = (1, player)
+            else:
+                if click_count == 0:
+                    action_key = (2, player)
+                else:
+                    action_key = (1, player)
+
+            text = texts[action_key]
+            self.get_screen().blit(text, (760, 70))
 
             self.get_screen().blit(text_player_1, (840, 150))
             self.get_screen().blit(text_player_2, (840, 300))
