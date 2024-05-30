@@ -33,6 +33,18 @@ class Game:
     def get_board(self):
         return self._board.board
 
+    def get_player(self):
+        return self._player
+
+    def get_turn(self):
+        return self._round
+
+    def get_ring_player_1(self):
+        return self._firstRing.get_player_1_ring()
+
+    def get_ring_player_2(self):
+        return self._firstRing.get_player_2_ring()
+
     def set_blitz_mode(self, mode=0):
         """
         True = blitz mode; False = normal mode
@@ -141,9 +153,6 @@ class Game:
                 print("Equality")
             case False:
                 print("Game continue")
-
-    def get_player(self):
-        return self._player
 
     def in_board_verification(self, x, y):
         """
@@ -258,7 +267,3 @@ class Game:
                             if align == 5:
                                 return True
         return False
-
-
-#game = Game()
-#game.game_loop()
