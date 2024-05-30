@@ -190,11 +190,11 @@ class Menu:
 
             display_surface.fill(sakura)
 
-            if self._leave_btn.draw():
-                sys.exit("Game leave")
-
             if self._back_btn.draw():
                 self.window()
+
+            if self._leave_btn.draw():
+                sys.exit("Game leave")
 
             display_surface.blit(title, title_rect)
             display_surface.blit(text_0, (100, 100))

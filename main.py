@@ -145,6 +145,9 @@ class Game:
         else:
             self._player = 1
 
+    def get_player(self):
+        return self._player
+
     def main_put_pawns(self, x, y, player):
         """
         Use to place pawns on the board
