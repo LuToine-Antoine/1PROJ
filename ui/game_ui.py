@@ -39,10 +39,12 @@ class GameUI:
 
         pygame.font.init()
         font_title = pygame.font.SysFont('freesansbold.ttf', 50)
+        font_action = pygame.font.SysFont('freesansbold.ttf', 30)
 
         selected_player_img = pygame.image.load('images/game/menu/sakura_logo.png').convert_alpha()
         selected_player = pygame.transform.scale(
             selected_player_img, (int(self._screen_width * 0.04), int(self._screen_height * 0.06)))
+
         text_player_1 = font_title.render('Joueur 1', True, blue)
         # text_ring_number_1 = font_title.render(f'Pawn number {self._main.get}', True, red)
         text_player_2 = font_title.render('Joueur 2', True, red)
@@ -69,16 +71,45 @@ class GameUI:
                 sys.exit("Game leave")
             pygame.display.update()
 
-            if self._back_btn.draw():
-                print("TG")
+            text_turn = font_title.render(f'Tour {self._main.get_turn()}', True, black)
+            self.get_screen().blit(text_turn, (860, 30))
+
+            texts = {
+                (0, 1): font_action.render('Placez vos premiers anneaux', True, blue),
+                (1, 1): font_action.render("Déplacez l'anneau", True, blue),
+                (2, 1): font_action.render('Placez un pion dans un anneau', True, blue),
+                (0, 2): font_action.render('Placez vos premiers anneaux', True, red),
+                (1, 2): font_action.render("Déplacez l'anneau", True, red),
+                (2, 2): font_action.render('Placez un pion dans un anneau', True, red),
+            }
+
+            click_count = self._main.get_click_count()
+            player = self._main.get_player()
+
+            if self._main.get_turn() < 10:
+                if click_count == 0:
+                    action_key = (0, player)
+                else:
+                    action_key = (1, player)
+            else:
+                if click_count == 0:
+                    action_key = (2, player)
+                else:
+                    action_key = (1, player)
+
+            text = texts[action_key]
+            self.get_screen().blit(text, (760, 70))
+
+            self.get_screen().blit(text_player_1, (840, 150))
+            self.get_screen().blit(text_player_2, (840, 300))
 
             if self._main.get_player() == 1:
-                self.get_screen().blit(selected_player, (780, 95))
+                self.get_screen().blit(selected_player, (780, 145))
             if self._main.get_player() == 2:
                 self.get_screen().blit(selected_player, (780, 295))
 
-            self.get_screen().blit(text_player_1, (840, 100))
-            self.get_screen().blit(text_player_2, (840, 300))
+            if self._back_btn.draw():
+                print("TG")
 
     def afficher_plateau(self):
         pawn_ring_1 = pygame.image.load('images/game/pawn_and_ring_1.png').convert_alpha()
