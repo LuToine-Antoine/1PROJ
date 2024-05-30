@@ -233,11 +233,12 @@ class Game:
         if not self.in_board_verification(x, y) or self._board.board[x][y] != 1 or (x,y) not in self.all_possibles_moves:
             return False
 
-        print(x,y)
+        print(x,y, self._possibles.get_vertical_moves())
+
         if (x, y) in self._possibles.get_vertical_moves():
-            self._rotation.vertical_rotate(self._ring_move_x, self._ring_move_y, y)
+            self._rotation.vertical_rotate(self._ring_move_y, self._ring_move_x, x)
         elif (x, y) in self._possibles.get_diagonal_moves():
-            self._rotation.right_diagonal_rotate(self._ring_move_x, self._ring_move_y)
+            self._rotation.right_diagonal_rotate(self._ring_move_y, self._ring_move_x)
 
         if self._player == 1:
             self._board.board[x][y] = 2
