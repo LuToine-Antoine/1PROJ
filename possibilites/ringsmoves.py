@@ -59,81 +59,98 @@ class RingsMoves:
         self._right_diagonal_moves.clear()
         self._left_diagonal_moves.clear()
 
-        # Scan top-right diagonal
-        i, j = self._x - 1, self._y + 1
-        while i >= 0 and j < len(self._board[0]):
-            if self._board[i][self._y] == 4 or self._board[i][self._y] == 5:
-                for k in range(1, min(self._x - i, j - self._y)):
-                    if self._board[self._x - k][self._y + k] == 1:
-                        self._right_diagonal_moves.append((self._x - k, self._y + k))
-                if i + 2 < len(self._board) and j - 2 >= 0 and self._board[i + 2][j - 2] != 1:
-                    self._right_diagonal_moves.append((i + 2, j - 2))
-            elif self._board[i][self._y] == 2 or self._board[i][self._y] == 3:
-                for k in range(1, min(self._x - i, j - self._y)):
-                    if self._board[self._x - k][self._y + k] == 1:
-                        self._right_diagonal_moves.append((self._x - k, self._y + k))
-            else:
-                if self._board[i][j] == 1:
-                    self._right_diagonal_moves.append((i, j))
-            i -= 1
-            j += 1
+        up_right_obstacle = False
+        for o in range(1, min(self._x + 1, len(self._board[0]) - self._y)):
+            if self._board[self._x - o][self._y + o] in [2, 3, 4, 5]:
+                up_right_obstacle = True
+                break
+        if up_right_obstacle:
+            for i in range(1, min(self._x + 1, len(self._board[0]) - self._y)):
+                if self._board[self._x - i][self._y + i] in [4, 5]:
+                    for i2 in range(1, i):
+                        if self._board[self._x - i2][self._y + i2] == 1:
+                            self._right_diagonal_moves.append((self._x - i2, self._y + i2))
+                    if self._x - i - 2 >= 0 and self._y + i + 2 < len(self._board[0]) and self._board[self._x - i - 2][self._y + i + 2] == 1:
+                        self._right_diagonal_moves.append((self._x - i - 2, self._y + i + 2))
+                        break
+                elif self._board[self._x - i][self._y + i] in [2, 3]:
+                    for i3 in range(1, i):
+                        if self._board[self._x - i3][self._y + i3] == 1:
+                            self._right_diagonal_moves.append((self._x - i3, self._y + i3))
+        else:
+            for i in range(1, min(self._x + 1, len(self._board[0]) - self._y)):
+                if self._board[self._x - i][self._y + i] == 1:
+                    self._right_diagonal_moves.append((self._x - i, self._y + i))
 
-        # Scan top-left diagonal
-        i, j = self._x - 1, self._y - 1
-        while i >= 0 and j >= 0:
-            if self._board[i][self._y] == 4 or self._board[i][self._y] == 5:
-                for k in range(1, min(self._x - i, self._y - j)):
-                    if self._board[self._x - k][self._y - k] == 1:
-                        self._left_diagonal_moves.append((self._x - k, self._y - k))
-                if i + 2 < len(self._board) and j + 2 < len(self._board[0]) and self._board[i + 2][j + 2] != 1:
-                    self._left_diagonal_moves.append((i + 2, j + 2))
-            elif self._board[i][self._y] == 2 or self._board[i][self._y] == 3:
-                for k in range(1, min(self._x - i, self._y - j)):
-                    if self._board[self._x - k][self._y - k] == 1:
-                        self._left_diagonal_moves.append((self._x - k, self._y - k))
-            else:
-                if self._board[i][j] == 1:
-                    self._left_diagonal_moves.append((i, j))
-            i -= 1
-            j -= 1
+        up_left_obstacle = False
+        for o in range(1, min(self._x + 1, self._y + 1)):
+            if self._board[self._x - o][self._y - o] in [2, 3, 4, 5]:
+                up_left_obstacle = True
+                break
+        if up_left_obstacle:
+            for i in range(1, min(self._x + 1, self._y + 1)):
+                if self._board[self._x - i][self._y - i] in [4, 5]:
+                    for i2 in range(1, i):
+                        if self._board[self._x - i2][self._y - i2] == 1:
+                            self._left_diagonal_moves.append((self._x - i2, self._y - i2))
+                    if self._x - i - 2 >= 0 and self._y - i - 2 >= 0 and self._board[self._x - i - 2][self._y - i - 2] == 1:
+                        self._left_diagonal_moves.append((self._x - i - 2, self._y - i - 2))
+                        break
+                elif self._board[self._x - i][self._y - i] in [2, 3]:
+                    for i3 in range(1, i):
+                        if self._board[self._x - i3][self._y - i3] == 1:
+                            self._left_diagonal_moves.append((self._x - i3, self._y - i3))
+        else:
+            for i in range(1, min(self._x + 1, self._y + 1)):
+                if self._board[self._x - i][self._y - i] == 1:
+                    self._left_diagonal_moves.append((self._x - i, self._y - i))
 
-        # Scan bottom-right diagonal
-        i, j = self._x + 1, self._y + 1
-        while i < len(self._board) and j < len(self._board[0]):
-            if self._board[i][self._y] == 4 or self._board[i][self._y] == 5:
-                for k in range(1, min(i - self._x, j - self._y)):
-                    if self._board[self._x + k][self._y + k] == 1:
-                        self._right_diagonal_moves.append((self._x + k, self._y + k))
-                if i - 2 >= 0 and j - 2 >= 0 and self._board[i - 2][j - 2] != 1:
-                    self._right_diagonal_moves.append((i - 2, j - 2))
-            elif self._board[i][self._y] == 2 or self._board[i][self._y] == 3:
-                for k in range(1, min(i - self._x, j - self._y)):
-                    if self._board[self._x + k][self._y + k] == 1:
-                        self._right_diagonal_moves.append((self._x + k, self._y + k))
-            else:
-                if self._board[i][j] == 1:
-                    self._right_diagonal_moves.append((i, j))
-            i += 1
-            j += 1
+        down_right_obstacle = False
+        for o in range(1, min(len(self._board) - self._x, len(self._board[0]) - self._y)):
+            if self._board[self._x + o][self._y + o] in [2, 3, 4, 5]:
+                down_right_obstacle = True
+                break
+        if down_right_obstacle:
+            for i in range(1, min(len(self._board) - self._x, len(self._board[0]) - self._y)):
+                if self._board[self._x + i][self._y + i] in [4, 5]:
+                    for i2 in range(1, i):
+                        if self._board[self._x + i2][self._y + i2] == 1:
+                            self._right_diagonal_moves.append((self._x + i2, self._y + i2))
+                    if self._x + i + 2 < len(self._board) and self._y + i + 2 < len(self._board[0]) and self._board[self._x + i + 2][self._y + i + 2] == 1:
+                        self._right_diagonal_moves.append((self._x + i + 2, self._y + i + 2))
+                        break
+                elif self._board[self._x + i][self._y + i] in [2, 3]:
+                    for i3 in range(1, i):
+                        if self._board[self._x + i3][self._y + i3] == 1:
+                            self._right_diagonal_moves.append((self._x + i3, self._y + i3))
+        else:
+            for i in range(1, min(len(self._board) - self._x, len(self._board[0]) - self._y)):
+                if self._board[self._x + i][self._y + i] == 1:
+                    self._right_diagonal_moves.append((self._x + i, self._y + i))
 
-        # Scan bottom-left diagonal
-        i, j = self._x + 1, self._y - 1
-        while i < len(self._board) and j >= 0:
-            if self._board[i][self._y] == 4 or self._board[i][self._y] == 5:
-                for k in range(1, min(i - self._x, self._y - j)):
-                    if self._board[self._x + k][self._y - k] == 1:
-                        self._left_diagonal_moves.append((self._x + k, self._y - k))
-                if i - 2 >= 0 and j + 2 < len(self._board[0]) and self._board[i - 2][j + 2] != 1:
-                    self._left_diagonal_moves.append((i - 2, j + 2))
-            elif self._board[i][self._y] == 2 or self._board[i][self._y] == 3:
-                for k in range(1, min(i - self._x, self._y - j)):
-                    if self._board[self._x + k][self._y - k] == 1:
-                        self._left_diagonal_moves.append((self._x + k, self._y - k))
-            else:
-                if self._board[i][j] == 1:
-                    self._left_diagonal_moves.append((i, j))
-            i += 1
-            j -= 1
+        down_left_obstacle = False
+        for o in range(1, min(len(self._board) - self._x, self._y + 1)):
+            if self._board[self._x + o][self._y - o] in [2, 3, 4, 5]:
+                down_left_obstacle = True
+                break
+        if down_left_obstacle:
+            for i in range(1, min(len(self._board) - self._x, self._y + 1)):
+                if self._board[self._x + i][self._y - i] in [4, 5]:
+                    for i2 in range(1, i):
+                        if self._board[self._x + i2][self._y - i2] == 1:
+                            self._left_diagonal_moves.append((self._x + i2, self._y - i2))
+                    if self._x + i + 2 < len(self._board) and self._y - i - 2 >= 0 and self._board[self._x + i + 2][self._y - i - 2] == 1:
+                        self._left_diagonal_moves.append((self._x + i + 2, self._y - i - 2))
+                        break
+                elif self._board[self._x + i][self._y - i] in [2, 3]:
+                    for i3 in range(1, i):
+                        if self._board[self._x + i3][self._y - i3] == 1:
+                            self._left_diagonal_moves.append((self._x + i3, self._y - i3))
+        else:
+            for i in range(1, min(len(self._board) - self._x, self._y + 1)):
+                if self._board[self._x + i][self._y - i] == 1:
+                    self._left_diagonal_moves.append((self._x + i, self._y - i))
+
 
 
     def get_diagonal_moves(self):
@@ -145,3 +162,27 @@ class RingsMoves:
         self.set_vertical_moves()
         self.set_diagonal_moves()
         return self.get_vertical_moves(), self.get_diagonal_moves()
+
+#    def set_diagonal_moves(self):
+ #       self._vertical_moves.clear()
+  #      up_right_obstacle = False
+   #     for o in range(1, min(self._x + 1, len(self._board[0]) - self._y)):
+    #        if self._board[self._x - o][self._y + o] in [2, 3, 4, 5]:
+     #           up_right_obstacle = True
+      #  if up_right_obstacle == True:
+       #     for i in range(self._x + 1, len(self._board)):
+        #        if self._board[self._x - i][self._y + i] in [4, 5]:
+         #           for i2 in range(self._y + 1, i):
+          #              if self._board[self._x - i2][self._y + i2] == 1:
+           #                 self._diagonal_moves.append((i2, i2))
+            #        if self._x - i - 2 >= 0 and self._y + i + 2 < len(self._board[0]) and self._board[self._x - i - 2][self._y + i + 2] == 1:
+             #           self._vertical_moves.append((i+2, i+2))
+              #          break
+               # elif self._board[i][self._y] in [2, 3]:
+                #    for i3 in range(self._x + 1, i):
+                 #       if self._board[i3][self._y] == 1:
+                  #          self._vertical_moves.append((i3, self._y))
+#        else:
+ #           for i in range(self._x + 1, len(self._board)):
+  #              if self._board[i][self._y] == 1:
+   #                 self._vertical_moves.append((i, self._y))
