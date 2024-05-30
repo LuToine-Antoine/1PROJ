@@ -111,37 +111,38 @@ class Game:
         self._click_x = x
         self._click_y = y
 
-        if self._round == 10:
-            self._player = 1
+        if self.in_board_verification(self._click_x, self._click_y):
+            if self._round == 10:
+                self._player = 1
 
-        if self._player == 1:
-            caseplayer = 2
-        else:
-            caseplayer = 3
+            if self._player == 1:
+                caseplayer = 2
+            else:
+                caseplayer = 3
 
-        if self._round < 10:
-            self.main_put_first_rings(self._click_x, self._click_y)
+            if self._round < 10:
+                self.main_put_first_rings(self._click_x, self._click_y)
 
-        elif self._round >= 10:
-            if self._board.board[self._click_x][self._click_y] == caseplayer:
-                if self._clickCount == 0:
-                    if self.main_put_pawns(self._click_x, self._click_y, self._player):
-                        self.main_see_moves_rings()
-                        self._clickCount = 1
+            elif self._round >= 10:
+                if self._board.board[self._click_x][self._click_y] == caseplayer:
+                    if self._clickCount == 0:
+                        if self.main_put_pawns(self._click_x, self._click_y, self._player):
+                            self.main_see_moves_rings()
+                            self._clickCount = 1
 
-            if self._clickCount == 1:
-                if self.main_move_rings(x, y, self._player):
-                    self._board.see_board()
-                    self._round += 1
-                    if self._player == 1:
-                        self._player = 2
-                    else:
-                        self._player = 1
-                    self._clickCount = 0
+                if self._clickCount == 1:
+                    if self.main_move_rings(x, y, self._player):
+                        self._board.see_board()
+                        self._round += 1
+                        if self._player == 1:
+                            self._player = 2
+                        else:
+                            self._player = 1
+                        self._clickCount = 0
 
-        # Reset click
-        self._click_x = None
-        self._click_y = None
+            # Reset click
+            self._click_x = None
+            self._click_y = None
 
         # End of the game
         match self.win():

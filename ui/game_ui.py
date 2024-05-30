@@ -128,12 +128,12 @@ class GameUI:
         pawn_1 = pygame.transform.scale(pawn_1, (sizex, sizey))
         pawn_2 = pygame.transform.scale(pawn_2, (sizex, sizey))
 
-        for j in range(len(self._main.get_board())):
-            for i in range(len(self._main.get_board()[0])):
-                if self._main.get_board()[j][i] == 1:
-                    pygame.draw.rect(self._screen, (0, 0, 0), (i * 54, j * 33, 54, 33), 0)
-                else :
-                    pygame.draw.rect(self._screen, (255, 0, 0), (i * 54, j * 33, 54, 33), 1)
+        #for j in range(len(self._main.get_board())):
+        #    for i in range(len(self._main.get_board()[0])):
+        #        if self._main.get_board()[j][i] == 1:
+        #            pygame.draw.rect(self._screen, (0, 0, 0), (i * 54, j * 33, 54, 33), 0)
+        #        else :
+        #            pygame.draw.rect(self._screen, (255, 0, 0), (i * 54, j * 33, 54, 33), 1)
 
         for i in range(len(self._main.get_board()[0])):
             for j in range(len(self._main.get_board())):
