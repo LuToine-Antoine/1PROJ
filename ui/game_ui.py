@@ -59,14 +59,14 @@ class GameUI:
                 if event.type == pygame.QUIT:
                     run = False
                 elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
-                    isintable = ((pos[0] // (530 // len(self._main.get_board())) * 0.525),
-                                 (pos[1] // (558 // len(self._main.get_board()) * 1.12)))
+                    isintable = ((pos[0] // (532 // len(self._main.get_board())) * 0.540),
+                                 (pos[1] // (558 // len(self._main.get_board()) * 1.15)))
                     self._main.game_loop(int(isintable[1]), int(isintable[0]))
                     self._screen.fill((255, 255, 255))
                     self.get_screen().blit(self.board(), (-20, -10))
                     print(int(isintable[1]), int(isintable[0]))
                     self.afficher_plateau()
-
+                    print(isintable)
             if leave_btn.draw():
                 sys.exit("Game leave")
             pygame.display.update()

@@ -234,7 +234,7 @@ class Game:
             return False
 
         print(x,y)
-        if ((x, y)) not in self._possibles.get_vertical_moves():
+        if (x, y) in self._possibles.get_vertical_moves():
             self._rotation.vertical_rotate(self._ring_move_x, self._ring_move_y, y)
         elif (x, y) in self._possibles.get_diagonal_moves():
             self._rotation.right_diagonal_rotate(self._ring_move_x, self._ring_move_y)
