@@ -38,6 +38,9 @@ class RingsMoves:
                 if self._board[j][self._y] == 1:
                     self._vertical_moves.append((j, self._y))
 
+    def get_vertical_moves(self):
+        return self._vertical_moves
+
     def set_diagonal_moves(self):
         self._right_diagonal_moves.clear()
         self._left_diagonal_moves.clear()
@@ -117,9 +120,6 @@ class RingsMoves:
                     self._left_diagonal_moves.append((i, j))
             i += 1
             j -= 1
-
-    def get_vertical_moves(self):
-        return self._vertical_moves
 
     def set_diagonal_moves(self):
         self._right_diagonal_moves.clear()

@@ -154,6 +154,9 @@ class Game:
             case False:
                 print("Game continue")
 
+    def get_click_count(self):
+        return self._clickCount
+
     def in_board_verification(self, x, y):
         """
         Use to check if the place selected is in the board
@@ -216,7 +219,7 @@ class Game:
 
         # Create a list of all possibles moves
         self.all_possibles_moves = self._possibles.get_vertical_moves() + self._possibles.get_diagonal_moves()
-        print("Possible horizontal : ", self._possibles.get_vertical_moves(), "Possible top left to bottom right : ", self._possibles.get_diagonal_moves(), sep="\n")
+        print("Possible vertical : ", self._possibles.get_vertical_moves(), "Possible top left to bottom right : ", self._possibles.get_diagonal_moves(), sep="\n")
 
         return self.all_possibles_moves
 
@@ -230,7 +233,7 @@ class Game:
             return False
 
         print(x,y)
-        if (x, y) in self._possibles.get_vertical_moves():
+        if ((x, y)) not in self._possibles.get_vertical_moves():
             self._rotation.vertical_rotate(self._ring_move_x, self._ring_move_y, y)
         elif (x, y) in self._possibles.get_diagonal_moves():
             self._rotation.right_diagonal_rotate(self._ring_move_x, self._ring_move_y)
