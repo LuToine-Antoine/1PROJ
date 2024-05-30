@@ -17,11 +17,12 @@ class Game:
         self._player = 1
         self._ring_move_x = 0
         self._ring_move_y = 0
+        self._clickCount = 0
         self.all_possibles_moves = []
         self._possibles = RingsMoves(0, 0, self._board.board)
         self._firstRing = Rings(0, 0, self._board.board)
-
-
+        self._click_x = None
+        self._click_y = None
 
     def set_game_mode(self, mode=0):
         self._game_mode = mode
@@ -95,21 +96,43 @@ class Game:
         """
         Use to run the game
         """
+        self._click_x = x
+        self._click_y = y
+
+        if self._round == 10:
+            self._player = 1
+
+        if self._player == 1:
+            caseplayer = 2
+        else:
+            caseplayer = 1
+
         print(self._round, self._player)
         if self._round < 10:
-            self.main_put_first_rings(x, y)
+            self.main_put_first_rings(self._click_x, self._click_y)
 
-        else:
-            self.main_put_pawns(x, y, self._player)
-            self.main_see_moves_rings()
-            self.main_move_rings(x, y, self._player)
-            self._board.see_board()
-            self._round += 1
-            if self._player == 1:
-                self._player = 2
-            else:
-                self._player = 1
+        elif self._round >= 10:
+            if self._board.board[self._click_x][self._click_y] == caseplayer:
+                if self._clickCount == 0:
+                    print("salut")
+                    if self.main_put_pawns(self._click_x, self._click_y, self._player):
+                        self.main_see_moves_rings()
+                        self._clickCount = 1
+                        print(self._click_x, self._click_y, x, y)
+            if self._clickCount == 1:
+                print("bonsoir", self._ring_move_x, self._ring_move_y)
+                if self.main_move_rings(x,y, self._player):
+                    self._board.see_board()
+                    self._round += 1
+                    if self._player == 1:
+                        self._player = 2
+                    else:
+                        self._player = 1
+                    self._clickCount = 0
 
+        # Reset click
+        self._click_x = None
+        self._click_y = None
 
         # End of the game
         match self.win():
@@ -120,12 +143,16 @@ class Game:
             case 3:
                 print("Equality")
             case False:
-                pass
+                print("Game continue")
+        print("Round : ", self._round)
+        print("Player : ", self._player)
+        print("Click count : ", self._clickCount)
+
     def in_board_verification(self, x, y):
         """
         Use to check if the place selected is in the board
         """
-        if 0 < x < 19 and 0 < y < 11:
+        if 0 <= x < 19 and 0 <= y < 11:
             return True
         else:
             return False
@@ -145,43 +172,48 @@ class Game:
         else:
             self._player = 1
 
+
     def main_put_pawns(self, x, y, player):
         """
         Use to place pawns on the board
         """
         pawns = Paws(x, y, self._board.board)
+        print(player)
 
         # In order to check if place selected is a ring of good player
         if self._player == 1:
             player_case = 2
         else:
             player_case = 3
+        print(player, "pion", player_case)
 
         if self.in_board_verification(x, y) and self._board.board[x][y] == player_case:
-            pawns.put_paws(x, y, self._board.board, self._player)
-            self._board.board[x][y] = self._player + 5
+            pawns.put_paws(x, y, self._board.board, player)
+            if player == 1:
+                self._board.board[x][y] = 6
+            else:
+                self._board.board[x][y] = 7
 
             # Use to check automaticaly ring's possibilities
             self._ring_move_x = x
             self._ring_move_y = y
 
             return self._ring_move_x, self._ring_move_y
+        else:
+            return False
 
     def main_see_moves_rings(self):
         """
         Check all possibles moves for rings where player has put his pawn
         """
         self.all_possibles_moves.clear()
-
+        print(self._player, "joueur")
         # Get all possibles moves
         self._possibles.get_possible_moves(self._ring_move_x, self._ring_move_y)
-        #if self._possibles.get_horizontal_moves() is None:
-        #    self.main_put_pawns()
 
         # Create a list of all possibles moves
-        self.all_possibles_moves = self._possibles.get_horizontal_moves() + self._possibles.get_diagonal_moves()
-        print("Possible horizontal : ", self._possibles.get_horizontal_moves(), "Possible top left to bottom right : ", self._possibles.get_diagonal_moves(), sep="\n")
-        self._board.see_board()
+        self.all_possibles_moves = self._possibles.get_vertical_moves() + self._possibles.get_diagonal_moves()
+        print("Possible horizontal : ", self._possibles.get_vertical_moves(), "Possible top left to bottom right : ", self._possibles.get_diagonal_moves(), sep="\n")
 
         return self.all_possibles_moves
 
@@ -191,21 +223,22 @@ class Game:
         """
         self._rotation = PawnRotate(self._board.board)
 
-        if self._player == 1:
-            player_case = 2
-        else:
-            player_case = 3
-
+        print("joueur", player, self._player)
         if not self.in_board_verification(x, y) or self._board.board[x][y] != 1 or (x,y) not in self.all_possibles_moves:
             return False
 
-        if (x, y) in self._possibles.get_horizontal_moves():
-            self._rotation.horizontal_rotate(self._ring_move_x, self._ring_move_y)
+        if (x, y) in self._possibles.get_vertical_moves():
+            self._rotation.vertical_rotate(self._ring_move_x, self._ring_move_y, y)
         elif (x, y) in self._possibles.get_diagonal_moves():
             self._rotation.right_diagonal_rotate(self._ring_move_x, self._ring_move_y)
 
-        self._board.board[x][y] = player_case
+        if self._player == 1:
+            self._board.board[x][y] = 2
+        else:
+            self._board.board[x][y] = 3
         self._board.board[self._ring_move_x][self._ring_move_y] = self._player + 3
+
+        return True
 
 
     def alignement(self):
