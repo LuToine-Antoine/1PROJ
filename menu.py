@@ -19,7 +19,7 @@ class Menu:
         self._leave_btn = Button(1200, 0, self._leave_img, 0.03)
 
         self._back_img = pygame.image.load('images/back.png').convert_alpha()
-        self._back_btn = Button(500, 700, self._back_img, 1)
+        self._back_btn = Button(288, 300, self._back_img, 0.32)
 
         self._main = Game()
         self._board_ui = GameUI()
@@ -38,12 +38,10 @@ class Menu:
         solo_img = pygame.image.load('images/menu/button_solo.png').convert_alpha()
         local_img = pygame.image.load('images/menu/button_local.png').convert_alpha()
         rules_img = pygame.image.load('images/menu/button_rules.png').convert_alpha()
-        setting_img = pygame.image.load('images/menu/button_settings.png').convert_alpha()
 
         solo_button = Button(288, -10, solo_img, 0.32)
         local_button = Button(288, 110, local_img, 0.32)
         rules_button = Button(288, 240, rules_img, 0.32)
-        setting_button = Button(288, 360, setting_img, 0.32)
 
         logo_img = pygame.image.load('images/menu/logo_yinch.png').convert_alpha()
         logo_button = Button(550, 0, logo_img, 0.1)
@@ -61,7 +59,6 @@ class Menu:
             local_button.draw()
             if rules_button.draw():
                 self.display_rules()
-            setting_button.draw()
             logo_button.draw()
 
             for event in pygame.event.get():
@@ -87,7 +84,7 @@ class Menu:
                 sys.exit("Game leave")
 
             if self._back_btn.draw():
-                Menu()
+                self.window()
 
             if normal_btn.draw():
                 self._main.set_game_mode(0)
@@ -123,7 +120,7 @@ class Menu:
                 sys.exit("Game leave")
 
             if self._back_btn.draw():
-                Menu()
+                self.window()
 
             if normal_btn.draw():
                 self._main.set_game_mode(0)
@@ -193,11 +190,11 @@ class Menu:
 
             display_surface.fill(sakura)
 
+            if self._back_btn.draw():
+                self.window()
+
             if self._leave_btn.draw():
                 sys.exit("Game leave")
-
-            if self._back_btn.draw():
-                Menu()
 
             display_surface.blit(title, title_rect)
             display_surface.blit(text_0, (100, 100))
