@@ -105,23 +105,20 @@ class Game:
         if self._player == 1:
             caseplayer = 2
         else:
-            caseplayer = 1
+            caseplayer = 3
 
-        print(self._round, self._player)
         if self._round < 10:
             self.main_put_first_rings(self._click_x, self._click_y)
 
         elif self._round >= 10:
             if self._board.board[self._click_x][self._click_y] == caseplayer:
                 if self._clickCount == 0:
-                    print("salut")
                     if self.main_put_pawns(self._click_x, self._click_y, self._player):
                         self.main_see_moves_rings()
                         self._clickCount = 1
-                        print(self._click_x, self._click_y, x, y)
+
             if self._clickCount == 1:
-                print("bonsoir", self._ring_move_x, self._ring_move_y)
-                if self.main_move_rings(x,y, self._player):
+                if self.main_move_rings(x, y, self._player):
                     self._board.see_board()
                     self._round += 1
                     if self._player == 1:
@@ -144,9 +141,6 @@ class Game:
                 print("Equality")
             case False:
                 print("Game continue")
-        print("Round : ", self._round)
-        print("Player : ", self._player)
-        print("Click count : ", self._clickCount)
 
     def get_player(self):
         return self._player
@@ -181,14 +175,12 @@ class Game:
         Use to place pawns on the board
         """
         pawns = Paws(x, y, self._board.board)
-        print(player)
 
         # In order to check if place selected is a ring of good player
         if self._player == 1:
             player_case = 2
         else:
             player_case = 3
-        print(player, "pion", player_case)
 
         if self.in_board_verification(x, y) and self._board.board[x][y] == player_case:
             pawns.put_paws(x, y, self._board.board, player)
@@ -210,7 +202,6 @@ class Game:
         Check all possibles moves for rings where player has put his pawn
         """
         self.all_possibles_moves.clear()
-        print(self._player, "joueur")
         # Get all possibles moves
         self._possibles.get_possible_moves(self._ring_move_x, self._ring_move_y)
 
@@ -226,10 +217,10 @@ class Game:
         """
         self._rotation = PawnRotate(self._board.board)
 
-        print("joueur", player, self._player)
         if not self.in_board_verification(x, y) or self._board.board[x][y] != 1 or (x,y) not in self.all_possibles_moves:
             return False
 
+        print(x,y)
         if (x, y) in self._possibles.get_vertical_moves():
             self._rotation.vertical_rotate(self._ring_move_x, self._ring_move_y, y)
         elif (x, y) in self._possibles.get_diagonal_moves():
