@@ -41,12 +41,12 @@ class GameUI:
                 if event.type == pygame.QUIT:
                     run = False
                 elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
-                    isintable = ((pos[0] // (530 // len(self._main.get_board())) * 0.5525),
-                                 (pos[1] // (535 // len(self._main.get_board()) * 1.10)))
+                    isintable = ((pos[0] // (530 // len(self._main.get_board())) * 0.525),
+                                 (pos[1] // (558 // len(self._main.get_board()) * 1.12)))
                     self._main.game_loop(int(isintable[1]), int(isintable[0]))
                     self._screen.fill((255, 255, 255))
                     self.get_screen().blit(self.board(), (-20, -10))
-
+                    print(int(isintable[1]), int(isintable[0]))
                     self.afficher_plateau()
 
             if leave_btn.draw():
@@ -70,12 +70,12 @@ class GameUI:
         pawn_1 = pygame.transform.scale(pawn_1, (sizex, sizey))
         pawn_2 = pygame.transform.scale(pawn_2, (sizex, sizey))
 
-        #for j in range(len(self._main.get_board())):
-        #    for i in range(len(self._main.get_board()[0])):
-        #        if self._main.get_board()[j][i] == 1:
-        #            pygame.draw.rect(self._screen, (0, 0, 0), (i * 54, j * 33, 54, 33), 0)
-        #        else :
-        #            pygame.draw.rect(self._screen, (255, 0, 0), (i * 54, j * 33, 54, 33), 1)
+        for j in range(len(self._main.get_board())):
+            for i in range(len(self._main.get_board()[0])):
+                if self._main.get_board()[j][i] == 1:
+                    pygame.draw.rect(self._screen, (0, 0, 0), (i * 54, j * 33, 54, 33), 0)
+                else :
+                    pygame.draw.rect(self._screen, (255, 0, 0), (i * 54, j * 33, 54, 33), 1)
 
 
         for i in range(len(self._main.get_board()[0])):
