@@ -113,7 +113,6 @@ class RingsMoves:
             j += 1
         
         # Scan bottom-left diagonal
-<<<<<<< HEAD
         i, j = self._x + 1, self._y - 1
         while i < len(self._board) and j >= 0:
             if self._board[self._x][i] == 4 or self._board[self._x][i] == 5:
