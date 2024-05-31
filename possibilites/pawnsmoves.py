@@ -3,11 +3,11 @@ class PawnRotate:
         self._board = board
 
     def vertical_rotate(self, departure_x, departure_y, arrival_y):
-        # Assurez-vous que departure_y est inférieur ou égal à arrival_y
+        # Ensure departure_y is less than or equal to arrival_y
         if departure_y > arrival_y:
             departure_y, arrival_y = arrival_y, departure_y
 
-        # Parcourez la colonne à partir de departure_y + 1 jusqu'à arrival_y
+        # Traverse the column from departure_y + 1 to arrival_y
         for i in range(departure_y + 1, arrival_y):
             if self._board[i][departure_x] == 4:
                 self._board[i][departure_x] = 5
@@ -16,47 +16,42 @@ class PawnRotate:
 
         return self._board
 
-    def right_diagonal_rotate(self, departure_x, departure_y):
-        min_left = min(departure_x + 1, departure_y + 1)  # For no out of range
-        for i in range(1, min_left):
+    def diagonal_rotate_left(self, departure_x, departure_y):
+        # Top-left to bottom-right
+        min_top_left = min(departure_x, departure_y)
+        for i in range(1, min_top_left + 1):
             x, y = departure_x - i, departure_y - i
-            if x != departure_x or y != departure_y:
-                if self._board[x][y] == 4:
-                    self._board[x][y] = 5
-                elif self._board[x][y] == 5:
-                    self._board[x][y] = 4
+            if self._board[x][y] == 4:
+                self._board[x][y] = 5
+            elif self._board[x][y] == 5:
+                self._board[x][y] = 4
 
-        max_right = min(len(self._board) - departure_x, len(self._board[0]) - departure_y)  # For no out of range
-        for i in range(1, max_right):
+        max_bottom_right = min(len(self._board) - departure_x, len(self._board[0]) - departure_y)
+        for i in range(1, max_bottom_right):
             x, y = departure_x + i, departure_y + i
-            if x != departure_x or y != departure_y:
-                if self._board[x][y] == 4:
-                    self._board[x][y] = 5
-                elif self._board[x][y] == 5:
-                    self._board[x][y] = 4
+            if self._board[x][y] == 4:
+                self._board[x][y] = 5
+            elif self._board[x][y] == 5:
+                self._board[x][y] = 4
+
         return self._board
 
-    def left_diagonal_rotate(self, departure_x, departure_y):
-        # For no out of range, top-right to bottom-left
-        min_right = min(departure_x + 1, len(self._board[0]) - departure_y)
-        for i in range(1, min_right):
-            x, y = departure_x - i + 1, departure_y + i - 1
-            if x != departure_x or y != departure_y:
-                if self._board[x][y] == 4:
-                    self._board[x][y] = 5
-                elif self._board[x][y] == 5:
-                    self._board[x][y] = 4
+    def diagonal_rotate_right(self, departure_x, departure_y):
+        # Top-right to bottom-left
+        min_top_right = min(departure_x, len(self._board[0]) - departure_y - 1)
+        for i in range(1, min_top_right + 1):
+            x, y = departure_x - i, departure_y + i
+            if self._board[x][y] == 4:
+                self._board[x][y] = 5
+            elif self._board[x][y] == 5:
+                self._board[x][y] = 4
 
-        # For no out of range, bottom-left to top-right
-        max_left = min(len(self._board) - departure_x, departure_y + 1)
-        for i in range(1, max_left):
+        max_bottom_left = min(len(self._board) - departure_x, departure_y + 1)
+        for i in range(1, max_bottom_left):
             x, y = departure_x + i, departure_y - i
-            if x != departure_x or y != departure_y:
-                if self._board[x][y] == 4:
-                    self._board[x][y] = 5
-                elif self._board[x][y] == 5:
-                    self._board[x][y] = 4
+            if self._board[x][y] == 4:
+                self._board[x][y] = 5
+            elif self._board[x][y] == 5:
+                self._board[x][y] = 4
 
         return self._board
-
-
