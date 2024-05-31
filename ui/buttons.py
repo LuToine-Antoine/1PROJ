@@ -1,7 +1,7 @@
 import pygame as pygame
 
 
-class Button:
+class ButtonUi:
     def __init__(self, x, y, image, scale, screen_width=1280, screen_height=720,):
         self._width = image.get_width()
         self._height = image.get_height()

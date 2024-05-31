@@ -15,7 +15,7 @@ class GameUI:
         self._leave_img = pygame.image.load('images/leave.png').convert_alpha()
         self.show_possible_moves = []
         self._back_img = pygame.image.load('images/back.png').convert_alpha()
-        self._back_btn = Button(570, 300, self._back_img, 0.32)
+        self._back_btn = ButtonUi(570, 300, self._back_img, 0.32)
 
     def get_screen(self):
         return self._screen

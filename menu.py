@@ -16,16 +16,13 @@ class Menu:
         self._bg = pygame.image.load('images/menu/bg.jpg').convert_alpha()
 
         self._leave_img = pygame.image.load('images/leave.png').convert_alpha()
-        self._leave_btn = Button(1200, 0, self._leave_img, 0.03)
+        self._leave_btn = ButtonUi(1200, 0, self._leave_img, 0.03)
 
         self._back_img = pygame.image.load('images/back.png').convert_alpha()
-        self._back_btn = Button(288, 300, self._back_img, 0.32)
+        self._back_btn = ButtonUi(288, 300, self._back_img, 0.32)
 
         super(GameUI)
         self._board_ui = GameUI()
-
-    def get_screen(self):
-        return self._screen
 
     def music_menu(self):
         pygame.mixer.init()
@@ -42,9 +39,9 @@ class Menu:
         multiplayer_img = pygame.image.load('images/menu/button_multiplayer.png').convert_alpha()
         rules_img = pygame.image.load('images/menu/button_rules.png').convert_alpha()
 
-        solo_button = Button(288, 45, solo_img, 0.32)
-        multiplayer_button = Button(288, 175, multiplayer_img, 0.32)
-        rules_button = Button(288, 330, rules_img, 0.32)
+        solo_button = ButtonUi(288, 45, solo_img, 0.32)
+        multiplayer_button = ButtonUi(288, 175, multiplayer_img, 0.32)
+        rules_button = ButtonUi(288, 330, rules_img, 0.32)
 
         logo_img = pygame.image.load('images/menu/logo_yinch.png').convert_alpha()
         logo = pygame.transform.scale(logo_img, (int(self._screen_width * 0.15), int(self._screen_height * 0.265)))
@@ -52,7 +49,7 @@ class Menu:
         run = True
         while run:
 
-            self.get_screen().blit(self._bg, (0, 0))
+            self._screen.blit(self._bg, (0, 0))
 
             if self._leave_btn.draw():
                 sys.exit("Game leave")
@@ -80,12 +77,12 @@ class Menu:
         normal_img = pygame.image.load('images/menu/button_classic.png').convert_alpha()
         blitz_img = pygame.image.load('images/menu/button_blitz.png').convert_alpha()
 
-        normal_btn = Button(288, -10, normal_img, 0.32)
-        blitz_btn = Button(288, 110, blitz_img, 0.32)
+        normal_btn = ButtonUi(288, -10, normal_img, 0.32)
+        blitz_btn = ButtonUi(288, 110, blitz_img, 0.32)
 
         while True:
 
-            self.get_screen().blit(self._bg, (0, 0))
+            self._screen.blit(self._bg, (0, 0))
 
             if self._leave_btn.draw():
                 sys.exit("Game leave")
@@ -97,6 +94,7 @@ class Menu:
                 self._board_ui.get_game().set_game_mode(0)
                 pygame.mixer.music.pause()
                 self._board_ui.window()
+
             if blitz_btn.draw():
                 self._board_ui.get_game().set_game_mode(1)
                 pygame.mixer.music.pause()
@@ -113,14 +111,14 @@ class Menu:
         pygame.display.set_caption('Yinch Multiplayer mode')
 
         local_img = pygame.image.load('images/menu/multi_menu/button_local.png').convert_alpha()
-        local_button = Button(288, -10, local_img, 0.32)
+        local_button = ButtonUi(288, -10, local_img, 0.32)
 
         online_img = pygame.image.load('images/menu/multi_menu/button_online.png').convert_alpha()
-        online_button = Button(288, -10, online_img, 0.32)
+        online_button = ButtonUi(288, -10, online_img, 0.32)
 
         while True:
 
-            self.get_screen().blit(self._bg, (0, 0))
+            self._screen.blit(self._bg, (0, 0))
 
             local_button.draw()
             online_button.draw()
@@ -142,12 +140,12 @@ class Menu:
         normal_img = pygame.image.load('images/menu/button_classic.png').convert_alpha()
         blitz_img = pygame.image.load('images/menu/button_blitz.png').convert_alpha()
 
-        normal_btn = Button(288, -10, normal_img, 0.32)
-        blitz_btn = Button(288, 110, blitz_img, 0.32)
+        normal_btn = ButtonUi(288, -10, normal_img, 0.32)
+        blitz_btn = ButtonUi(288, 110, blitz_img, 0.32)
 
         while True:
 
-            self.get_screen().blit(self._bg, (0, 0))
+            self._screen.blit(self._bg, (0, 0))
 
             if self._leave_btn.draw():
                 sys.exit("Game leave")
@@ -173,8 +171,6 @@ class Menu:
     def display_rules(self):
         black = (0, 0, 0)
         sakura = (214, 173, 166)
-
-        display_surface = pygame.display.set_mode((self._screen_width, self._screen_height))
         scale = 0.2
 
         pygame.display.set_caption('Yinch Rules')
@@ -220,7 +216,7 @@ class Menu:
         # infinite loop
         while True:
 
-            display_surface.fill(sakura)
+            self._screen.fill(sakura)
 
             if self._back_btn.draw():
                 self.window()
@@ -228,20 +224,20 @@ class Menu:
             if self._leave_btn.draw():
                 sys.exit("Game leave")
 
-            display_surface.blit(title, title_rect)
-            display_surface.blit(text_0, (100, 100))
-            display_surface.blit(text_1, (100, 130))
-            display_surface.blit(text_2, (100, 160))
+            self._screen.blit(title, title_rect)
+            self._screen.blit(text_0, (100, 100))
+            self._screen.blit(text_1, (100, 130))
+            self._screen.blit(text_2, (100, 160))
 
-            display_surface.blit(img_ring_1, (200, 170))
-            display_surface.blit(text_ring_1, (250, 370))
-            display_surface.blit(img_ring_2, (400, 170))
-            display_surface.blit(text_ring_2, (450, 370))
+            self._screen.blit(img_ring_1, (200, 170))
+            self._screen.blit(text_ring_1, (250, 370))
+            self._screen.blit(img_ring_2, (400, 170))
+            self._screen.blit(text_ring_2, (450, 370))
 
-            display_surface.blit(img_pawn_1, (700, 170))
-            display_surface.blit(text_pawn_1, (780, 370))
-            display_surface.blit(img_pawn_2, (900, 170))
-            display_surface.blit(text_pawn_2, (970, 370))
+            self._screen.blit(img_pawn_1, (700, 170))
+            self._screen.blit(text_pawn_1, (780, 370))
+            self._screen.blit(img_pawn_2, (900, 170))
+            self._screen.blit(text_pawn_2, (970, 370))
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
