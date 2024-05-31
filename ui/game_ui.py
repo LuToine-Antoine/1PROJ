@@ -35,7 +35,7 @@ class GameUI:
         red = (255, 0, 0)
         blue = (0, 0, 255)
 
-        leave_btn = Button(1200, 0, self._leave_img, 0.03)
+        leave_btn = ButtonUi(1200, 0, self._leave_img, 0.03)
 
         self._screen.fill((255, 255, 255))
         self._screen.blit(self.board(), (-20, -10))
