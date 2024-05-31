@@ -219,8 +219,8 @@ class Game:
         self._possibles.get_possible_moves(self._ring_move_x, self._ring_move_y)
 
         # Create a list of all possibles moves
-        self.all_possibles_moves = self._possibles.get_vertical_moves() + self._possibles.get_diagonal_moves()
-        print("Possible vertical : ", self._possibles.get_vertical_moves(), "Possible top left to bottom right : ", self._possibles.get_diagonal_moves(), sep="\n")
+        self.all_possibles_moves = self._possibles.get_vertical_moves() + self._possibles.get_left_diagonal_moves() + self._possibles.get_right_diagonal_moves()
+        print("Possible vertical : ", self._possibles.get_vertical_moves(), "Possible top left to bottom right : ", self._possibles.get_right_diagonal_moves(), self._possibles.get_left_diagonal_moves(), sep="\n")
 
         return self.all_possibles_moves
 
@@ -237,8 +237,11 @@ class Game:
 
         if (x, y) in self._possibles.get_vertical_moves():
             self._rotation.vertical_rotate(self._ring_move_y, self._ring_move_x, x)
-        elif (x, y) in self._possibles.get_diagonal_moves():
-            self._rotation.right_diagonal_rotate(self._ring_move_y, self._ring_move_x)
+        elif (x, y) in self._possibles.get_right_diagonal_moves():
+            self._rotation.diagonal_rotate_right(self._ring_move_x, self._ring_move_y)
+        elif (x, y) in self._possibles.get_left_diagonal_moves():
+            self._rotation.diagonal_rotate_left(self._ring_move_x, self._ring_move_y)
+
 
         if self._player == 1:
             self._board.board[x][y] = 2
