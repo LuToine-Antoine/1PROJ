@@ -20,7 +20,7 @@ class RingsMoves:
                     for i2 in range(self._x + 1, i):
                         if self._board[i2][self._y] == 1:
                             self._vertical_moves.append((i2, self._y))
-                    if i + 2 < len(self._board) and self._board[i + 2][self._y] == 1:
+                    if i + 2 < len(self._board) and self._board[i + 2][self._y] == 1 and not self._board[i + 2][self._y] == [2,3,4,5]:
                         self._vertical_moves.append((i + 2, self._y))
                         break
                 elif self._board[i][self._y] in [2, 3]:
@@ -40,7 +40,7 @@ class RingsMoves:
                     for j2 in range(j + 1, self._x):
                         if self._board[j2][self._y] == 1:
                             self._vertical_moves.append((j2, self._y))
-                    if j - 2 >= 0 and self._board[j - 2][self._y] == 1:
+                    if j - 2 >= 0 and self._board[j - 2][self._y] == 1 and not self._board[j - 2][self._y] == [2,3,4,5]:
                         self._vertical_moves.append((j - 2, self._y))
                         break
                 elif self._board[j][self._y] in [2, 3]:
