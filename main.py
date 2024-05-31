@@ -19,6 +19,8 @@ class Game:
         self._ring_move_y = 0
         self._clickCount = 0
         self.all_possibles_moves = []
+        self._pawns = Paws(0, 0, self._board.board)
+        self._pawnStock = self._pawns.empty_stock(self._board.board)
         self._possibles = RingsMoves(0, 0, self._board.board)
         self._firstRing = Rings(0, 0, self._board.board)
         self._click_x = None
@@ -64,8 +66,6 @@ class Game:
         """
         board = BoardStruct()
         numberRing = Rings(0, 0, board.board)
-        pawns = Paws(0, 0, board.board)
-        pawnStock = pawns.pawns_stock(board.board)
         numberRingPlayer1 = numberRing.get_player_1_ring()
         numberRingPlayer2 = numberRing.get_player_2_ring()
 
@@ -80,7 +80,7 @@ class Game:
                 return 1  # Player 1 win
             elif numberRingPlayer2 == numberToWin:
                 return 2  # Player 2 win
-            elif pawnStock:  # No pawns left
+            elif self._pawnStock:  # No pawns left
                 if numberRingPlayer1 > numberRingPlayer2:
                     return 1  # Player 1 win
                 elif numberRingPlayer2 > numberRingPlayer1:
@@ -93,7 +93,7 @@ class Game:
                 return 2  # Player 2 win
             elif numberRingPlayer1 == numberToWin:
                 return 1  # Player 1 win
-            elif pawnStock:  # No pawns left
+            elif self._pawnStock:  # No pawns left
                 if numberRingPlayer2 > numberRingPlayer1:
                     return 2  # Player 2 win
                 elif numberRingPlayer1 > numberRingPlayer2:
@@ -154,6 +154,9 @@ class Game:
                 print("Equality")
             case False:
                 print("Game continue")
+
+        self._pawns.empty_stock(self._board.board)
+        print(self._pawnStock)
 
     def get_click_count(self):
         return self._clickCount

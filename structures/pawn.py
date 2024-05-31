@@ -5,22 +5,26 @@ class Paws:
         self._x = x
         self._y = y
         self._board = board
+        self._stock = None
 
-    def pawns_stock(self, board):
+    def empty_stock(self, board):
         """
         Check if stock is empty or not
         """
         stock = 51
 
         for i in range(len(board)):
-            for j in range(len(board[i])):
-                if board[i][j] == 3 or board[i][j] == 4:
+            for j in range(len(board[0])):
+                if board[i][j] == 4 or board[i][j] == 5:
                     stock -= 1
 
-        if stock != 0:
-            return False  # Stock is not empty
-        else:
-            return True
+        self._stock = stock
+        if stock == 0:
+            return True # Stock is empty
+        print(stock, "stcok pawn fichier")
+
+    def get_stock(self):
+        return self._stock
 
     def put_paws(self, x, y, board, player):
         """
