@@ -21,7 +21,7 @@ class Menu:
         self._back_img = pygame.image.load('images/back.png').convert_alpha()
         self._back_btn = Button(288, 300, self._back_img, 0.32)
 
-        self._main = Game()
+        super(GameUI)
         self._board_ui = GameUI()
 
     def get_screen(self):
@@ -32,19 +32,22 @@ class Menu:
         pygame.mixer.music.load('musics/menu_music.ogg', "ogg")
         pygame.mixer.music.set_volume(1.0)
         pygame.mixer.music.play(loops=-1, start=0.0)
+        return print("music ok")
 
     def window(self):
 
+        pygame.display.set_caption('Yinch menu - LuToine')
+
         solo_img = pygame.image.load('images/menu/button_solo.png').convert_alpha()
-        local_img = pygame.image.load('images/menu/button_local.png').convert_alpha()
+        multiplayer_img = pygame.image.load('images/menu/button_multiplayer.png').convert_alpha()
         rules_img = pygame.image.load('images/menu/button_rules.png').convert_alpha()
 
-        solo_button = Button(288, -10, solo_img, 0.32)
-        local_button = Button(288, 110, local_img, 0.32)
-        rules_button = Button(288, 240, rules_img, 0.32)
+        solo_button = Button(288, 45, solo_img, 0.32)
+        multiplayer_button = Button(288, 175, multiplayer_img, 0.32)
+        rules_button = Button(288, 330, rules_img, 0.32)
 
         logo_img = pygame.image.load('images/menu/logo_yinch.png').convert_alpha()
-        logo_button = Button(550, 0, logo_img, 0.1)
+        logo = pygame.transform.scale(logo_img, (int(self._screen_width * 0.15), int(self._screen_height * 0.265)))
 
         run = True
         while run:
@@ -56,10 +59,14 @@ class Menu:
 
             if solo_button.draw():
                 self.display_solo()
-            local_button.draw()
+
+            if multiplayer_button.draw():
+                self.display_multi()
+
             if rules_button.draw():
                 self.display_rules()
-            logo_button.draw()
+
+            self._screen.blit(logo, (540, 40))
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -67,7 +74,7 @@ class Menu:
             pygame.display.update()
 
     def display_solo(self):
-        self._main.set_game_mode(0)
+        self._board_ui.get_game().set_game_mode(0)
         pygame.display.set_caption('Yinch Solo mode')
 
         normal_img = pygame.image.load('images/menu/button_classic.png').convert_alpha()
@@ -87,11 +94,11 @@ class Menu:
                 self.window()
 
             if normal_btn.draw():
-                self._main.set_game_mode(0)
+                self._board_ui.get_game().set_game_mode(0)
                 pygame.mixer.music.pause()
                 self._board_ui.window()
             if blitz_btn.draw():
-                self._main.set_game_mode(1)
+                self._board_ui.get_game().set_game_mode(1)
                 pygame.mixer.music.pause()
                 self._board_ui.window()
 
@@ -101,8 +108,34 @@ class Menu:
                     sys.exit("Game leave")
                 pygame.display.update()
 
+    def display_multi(self):
+
+        pygame.display.set_caption('Yinch Multiplayer mode')
+
+        local_img = pygame.image.load('images/menu/multi_menu/button_local.png').convert_alpha()
+        local_button = Button(288, -10, local_img, 0.32)
+
+        online_img = pygame.image.load('images/menu/multi_menu/button_online.png').convert_alpha()
+        online_button = Button(288, -10, online_img, 0.32)
+
+        while True:
+
+            self.get_screen().blit(self._bg, (0, 0))
+
+            local_button.draw()
+            online_button.draw()
+
+            if self._back_btn.draw():
+                self.window()
+
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    sys.exit("Game leave")
+                pygame.display.update()
+
     def display_local(self):
-        self._main.set_game_mode(1)
+        self._board_ui.get_game().set_game_mode(1)
 
         pygame.display.set_caption('Yinch Local Mode')
 
@@ -123,11 +156,11 @@ class Menu:
                 self.window()
 
             if normal_btn.draw():
-                self._main.set_game_mode(0)
+                self._board_ui.get_game().set_game_mode(0)
                 pygame.mixer.music.pause()
                 self._board_ui.window()
             if blitz_btn.draw():
-                self._main.set_game_mode(1)
+                self._board_ui.get_game().set_game_mode(1)
                 pygame.mixer.music.pause()
                 self._board_ui.window()
 
@@ -150,38 +183,37 @@ class Menu:
         font_title = pygame.font.SysFont('freesansbold.ttf', 50)
         font_text = pygame.font.Font('freesansbold.ttf', 20)
 
-        title = font_title.render(
-            'Yinsh - Règles', True, black)
+        # Text bloc
+        title = font_title.render('Yinsh - Règles', True, black)
         text_0 = font_text.render("Le but du jeu est d'aligner 5 pions afin de retirer 3 anneaux (en mode normal) ou 1 anneau (en mode blitz, rapide).", True, black)
         text_1 = font_text.render("En début de partie, chaques joueurs pose ses 5 anneaux sur le plateau a tour de rôle. Les pions se placent ensuite", True, black)
         text_2 = font_text.render("dans 1 anneaux et cet anneau se déplace sur les lignes à partir de sa position initiale.", True, black)
 
+        # Bloc ring 1
         img_ring_1 = pygame.image.load('images/game/ring_player_1.png').convert_alpha()
-        img_ring_2 = pygame.image.load('images/game/ring_player_2.png').convert_alpha()
-
         img_ring_1 = pygame.transform.scale(img_ring_1,
                                             (int(self._screen_width * scale), int((self._screen_height + 500) * scale)))
-
         text_ring_1 = font_text.render("Anneau joueur 1", True, black)
 
+        # Bloc ring 2
+        img_ring_2 = pygame.image.load('images/game/ring_player_2.png').convert_alpha()
         img_ring_2 = pygame.transform.scale(img_ring_2,
                                             (int(self._screen_width * scale), int((self._screen_height + 500) * scale)))
-
         text_ring_2 = font_text.render("Anneau joueur 2", True, black)
 
+        # Bloc pawn 1
         img_pawn_1 = pygame.image.load('images/game/pawn_player_1.png').convert_alpha()
-        img_pawn_2 = pygame.image.load('images/game/pawn_player_2.png').convert_alpha()
-
         img_pawn_1 = pygame.transform.scale(img_pawn_1,
                                             (int(self._screen_width * scale), int((self._screen_height + 350) * scale)))
-
         text_pawn_1 = font_text.render("Pion joueur 1", True, black)
 
+        # Bloc pawn 2
+        img_pawn_2 = pygame.image.load('images/game/pawn_player_2.png').convert_alpha()
         img_pawn_2 = pygame.transform.scale(img_pawn_2,
                                             (int(self._screen_width * scale), int((self._screen_height + 350) * scale)))
-
         text_pawn_2 = font_text.render("Pion joueur 1", True, black)
 
+        # Placement du titre
         title_rect = title.get_rect()
         title_rect.center = (self._screen_width // 2, 35)
 

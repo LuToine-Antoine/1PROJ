@@ -20,6 +20,9 @@ class GameUI:
     def get_screen(self):
         return self._screen
 
+    def get_game(self):
+        return self._main
+
     def board(self):
         pygame.display.set_caption('Yinch')
         board_img = pygame.image.load('images/game/plateau_yinch.png').convert_alpha()
