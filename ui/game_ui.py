@@ -11,8 +11,9 @@ class GameUI:
         self._screen_width = width
         self._screen = pygame.display.set_mode((self._screen_width, self._screen_height))
         self._main = Game()
+        self._possibles = RingsMoves(0, 0, self._main.get_board())
         self._leave_img = pygame.image.load('images/leave.png').convert_alpha()
-
+        self.show_possible_moves = []
         self._back_img = pygame.image.load('images/back.png').convert_alpha()
         self._back_btn = Button(570, 300, self._back_img, 0.32)
 
@@ -67,6 +68,16 @@ class GameUI:
                     print(int(isintable[1]), int(isintable[0]))
                     self.afficher_plateau()
                     print(isintable)
+
+                elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 3:
+                    see_moves = ((pos[0] // (532 // len(self._main.get_board())) * 0.540),
+                                 (pos[1] // (558 // len(self._main.get_board()) * 1.15)))
+                    if self._main.get_board()[int(see_moves[1])][int(see_moves[0])] in (2, 3, 6, 7):
+                        self._screen.fill((255, 255, 255))
+                        self.get_screen().blit(self.board(), (-20, -10))
+                        self.view_possible_moves(int(see_moves[1]), int(see_moves[0]))
+                        self.afficher_plateau()
+
             if leave_btn.draw():
                 sys.exit("Game leave")
             pygame.display.update()
@@ -128,13 +139,6 @@ class GameUI:
         pawn_1 = pygame.transform.scale(pawn_1, (sizex, sizey))
         pawn_2 = pygame.transform.scale(pawn_2, (sizex, sizey))
 
-        #for j in range(len(self._main.get_board())):
-        #    for i in range(len(self._main.get_board()[0])):
-        #        if self._main.get_board()[j][i] == 1:
-        #            pygame.draw.rect(self._screen, (0, 0, 0), (i * 54, j * 33, 54, 33), 0)
-        #        else :
-        #            pygame.draw.rect(self._screen, (255, 0, 0), (i * 54, j * 33, 54, 33), 1)
-
         for i in range(len(self._main.get_board()[0])):
             for j in range(len(self._main.get_board())):
                 board_ui = self._main.get_board()[j][i]
@@ -151,3 +155,15 @@ class GameUI:
                         self._screen.blit(pawn_ring_1, ((-15) +i * 54,(-15) + j * 33))
                     case 7:
                         self._screen.blit(pawn_ring_2, ((-15) +i * 54,(-15) + j * 33))
+
+    def view_possible_moves(self, x, y):
+        self.show_possible_moves.clear()
+        possible = pygame.image.load('images/game/case_possible.png').convert_alpha()
+        possible = pygame.transform.scale(possible, (70, 70))
+        self.show_possible_moves = list(self._possibles.get_possible_moves(x, y))
+
+        for i in range(len(self._main.get_board()[0])):
+            for j in range(len(self._main.get_board())):
+                for x in range(len(self.show_possible_moves)):
+                    if (j, i) in self.show_possible_moves[x]:
+                        self._screen.blit(possible, ((-10) + i * 54, (-10) + j * 33))

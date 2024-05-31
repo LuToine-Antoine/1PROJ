@@ -161,12 +161,15 @@ class RingsMoves:
     def get_left_diagonal_moves(self):
         return self._left_diagonal_moves
 
+    def get_diagonal_moves(self):
+        return self._right_diagonal_moves + self._left_diagonal_moves
+
     def get_possible_moves(self, x, y):
         self._x = x
         self._y = y
         self.set_vertical_moves()
         self.set_diagonal_moves()
-        return self.get_vertical_moves(), self.get_right_diagonal_moves(), self.get_left_diagonal_moves()
+        return self.get_vertical_moves(), self.get_diagonal_moves()
 
 #    def set_diagonal_moves(self):
  #       self._vertical_moves.clear()

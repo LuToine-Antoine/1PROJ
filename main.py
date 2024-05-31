@@ -219,7 +219,7 @@ class Game:
         self._possibles.get_possible_moves(self._ring_move_x, self._ring_move_y)
 
         # Create a list of all possibles moves
-        self.all_possibles_moves = self._possibles.get_vertical_moves() + self._possibles.get_left_diagonal_moves() + self._possibles.get_right_diagonal_moves()
+        self.all_possibles_moves = self._possibles.get_vertical_moves() + self._possibles.get_diagonal_moves()
         print("Possible vertical : ", self._possibles.get_vertical_moves(), "Possible top left to bottom right : ", self._possibles.get_right_diagonal_moves(), self._possibles.get_left_diagonal_moves(), sep="\n")
 
         return self.all_possibles_moves
