@@ -35,19 +35,21 @@ class Menu:
 
         pygame.display.set_caption('Yinch menu - LuToine')
 
+        # Create the logo image and modify his size
+        logo_img = pygame.image.load('images/menu/logo_yinch.png').convert_alpha()
+        logo = pygame.transform.scale(logo_img, (int(self._screen_width * 0.15), int(self._screen_height * 0.265)))
+
+        # Load pictures from file
         solo_img = pygame.image.load('images/menu/button_solo.png').convert_alpha()
         multiplayer_img = pygame.image.load('images/menu/button_multiplayer.png').convert_alpha()
         rules_img = pygame.image.load('images/menu/button_rules.png').convert_alpha()
 
+        # Create button instances
         solo_button = ButtonUi(288, 45, solo_img, 0.32)
         multiplayer_button = ButtonUi(288, 175, multiplayer_img, 0.32)
         rules_button = ButtonUi(288, 330, rules_img, 0.32)
 
-        logo_img = pygame.image.load('images/menu/logo_yinch.png').convert_alpha()
-        logo = pygame.transform.scale(logo_img, (int(self._screen_width * 0.15), int(self._screen_height * 0.265)))
-
-        run = True
-        while run:
+        while True:
 
             self._screen.blit(self._bg, (0, 0))
 
@@ -67,8 +69,9 @@ class Menu:
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
-                    run = False
-            pygame.display.update()
+                    pygame.quit()
+                    sys.exit("Game leave")
+                pygame.display.update()
 
     def display_solo(self):
         self._board_ui.get_game().set_game_mode(0)
@@ -114,14 +117,17 @@ class Menu:
         local_button = ButtonUi(288, -10, local_img, 0.32)
 
         online_img = pygame.image.load('images/menu/multi_menu/button_online.png').convert_alpha()
-        online_button = ButtonUi(288, -10, online_img, 0.32)
+        online_button = ButtonUi(288, 110, online_img, 0.32)
 
         while True:
 
             self._screen.blit(self._bg, (0, 0))
 
-            local_button.draw()
-            online_button.draw()
+            if local_button.draw():
+                print("local")
+
+            if online_button.draw():
+                print("online")
 
             if self._back_btn.draw():
                 self.window()
@@ -157,6 +163,7 @@ class Menu:
                 self._board_ui.get_game().set_game_mode(0)
                 pygame.mixer.music.pause()
                 self._board_ui.window()
+
             if blitz_btn.draw():
                 self._board_ui.get_game().set_game_mode(1)
                 pygame.mixer.music.pause()
@@ -182,7 +189,7 @@ class Menu:
         # Text bloc
         title = font_title.render('Yinsh - Règles', True, black)
         text_0 = font_text.render("Le but du jeu est d'aligner 5 pions afin de retirer 3 anneaux (en mode normal) ou 1 anneau (en mode blitz, rapide).", True, black)
-        text_1 = font_text.render("En début de partie, chaques joueurs pose ses 5 anneaux sur le plateau a tour de rôle. Les pions se placent ensuite", True, black)
+        text_1 = font_text.render("En début de partie, chaques joueurs pose ses 5 anneaux sur le plateau à tour de rôle. Les pions se placent ensuite", True, black)
         text_2 = font_text.render("dans 1 anneaux et cet anneau se déplace sur les lignes à partir de sa position initiale.", True, black)
 
         # Bloc ring 1
@@ -213,12 +220,15 @@ class Menu:
         title_rect = title.get_rect()
         title_rect.center = (self._screen_width // 2, 35)
 
+        # Buttons
+        back_button_rules = ButtonUi(300, 300, self._back_img, 0.32)
+
         # infinite loop
         while True:
 
             self._screen.fill(sakura)
 
-            if self._back_btn.draw():
+            if back_button_rules.draw():
                 self.window()
 
             if self._leave_btn.draw():
