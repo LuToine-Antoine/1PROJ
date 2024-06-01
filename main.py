@@ -50,10 +50,10 @@ class Game:
         return self._possibles
 
     def get_ring_player_1(self):
-        return self._firstRing.get_player_1_ring()
+        return self._player_1_out_ring
 
     def get_ring_player_2(self):
-        return self._firstRing.get_player_2_ring()
+        return self._player_2_out_ring
 
     def set_blitz_mode(self, mode=0):
         """
