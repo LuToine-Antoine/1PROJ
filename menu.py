@@ -45,9 +45,9 @@ class Menu:
         rules_img = pygame.image.load('images/menu/button_rules.png').convert_alpha()
 
         # Create button instances
-        solo_button = ButtonUi(288, 45, solo_img, 0.32)
-        multiplayer_button = ButtonUi(288, 175, multiplayer_img, 0.32)
-        rules_button = ButtonUi(288, 330, rules_img, 0.32)
+        solo_button = ButtonUi(510, 205, solo_img, 0.32)
+        multiplayer_button = ButtonUi(510, 335, multiplayer_img, 0.32)
+        rules_button = ButtonUi(510, 500, rules_img, 0.32)
 
         while True:
 
@@ -65,7 +65,7 @@ class Menu:
             if rules_button.draw():
                 self.display_rules()
 
-            self._screen.blit(logo, (540, 40))
+            self._screen.blit(logo, (540, 0))
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
