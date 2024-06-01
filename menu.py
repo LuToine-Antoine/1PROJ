@@ -93,12 +93,12 @@ class Menu:
                 self.window()
 
             if normal_btn.draw():
-                self._board_ui.get_game().set_game_mode(0)
+                self._board_ui.get_game().set_blitz_mode(0)
                 pygame.mixer.music.pause()
                 self._board_ui.window()
 
             if blitz_btn.draw():
-                self._board_ui.get_game().set_game_mode(1)
+                self._board_ui.get_game().set_blitz_mode(1)
                 pygame.mixer.music.pause()
                 self._board_ui.window()
 
@@ -159,12 +159,12 @@ class Menu:
                 self.window()
 
             if normal_btn.draw():
-                self._board_ui.get_game().set_game_mode(0)
+                self._board_ui.get_game().set_blitz_mode(0)
                 pygame.mixer.music.pause()
                 self._board_ui.window()
 
             if blitz_btn.draw():
-                self._board_ui.get_game().set_game_mode(1)
+                self._board_ui.get_game().set_blitz_mode(1)
                 pygame.mixer.music.pause()
                 self._board_ui.window()
 

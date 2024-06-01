@@ -31,7 +31,7 @@ class Game:
         self._click_x = None
         self._click_y = None
 
-    def set_game_mode(self, mode=0):
+    def set_game_mode(self, mode=1):
         self._game_mode = mode
 
     def get_game_mode(self):
