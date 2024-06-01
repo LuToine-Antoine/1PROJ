@@ -49,8 +49,10 @@ class GameUI:
         selected_player = pygame.transform.scale(
             selected_player_img, (int(self._screen_width * 0.04), int(self._screen_height * 0.06)))
 
+        # text_tips = font_title.render('Astuce : Cliquez droit sur votre anneau pour voir vos déplacements possibles.', True, blue),
+
         text_player_1 = font_title.render('Joueur 1', True, blue)
-        # text_ring_number_1 = font_title.render(f'Pawn number {self._main.get}', True, red)
+        # text_ring_number_1 = font_title.render(f'Pawn number {self._main.get_player_1_ring()}', True, red)
         text_player_2 = font_title.render('Joueur 2', True, red)
 
         run = True
@@ -117,6 +119,9 @@ class GameUI:
             self.get_screen().blit(text_player_1, (840, 150))
             self.get_screen().blit(text_player_2, (840, 300))
 
+            # if self._main.get_player() < 10:
+            #     self.get_screen().blit(text_tips, (860, 30))
+
             if self._main.get_player() == 1:
                 self.get_screen().blit(selected_player, (780, 145))
             if self._main.get_player() == 2:
@@ -147,17 +152,33 @@ class GameUI:
                 board_ui = self._main.get_board()[j][i]
                 match board_ui:
                     case 2:
+                        self.taiko_sound_2()
                         self._screen.blit(ring_1, ((-15) + i * 54, (-15) + j * 33))
                     case 3:
+                        self.taiko_sound_2()
                         self._screen.blit(ring_2, ((-15) + i * 54, (-15) + j * 33))
                     case 4:
-                        self._screen.blit(pawn_1, ((-15) + i * 54,(-15) + j * 33))
+                        self._screen.blit(pawn_1, ((-15) + i * 54, (-15) + j * 33))
                     case 5:
                         self._screen.blit(pawn_2, ((-20) + i * 54, (-15) + j * 33))
                     case 6:
-                        self._screen.blit(pawn_ring_1, ((-15) +i * 54,(-15) + j * 33))
+                        self.taiko_sound()
+                        self._screen.blit(pawn_ring_1, ((-15) + i * 54, (-15) + j * 33))
                     case 7:
-                        self._screen.blit(pawn_ring_2, ((-15) +i * 54,(-15) + j * 33))
+                        self.taiko_sound()
+                        self._screen.blit(pawn_ring_2, ((-15) + i * 54, (-15) + j * 33))
+
+    def taiko_sound(self):
+        pygame.mixer.init()
+        pygame.mixer.music.load('musics/dunk.ogg', "ogg")
+        pygame.mixer.music.set_volume(1.0)
+        pygame.mixer.music.play(loops=-1, start=0.0)
+
+    def taiko_sound_2(self):
+        pygame.mixer.init()
+        pygame.mixer.music.load('musics/taiko_sound.ogg', "ogg")
+        pygame.mixer.music.set_volume(1.0)
+        pygame.mixer.music.play(loops=-1, start=0.0)
 
     def view_possible_moves(self, x, y):
         self.show_possible_moves.clear()

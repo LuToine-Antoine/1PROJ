@@ -29,7 +29,6 @@ class Menu:
         pygame.mixer.music.load('musics/menu_music.ogg', "ogg")
         pygame.mixer.music.set_volume(1.0)
         pygame.mixer.music.play(loops=-1, start=0.0)
-        return print("music ok")
 
     def window(self):
 
