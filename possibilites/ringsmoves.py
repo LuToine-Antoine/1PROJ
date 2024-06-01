@@ -1,3 +1,5 @@
+from random import *
+
 class RingsMoves:
     def __init__(self, x, y, board):
         self._x = x
@@ -173,3 +175,8 @@ class RingsMoves:
         self.set_vertical_moves()
         self.set_diagonal_moves()
         return self.get_vertical_moves(), self.get_diagonal_moves()
+
+    def ia_moves(self):
+        all_moves = self._right_diagonal_moves + self._left_diagonal_moves + self._vertical_moves
+        ia = randint(len(all_moves))
+        return all_moves[ia]

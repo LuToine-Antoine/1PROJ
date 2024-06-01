@@ -188,7 +188,7 @@ class Menu:
         # Text bloc
         title = font_title.render('Yinsh - Règles', True, black)
         text_0 = font_text.render("Le but du jeu est d'aligner 5 pions afin de retirer 3 anneaux (en mode normal) ou 1 anneau (en mode blitz, rapide).", True, black)
-        text_1 = font_text.render("En début de partie, chaques joueurs pose ses 5 anneaux sur le plateau à tour de rôle. Les pions se placent ensuite", True, black)
+        text_1 = font_text.render("En début de partie, chaque joueur pose ses 5 anneaux sur le plateau à tour de rôle. Les pions se placent ensuite", True, black)
         text_2 = font_text.render("dans 1 anneaux et cet anneau se déplace sur les lignes à partir de sa position initiale.", True, black)
 
         # Bloc ring 1
