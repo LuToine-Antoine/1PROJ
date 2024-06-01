@@ -59,6 +59,9 @@ class GameUI:
         while run:
             pos = pygame.mouse.get_pos()
 
+            if self._main.win():
+                self.win_menu()
+
             # get mouse position
             click = False
             for event in pygame.event.get():
@@ -152,32 +155,36 @@ class GameUI:
                 board_ui = self._main.get_board()[j][i]
                 match board_ui:
                     case 2:
-                        self.taiko_sound_2()
+                        self.taiko_sound(0)
+                        self.taiko_sound_2(1)
                         self._screen.blit(ring_1, ((-15) + i * 54, (-15) + j * 33))
                     case 3:
-                        self.taiko_sound_2()
+                        self.taiko_sound(0)
+                        self.taiko_sound_2(1)
                         self._screen.blit(ring_2, ((-15) + i * 54, (-15) + j * 33))
                     case 4:
                         self._screen.blit(pawn_1, ((-15) + i * 54, (-15) + j * 33))
                     case 5:
                         self._screen.blit(pawn_2, ((-20) + i * 54, (-15) + j * 33))
                     case 6:
-                        self.taiko_sound()
+                        self.taiko_sound(1)
+                        self.taiko_sound_2(0)
                         self._screen.blit(pawn_ring_1, ((-15) + i * 54, (-15) + j * 33))
                     case 7:
-                        self.taiko_sound()
+                        self.taiko_sound(1)
+                        self.taiko_sound_2(0)
                         self._screen.blit(pawn_ring_2, ((-15) + i * 54, (-15) + j * 33))
 
-    def taiko_sound(self):
+    def taiko_sound(self, volume=1):
         pygame.mixer.init()
         pygame.mixer.music.load('musics/dunk.ogg', "ogg")
-        pygame.mixer.music.set_volume(1.0)
+        pygame.mixer.music.set_volume(volume)
         pygame.mixer.music.play(loops=-1, start=0.0)
 
-    def taiko_sound_2(self):
+    def taiko_sound_2(self, volume=1):
         pygame.mixer.init()
         pygame.mixer.music.load('musics/taiko_sound.ogg', "ogg")
-        pygame.mixer.music.set_volume(1.0)
+        pygame.mixer.music.set_volume(volume)
         pygame.mixer.music.play(loops=-1, start=0.0)
 
     def view_possible_moves(self, x, y):
@@ -191,3 +198,31 @@ class GameUI:
                 for x in range(len(self.show_possible_moves)):
                     if (j, i) in self.show_possible_moves[x]:
                         self._screen.blit(possible, ((-10) + i * 54, (-10) + j * 33))
+
+    def win_menu(self):
+
+        black = (0, 0, 0)
+        sakura = (214, 173, 166)
+        scale = 0.2
+
+        pygame.display.set_caption(f'Yinch - {self._main.get_player()} Win !')
+
+        self.win_music()
+
+        while True:
+
+            self._screen.fill(sakura)
+
+
+
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    sys.exit("Game leave")
+                pygame.display.update()
+
+    def win_music(self):
+        pygame.mixer.init()
+        pygame.mixer.music.load('musics/win_sound.ogg', "ogg")
+        pygame.mixer.music.set_volume(1.0)
+        pygame.mixer.music.play(loops=-1, start=0.0)

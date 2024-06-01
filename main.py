@@ -196,7 +196,6 @@ class Game:
         else:
             self._player = 1
 
-
     def main_put_pawns(self, x, y, player):
         """
         Use to place pawns on the board
@@ -247,7 +246,7 @@ class Game:
         if not self.in_board_verification(x, y) or self._board.board[x][y] != 1 or (x,y) not in self.all_possibles_moves:
             return False
 
-        print(x,y, self._possibles.get_vertical_moves())
+        print(x, y, self._possibles.get_vertical_moves())
 
         if (x, y) in self._possibles.get_vertical_moves():
             self._rotation.vertical_rotate(self._ring_move_y, self._ring_move_x, x)
@@ -256,7 +255,6 @@ class Game:
         elif (x, y) in self._possibles.get_left_diagonal_moves():
             self._rotation.diagonal_rotate_left(self._ring_move_x, self._ring_move_y)
 
-
         if self._player == 1:
             self._board.board[x][y] = 2
         else:
@@ -264,7 +262,6 @@ class Game:
         self._board.board[self._ring_move_x][self._ring_move_y] = self._player + 3
 
         return True
-
 
     def alignement(self):
         for i in range(19):
@@ -329,13 +326,13 @@ class Game:
 
     def choix_anneaux(self):
         self._choix.clear()
-        if alignement() == 1:
+        if self.alignement() == 1:
             for i in range(19):
                 for j in range(11):
                     if self._board.board[i][j] == 2:
                         self._choix.append([i][j])
             return self._choix
-        if alignement() == 2:
+        if self.alignement() == 2:
             for i in range(19):
                 for j in range(11):
                     if self._board.board[i][j] == 3:

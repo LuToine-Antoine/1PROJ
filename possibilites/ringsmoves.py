@@ -178,5 +178,5 @@ class RingsMoves:
 
     def ia_moves(self):
         all_moves = self._right_diagonal_moves + self._left_diagonal_moves + self._vertical_moves
-        ia = randint(len(all_moves))
+        ia = randint(1, len(all_moves))
         return all_moves[ia]
