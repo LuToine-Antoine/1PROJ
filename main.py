@@ -12,8 +12,10 @@ class Game:
         self._rotation = None
         self._mode = None
         self._game_mode = None
-        self._player_1_out_ring = None
-        self._player_2_out_ring = None
+        self._player_1_out_ring = 0
+        self._player_2_out_ring = 0
+        self._player_1_align = 0
+        self._player_2_align = 0
         self._board = BoardStruct()
         self._round = 0
         self._player = 1
@@ -142,11 +144,11 @@ class Game:
                             self._player = 1
                         self._clickCount = 0
             
-            if self.alignement() == 1 and (x,y) in self._choix and (x,y) == 2:
-                self._board.board[x][y] == 1
+            if self._player_1_align > self._player_1_out_ring and (self._click_x,self._click_y) in self._choix and (self._click_x,self._click_y) == 2:
+                self._board.board[self._click_x][self._click_y] == 1
                 self._player_1_out_ring += 1
-            if self.alignement() == 2 and (x,y) in self._choix and (x,y) == 3:
-                self._board.board[x][y] == 1
+            if self._player_2_align > self._player_2_out_ring and (self._click_x,self._click_y) in self._choix and (self._click_x,self._click_y) == 3:
+                self._board.board[self._click_x][self._click_y] == 1
                 self._player_2_out_ring += 1
 
             # Reset click
@@ -275,14 +277,16 @@ class Game:
                                 align += 1
                                 if align == 5:
                                     self._board.board[i][j], self._board.board[i+1][j+1], self._board.board[i+2][j+2], self._board.board[i+3][j+3], self._board.board[i+4][j+4] = 1, 1, 1, 1, 1
+                                    self._player_1_align += 1
                                     return 1
                     align = 1
                     for k in range(1, 5):
-                        if j+k*2 < 11:
-                            if self._board.board[i][j+2*k] == self._board.board[i][j]:
+                        if i+k*2 < 19:
+                            if self._board.board[i+2*k][j] == self._board.board[i][j]:
                                 align += 1
                                 if align == 5:
-                                    self._board.board[i][j], self._board.board[i][j+2], self._board.board[i][j+4], self._board.board[i][j+6], self._board.board[i][j+8] = 1, 1, 1, 1, 1
+                                    self._board.board[i][j], self._board.board[i+2][j], self._board.board[i+4][j], self._board.board[i+6][j], self._board.board[i+8][j] = 1, 1, 1, 1, 1
+                                    self._player_1_align += 1
                                     return 1
                     align = 1
                     for k in range(1, 5):
@@ -291,6 +295,7 @@ class Game:
                                 align += 1
                                 if align == 5:
                                     self._board.board[i][j], self._board.board[i-1][j+1], self._board.board[i-2][j+2], self._board.board[i-3][j+3], self._board.board[i-4][j+4] = 1, 1, 1, 1, 1
+                                    self._player_1_align += 1
                                     return 1
                 elif self._board.board[i][j] == 5:
                     align = 1
@@ -300,14 +305,16 @@ class Game:
                                 align += 1
                                 if align == 5:
                                     self._board.board[i][j], self._board.board[i+1][j+1], self._board.board[i+2][j+2], self._board.board[i+3][j+3], self._board.board[i+4][j+4] = 1, 1, 1, 1, 1
+                                    self._player_2_align += 1
                                     return 2
                     align = 1
                     for k in range(1, 5):
-                        if j+k*2 < 11:
-                            if self._board.board[i][j+2*k] == self._board.board[i][j]:
+                        if i+k*2 < 19:
+                            if self._board.board[i+2*k][j] == self._board.board[i][j]:
                                 align += 1
                                 if align == 5:
-                                    self._board.board[i][j], self._board.board[i][j+2], self._board.board[i][j+4], self._board.board[i][j+6], self._board.board[i][j+8] = 1, 1, 1, 1, 1
+                                    self._board.board[i][j], self._board.board[i+2][j], self._board.board[i+4][j], self._board.board[i+6][j], self._board.board[i+8][j] = 1, 1, 1, 1, 1
+                                    self._player_2_align += 1
                                     return 2
                     align = 1
                     for k in range(1, 5):
@@ -316,6 +323,7 @@ class Game:
                                 align += 1
                                 if align == 5:
                                     self._board.board[i][j], self._board.board[i-1][j+1], self._board.board[i-2][j+2], self._board.board[i-3][j+3], self._board.board[i-4][j+4] = 1, 1, 1, 1, 1
+                                    self._player_2_align += 1
                                     return 2
         return False
 
