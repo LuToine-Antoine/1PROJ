@@ -19,7 +19,7 @@ class Menu:
         self._leave_btn = ButtonUi(1200, 0, self._leave_img, 0.03)
 
         self._back_img = pygame.image.load('images/back.png').convert_alpha()
-        self._back_btn = ButtonUi(288, 300, self._back_img, 0.32)
+        self._back_btn = ButtonUi(510, 420, self._back_img, 0.32)
 
         super(GameUI)
         self._board_ui = GameUI()
@@ -79,8 +79,8 @@ class Menu:
         normal_img = pygame.image.load('images/menu/button_classic.png').convert_alpha()
         blitz_img = pygame.image.load('images/menu/button_blitz.png').convert_alpha()
 
-        normal_btn = ButtonUi(288, -10, normal_img, 0.32)
-        blitz_btn = ButtonUi(288, 110, blitz_img, 0.32)
+        normal_btn = ButtonUi(510, 90, normal_img, 0.32)
+        blitz_btn = ButtonUi(510, 300, blitz_img, 0.32)
 
         while True:
 
@@ -113,10 +113,10 @@ class Menu:
         pygame.display.set_caption('Yinch Multiplayer mode')
 
         local_img = pygame.image.load('images/menu/multi_menu/button_local.png').convert_alpha()
-        local_button = ButtonUi(288, -10, local_img, 0.32)
+        local_button = ButtonUi(510, 90, local_img, 0.32)
 
         online_img = pygame.image.load('images/menu/multi_menu/button_online.png').convert_alpha()
-        online_button = ButtonUi(288, 110, online_img, 0.32)
+        online_button = ButtonUi(510, 220, online_img, 0.32)
 
         while True:
 
@@ -145,8 +145,8 @@ class Menu:
         normal_img = pygame.image.load('images/menu/button_classic.png').convert_alpha()
         blitz_img = pygame.image.load('images/menu/button_blitz.png').convert_alpha()
 
-        normal_btn = ButtonUi(288, -10, normal_img, 0.32)
-        blitz_btn = ButtonUi(288, 110, blitz_img, 0.32)
+        normal_btn = ButtonUi(510, 90, normal_img, 0.32)
+        blitz_btn = ButtonUi(510, 290, blitz_img, 0.32)
 
         while True:
 
@@ -220,7 +220,7 @@ class Menu:
         title_rect.center = (self._screen_width // 2, 35)
 
         # Buttons
-        back_button_rules = ButtonUi(300, 300, self._back_img, 0.32)
+        back_button_rules = ButtonUi(500, 420, self._back_img, 0.32)
 
         # infinite loop
         while True:
