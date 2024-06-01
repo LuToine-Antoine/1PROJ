@@ -46,6 +46,9 @@ class Game:
     def get_turn(self):
         return self._round
 
+    def get_possible(self):
+        return self._possibles
+
     def get_ring_player_1(self):
         return self._firstRing.get_player_1_ring()
 

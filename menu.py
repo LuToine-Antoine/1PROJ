@@ -123,7 +123,7 @@ class Menu:
             self._screen.blit(self._bg, (0, 0))
 
             if local_button.draw():
-                print("local")
+                self.display_local()
 
             if online_button.draw():
                 print("online")

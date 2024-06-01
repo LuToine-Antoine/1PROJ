@@ -63,28 +63,56 @@ class GameUI:
                 self.win_menu()
 
             # get mouse position
-            click = False
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    run = False
-                elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
-                    isintable = ((pos[0] // (532 // len(self._main.get_board())) * 0.540),
-                                 (pos[1] // (558 // len(self._main.get_board()) * 1.15)))
-                    self._main.game_loop(int(isintable[1]), int(isintable[0]))
-                    self._screen.fill((255, 255, 255))
-                    self.get_screen().blit(self.board(), (-20, -10))
-                    print(int(isintable[1]), int(isintable[0]))
-                    self.afficher_plateau()
-                    print(isintable)
-
-                elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 3:
-                    see_moves = ((pos[0] // (532 // len(self._main.get_board())) * 0.540),
-                                 (pos[1] // (558 // len(self._main.get_board()) * 1.15)))
-                    if self._main.get_board()[int(see_moves[1])][int(see_moves[0])] in (2, 3, 6, 7):
+            if self._main.get_game_mode() == 1:
+                click = False
+                for event in pygame.event.get():
+                    if event.type == pygame.QUIT:
+                        run = False
+                    elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+                        isintable = ((pos[0] // (532 // len(self._main.get_board())) * 0.540),
+                                     (pos[1] // (558 // len(self._main.get_board()) * 1.15)))
+                        self._main.game_loop(int(isintable[1]), int(isintable[0]))
                         self._screen.fill((255, 255, 255))
                         self.get_screen().blit(self.board(), (-20, -10))
-                        self.view_possible_moves(int(see_moves[1]), int(see_moves[0]))
+                        print(int(isintable[1]), int(isintable[0]))
                         self.afficher_plateau()
+                        print(isintable)
+
+                    elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 3:
+                        see_moves = ((pos[0] // (532 // len(self._main.get_board())) * 0.540),
+                                     (pos[1] // (558 // len(self._main.get_board()) * 1.15)))
+                        if self._main.get_board()[int(see_moves[1])][int(see_moves[0])] in (2, 3, 6, 7):
+                            self._screen.fill((255, 255, 255))
+                            self.get_screen().blit(self.board(), (-20, -10))
+                            self.view_possible_moves(int(see_moves[1]), int(see_moves[0]))
+                            self.afficher_plateau()
+            elif self._main.get_game_mode() == 0:
+                click = False
+                for event in pygame.event.get():
+                    if event.type == pygame.QUIT:
+                        run = False
+                    elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+                        if self._main.get_player() == 1:
+                            isintable = ((pos[0] // (532 // len(self._main.get_board())) * 0.540),
+                                         (pos[1] // (558 // len(self._main.get_board()) * 1.15)))
+                        elif self._main.get_player() == 2:
+                            isintable = (self._main.get_possible().ia_moves())
+                        self._main.game_loop(int(isintable[1]), int(isintable[0]))
+                        self._screen.fill((255, 255, 255))
+                        self.get_screen().blit(self.board(), (-20, -10))
+                        print(int(isintable[1]), int(isintable[0]))
+                        self.afficher_plateau()
+                        print(isintable)
+
+                    elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 3:
+                        see_moves = ((pos[0] // (532 // len(self._main.get_board())) * 0.540),
+                                     (pos[1] // (558 // len(self._main.get_board()) * 1.15)))
+                        if self._main.get_board()[int(see_moves[1])][int(see_moves[0])] in (2, 3, 6, 7):
+                            self._screen.fill((255, 255, 255))
+                            self.get_screen().blit(self.board(), (-20, -10))
+                            self.view_possible_moves(int(see_moves[1]), int(see_moves[0]))
+                            self.afficher_plateau()
+
 
             if leave_btn.draw():
                 sys.exit("Game leave")
