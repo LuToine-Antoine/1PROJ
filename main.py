@@ -61,12 +61,12 @@ class Game:
         """
 
         if mode == 1:
-            self._game_mode = False  # Isn't blitz mode
+            self._mode = False  # Isn't blitz mode
         else:
-            self._game_mode = True  # It's blitz mode
+            self._mode = True  # It's blitz mode
 
     def get_blitz_mode(self):
-        return self._game_mode
+        return self._mode
 
     def win(self):
         """
@@ -76,7 +76,7 @@ class Game:
         numberRingPlayer1 = self._player_1_out_ring
         numberRingPlayer2 = self._player_2_out_ring
 
-        if not self._game_mode:
+        if not self._mode:
             numberToWin = 3
         else:
             numberToWin = 1

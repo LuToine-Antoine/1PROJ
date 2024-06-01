@@ -31,6 +31,9 @@ class GameUI:
         return board
 
     def window(self):
+
+        print("GAME MODE", self._main.get_game_mode())
+
         black = (0, 0, 0)
         red = (255, 0, 0)
         blue = (0, 0, 255)
@@ -69,7 +72,7 @@ class GameUI:
                     run = False
                 elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                     click_coords = ((pos[0] // (532 // len(self._main.get_board())) * 0.540),
-                                 (pos[1] // (558 // len(self._main.get_board()) * 1.15)))
+                                    (pos[1] // (558 // len(self._main.get_board()) * 1.15)))
                     self._main.game_loop(int(click_coords[1]), int(click_coords[0]))
                     self._screen.fill((255, 255, 255))
                     self.get_screen().blit(self.board(), (-20, -10))
