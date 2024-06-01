@@ -12,6 +12,8 @@ class Game:
         self._rotation = None
         self._mode = None
         self._game_mode = None
+        self._player_1_out_ring = None
+        self._player_2_out_ring = None
         self._board = BoardStruct()
         self._round = 0
         self._player = 1
@@ -19,6 +21,7 @@ class Game:
         self._ring_move_y = 0
         self._clickCount = 0
         self.all_possibles_moves = []
+        self._choix = []
         self._pawns = Paws(0, 0, self._board.board)
         self._pawnStock = self._pawns.empty_stock(self._board.board)
         self._possibles = RingsMoves(0, 0, self._board.board)
@@ -65,9 +68,8 @@ class Game:
         Check if a player win
         """
         board = BoardStruct()
-        numberRing = Rings(0, 0, board.board)
-        numberRingPlayer1 = numberRing.get_player_1_ring()
-        numberRingPlayer2 = numberRing.get_player_2_ring()
+        numberRingPlayer1 = self._player_1_out_ring
+        numberRingPlayer2 = self._player_2_out_ring
 
         if not self._game_mode:
             numberToWin = 3
@@ -139,6 +141,13 @@ class Game:
                         else:
                             self._player = 1
                         self._clickCount = 0
+            
+            if self.alignement() == 1 and (x,y) in self._choix and (x,y) == 2:
+                self._board.board[x][y] == 1
+                self._player_1_out_ring += 1
+            if self.alignement() == 2 and (x,y) in self._choix and (x,y) == 3:
+                self._board.board[x][y] == 1
+                self._player_2_out_ring += 1
 
             # Reset click
             self._click_x = None
@@ -256,25 +265,77 @@ class Game:
 
 
     def alignement(self):
-        for i in range(11):
-            for j in range(19):
-                if self._board[i][j] > 3:
+        for i in range(19):
+            for j in range(11):
+                if self._board.board[i][j] == 4:
                     align = 1
                     for k in range(1, 5):
-                        if self._board.board[i][j] == self._board.board[i][j+k*2]:
-                            align += 1
-                            if align == 5:
-                                return True
+                        if i+k < 19 and j+k < 11:
+                            if self._board.board[i+k][j+k] == self._board.board[i][j]:
+                                align += 1
+                                if align == 5:
+                                    self._board.board[i][j], self._board.board[i+1][j+1], self._board.board[i+2][j+2], self._board.board[i+3][j+3], self._board.board[i+4][j+4] = 1, 1, 1, 1, 1
+                                    return 1
                     align = 1
                     for k in range(1, 5):
-                        if self._board.board[i][j] == self._board.board[i+k][j+k]:
-                            align += 1
-                            if align == 5:
-                                return True
+                        if j+k*2 < 11:
+                            if self._board.board[i][j+2*k] == self._board.board[i][j]:
+                                align += 1
+                                if align == 5:
+                                    self._board.board[i][j], self._board.board[i][j+2], self._board.board[i][j+4], self._board.board[i][j+6], self._board.board[i][j+8] = 1, 1, 1, 1, 1
+                                    return 1
                     align = 1
                     for k in range(1, 5):
-                        if self._board.board[i][j] == self._board.board[i-k][j+k]:
-                            align += 1
-                            if align == 5:
-                                return True
+                        if i-k >= 0 and j+k < 11:
+                            if self._board.board[i-k][j+k] == self._board.board[i][j]:
+                                align += 1
+                                if align == 5:
+                                    self._board.board[i][j], self._board.board[i-1][j+1], self._board.board[i-2][j+2], self._board.board[i-3][j+3], self._board.board[i-4][j+4] = 1, 1, 1, 1, 1
+                                    return 1
+                elif self._board.board[i][j] == 5:
+                    align = 1
+                    for k in range(1, 5):
+                        if i+k < 19 and j+k < 11:
+                            if self._board.board[i+k][j+k] == self._board.board[i][j]:
+                                align += 1
+                                if align == 5:
+                                    self._board.board[i][j], self._board.board[i+1][j+1], self._board.board[i+2][j+2], self._board.board[i+3][j+3], self._board.board[i+4][j+4] = 1, 1, 1, 1, 1
+                                    return 2
+                    align = 1
+                    for k in range(1, 5):
+                        if j+k*2 < 11:
+                            if self._board.board[i][j+2*k] == self._board.board[i][j]:
+                                align += 1
+                                if align == 5:
+                                    self._board.board[i][j], self._board.board[i][j+2], self._board.board[i][j+4], self._board.board[i][j+6], self._board.board[i][j+8] = 1, 1, 1, 1, 1
+                                    return 2
+                    align = 1
+                    for k in range(1, 5):
+                        if i-k >= 0 and j+k < 11:
+                            if self._board.board[i-k][j+k] == self._board.board[i][j]:
+                                align += 1
+                                if align == 5:
+                                    self._board.board[i][j], self._board.board[i-1][j+1], self._board.board[i-2][j+2], self._board.board[i-3][j+3], self._board.board[i-4][j+4] = 1, 1, 1, 1, 1
+                                    return 2
         return False
+
+    def choix_anneaux(self):
+        self._choix.clear()
+        if alignement() == 1:
+            for i in range(19):
+                for j in range(11):
+                    if self._board.board[i][j] == 2:
+                        self._choix.append([i][j])
+            return self._choix
+        if alignement() == 2:
+            for i in range(19):
+                for j in range(11):
+                    if self._board.board[i][j] == 3:
+                        self._choix.append([i][j])
+            return self._choix
+    
+    def get_player_1_ring(self):
+        return self._player_1_out_ring
+
+    def get_player_2_ring(self):
+        return self._player_2_out_ring
