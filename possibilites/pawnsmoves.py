@@ -15,6 +15,8 @@ class PawnRotate:
 
         return self._board
 
+    #for all diagonal directions, taking directions into account, do the rotate function
+
     def diagonal_rotate_up_left(self, departure_x, departure_y, arrival_x, arrival_y):
         for i in range(arrival_y + 1, departure_y):
             for j in range(arrival_x + 1, departure_x):
