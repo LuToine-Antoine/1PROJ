@@ -12,6 +12,7 @@ class Game:
         self._rotation = None
         self._mode = None
         self._game_mode = None
+        self._solo_mode = 0
         self._player_1_out_ring = 0
         self._player_2_out_ring = 0
         self._player_1_align = 0
@@ -33,6 +34,12 @@ class Game:
 
     def set_game_mode(self, mode=0):
         self._game_mode = mode
+
+    def set_solo_mode(self):
+        if self._solo_mode == 1:
+            return True
+        elif self._solo_mode == 2:
+            return False
 
     def get_game_mode(self):
         return self._game_mode
