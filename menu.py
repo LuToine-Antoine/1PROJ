@@ -131,7 +131,7 @@ class MenuUi:
         pygame.display.set_caption('Yinch Multiplayer mode')
 
         local_img = pygame.image.load('images/menu/multi_menu/button_local.png').convert_alpha()
-        local_button = ButtonUi(510, 200, local_img, 0.32)
+        local_button = ButtonUi(510, 100, local_img, 0.32)
 
         while True:
 
