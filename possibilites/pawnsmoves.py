@@ -50,7 +50,7 @@ class PawnRotate:
             
 
 
-    def diagonal_rotate_left(self, departure_x, departure_y):
+"""     def diagonal_rotate_left(self, departure_x, departure_y):
         # Top-left to bottom-right
         min_top_left = min(departure_x, departure_y)
         for i in range(1, min_top_left + 1):
@@ -102,3 +102,4 @@ class PawnRotate:
                 self._board[x][y] = 4
 
         return self._board
+ """
