@@ -53,7 +53,8 @@ class GameUI:
         selected_player = pygame.transform.scale(
             selected_player_img, (int(self._screen_width * 0.04), int(self._screen_height * 0.06)))
 
-        # text_tips = font_title.render('Astuce : Cliquez droit sur votre anneau pour voir vos déplacements possibles.', True, blue),
+        text_tips = font_title.render('Astuce : Cliquez droit sur votre anneau pour voir vos déplacements possibles.',
+                                      True, blue),
 
         text_player_1 = font_title.render('Joueur 1', True, blue)
         # text_ring_number_1 = font_title.render(f'Pawn number {self._main.get_player_1_ring()}', True, red)
@@ -128,6 +129,9 @@ class GameUI:
 
             self.get_screen().blit(text_player_1, (840, 150))
             self.get_screen().blit(text_player_2, (840, 300))
+
+            self.get_screen().blit(text_tips, (840, 300))
+
 
             # if self._main.get_player() < 10:
             #     self.get_screen().blit(text_tips, (860, 30))
