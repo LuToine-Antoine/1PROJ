@@ -30,7 +30,7 @@ class GameUI:
         self._red_taiko = pygame.image.load('images/game/ring_player_2.png').convert_alpha()
         self._red_taiko = pygame.transform.scale(self._red_taiko, (int(self._screen_width * 0.3), int(self._screen_height * 0.5)))
         self._taiko_under = pygame.image.load('images/game/menu/taiko_under.png').convert_alpha()
-        self._taiko_under = pygame.transform.scale(self._taiko_under, (int(self._screen_width * 0.3), int(self._screen_height * 0.5)))
+        self._taiko_under = pygame.transform.scale(self._taiko_under, (int(self._screen_width * 0.09), int(self._screen_height * 0.16)))
 
     def get_screen(self):
         """
@@ -94,6 +94,21 @@ class GameUI:
 
             text_pawn_reaming = font_action.render(f'Pions restants {self._main.get_pawn().get_pawn_stock()}', True, black)
             self.get_screen().blit(text_pawn_reaming, (840, 100))
+
+            if self._main.get_blitz_mode() == 1:
+                self.get_screen().blit(self._taiko_under, (840, 240))
+                self.get_screen().blit(self._taiko_under, (840, 540))
+
+            if self._main.get_blitz_mode() == 0:
+                # Player 1
+                self.get_screen().blit(self._taiko_under, (750, 240))
+                self.get_screen().blit(self._taiko_under, (855, 240))
+                self.get_screen().blit(self._taiko_under, (960, 240))
+
+                #Player 2
+                self.get_screen().blit(self._taiko_under, (750, 440))
+                self.get_screen().blit(self._taiko_under, (855, 440))
+                self.get_screen().blit(self._taiko_under, (960, 440))
 
             pos = pygame.mouse.get_pos()
 
