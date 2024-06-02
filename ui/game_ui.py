@@ -66,6 +66,13 @@ class GameUI:
             if self._main.win():
                 self.win_menu()
 
+            if leave_btn.draw():
+                sys.exit("Game leave")
+            pygame.display.update()
+
+            if self._back_btn_game.draw():
+                print("TG")
+
             # get mouse position
             click = False
             for event in pygame.event.get():
@@ -89,10 +96,6 @@ class GameUI:
                         self.get_screen().blit(self.board(), (-20, -10))
                         self.view_possible_moves(int(see_moves[1]), int(see_moves[0]))
                         self.afficher_plateau()
-
-            if leave_btn.draw():
-                sys.exit("Game leave")
-            pygame.display.update()
 
             text_turn = font_title.render(f'Tour {self._main.get_turn()}', True, black)
             self.get_screen().blit(text_turn, (860, 30))
@@ -133,9 +136,6 @@ class GameUI:
                 self.get_screen().blit(selected_player, (780, 145))
             if self._main.get_player() == 2:
                 self.get_screen().blit(selected_player, (780, 295))
-
-            if self._back_btn_game.draw():
-                print("TG")
 
     def afficher_plateau(self):
         pawn_ring_1 = pygame.image.load('images/game/pawn_and_ring_1.png').convert_alpha()
@@ -207,9 +207,18 @@ class GameUI:
 
         black = (0, 0, 0)
         sakura = (214, 173, 166)
-        scale = 0.2
+
+        pygame.font.init()
+        font_title = pygame.font.SysFont('freesansbold.ttf', 50)
 
         pygame.display.set_caption(f'Yinch - {self._main.get_player()} Win !')
+
+        restart_img = pygame.image.load('images/button_restart.png').convert_alpha()
+        restart_btn = ButtonUi(350, 500, restart_img, 0.32)
+
+        back_button = ButtonUi(670, 500, self._back_img, 0.32)
+
+        text_winner = font_title.render(f'Bien jouer Joueur {self._main.get_player()}', True, black)
 
         self.win_music()
 
@@ -217,7 +226,13 @@ class GameUI:
 
             self._screen.fill(sakura)
 
+            self._screen.blit(text_winner, (470, 100))
 
+            if restart_btn.draw():
+                print("restart")
+
+            if back_button.draw():
+                print("TG")
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
