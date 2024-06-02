@@ -13,7 +13,6 @@ class Game:
         self._mode = None
         self._game_mode = None
         self._solo_mode = 0
-        self._change_player = True
         self._player_1_out_ring = 0
         self._player_2_out_ring = 0
         self._player_1_align = 0
@@ -160,7 +159,7 @@ class Game:
                     self.ring_out(self._click_x, self._click_y, 1)
                 self._player = 2
 
-            elif self._player_2_align > self._player_2_out_ring:
+            elif self._player_2_align > self._player_2_out_ring and self._game_mode == 1:
                 self.choix_anneaux(2)
                 if (self._click_x, self._click_y) in self._choix:
                     self.ring_out(self._click_x, self._click_y, 2)
@@ -410,8 +409,19 @@ class Game:
             self.main_put_pawns(rand_pawn[0], rand_pawn[1], 2)
             self.main_see_moves_rings()
 
+            self._possibles.get_possible_moves(rand_pawn[0], rand_pawn[1])
             all_moves = self._possibles.get_vertical_moves() + self._possibles.get_diagonal_moves()
             ia = randint(0, len(all_moves) - 1)
+            self.main_move_rings(all_moves[ia][0], all_moves[ia][1], 2)
+            self._player = 1
+            if self._player_2_align > self._player_2_out_ring:
+                ia_ring_out = self.choix_anneaux(2)
+                rand_ring_out = randint(0, len(self._choix)-1)
+                rand_ring = ia_ring_out[rand_ring_out]
+
+                if (rand_ring[0], rand_ring[1]) in self._choix:
+                    self.ring_out(rand_ring[0], rand_ring[1], 2)
+                self._player = 1
             return all_moves[ia]
         else:
             rand_x = 0
