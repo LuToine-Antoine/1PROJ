@@ -255,6 +255,6 @@ class MenuUi:
                 pygame.display.update()
 
 
-# menu = MenuUi()
-# menu.music_menu()
-# menu.window()
+menu = MenuUi()
+menu.music_menu()
+menu.window()
