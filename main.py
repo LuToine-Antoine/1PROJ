@@ -398,9 +398,20 @@ class Game:
         return self._player_2_out_ring
 
     def ia_moves(self):
-        if self.get_turn() > 10:
+        rings = []
+
+        if self.get_turn() >= 10:
+            for i in range(len(self._board.board)):
+                for j in range(len(self._board.board[0])):
+                    if self._board.board[i][j] == 2:
+                        rings.append((i, j))
+            rand_pawn = randint(0, len(rings) - 1)
+            rand_pawn = self._board.board[rand_pawn]
+            self.main_put_pawns(rand_pawn[0], rand_pawn[1], 2)
+            self.main_see_moves_rings()
+
             all_moves = self._possibles.get_vertical_moves() + self._possibles.get_diagonal_moves()
-            ia = randint(0, len(all_moves)-1)
+            ia = randint(0, len(all_moves) - 1)
             return all_moves[ia]
         else:
             rand_x = 0
