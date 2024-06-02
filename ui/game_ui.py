@@ -211,14 +211,19 @@ class GameUI:
         pygame.font.init()
         font_title = pygame.font.SysFont('freesansbold.ttf', 50)
 
-        pygame.display.set_caption(f'Yinch - {self._main.get_player()} Win !')
+        if self._main.get_player() == 1:
+            winner = 2
+        else:
+            winner = 1
+
+        pygame.display.set_caption(f'Yinch - {winner} Win !')
 
         restart_img = pygame.image.load('images/button_restart.png').convert_alpha()
         restart_btn = ButtonUi(350, 500, restart_img, 0.32)
 
         back_button = ButtonUi(670, 500, self._back_img, 0.32)
 
-        text_winner = font_title.render(f'Bien jouer Joueur {self._main.get_player()}', True, black)
+        text_winner = font_title.render(f'Bien jouer Joueur {winner}', True, black)
 
         self.win_music()
 
