@@ -101,6 +101,12 @@ class GameUI:
                 sys.exit("Game leave")
             pygame.display.update()
 
+            self.get_screen().blit(text_player_1, (840, 150))
+            self.get_screen().blit(text_player_2, (840, 350))
+
+            self.get_screen().blit(text_ring_number_1, (760, 200))
+            self.get_screen().blit(text_ring_number_2, (760, 400))
+
             # get mouse position
             click = False
             for event in pygame.event.get():
@@ -160,12 +166,6 @@ class GameUI:
 
             text = texts[action_key]
             self.get_screen().blit(text, (760, 70))
-
-            self.get_screen().blit(text_player_1, (840, 150))
-            self.get_screen().blit(text_player_2, (840, 350))
-
-            self.get_screen().blit(text_ring_number_1, (760, 200))
-            self.get_screen().blit(text_ring_number_2, (760, 400))
 
             self.get_screen().blit(text_tips, (450, 650))
 
