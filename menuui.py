@@ -6,7 +6,7 @@ from ui.game_ui import *
 from ui.buttons import *
 
 
-class Menu:
+class MenuUi:
     def __init__(self, width=1280, height=720):
         self._screen_height = height
         self._screen_width = width
@@ -255,6 +255,6 @@ class Menu:
                 pygame.display.update()
 
 
-menu = Menu()
-menu.music_menu()
-menu.window()
+# menu = MenuUi()
+# menu.music_menu()
+# menu.window()
