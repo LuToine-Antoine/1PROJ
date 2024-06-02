@@ -1,6 +1,3 @@
-from tkinter import *
-
-
 class Rings:
     def __init__(self, x, y, board):
         self._x = x
@@ -15,8 +12,8 @@ class Rings:
         self._y = y
 
         if player == 1:
-            self._board[self._x][self._y] = 2
+            self._board[self._x][self._y] = 2  # Change the state of the case of the board Player 1
         elif player == 2:
-            self._board[self._x][self._y] = 3
+            self._board[self._x][self._y] = 3  # Change the state of the case of the board Player 2
         return board
 

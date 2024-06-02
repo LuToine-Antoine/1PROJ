@@ -125,16 +125,12 @@ class MenuUi:
     def display_multi(self):
         """
         Display the multiplayer menu.
-        :return:
         """
 
         pygame.display.set_caption('Yinch Multiplayer mode')
 
         local_img = pygame.image.load('images/menu/multi_menu/button_local.png').convert_alpha()
-        local_button = ButtonUi(510, 90, local_img, 0.32)
-
-        online_img = pygame.image.load('images/menu/multi_menu/button_online.png').convert_alpha()
-        online_button = ButtonUi(510, 220, online_img, 0.32)
+        local_button = ButtonUi(510, 100, local_img, 0.32)
 
         while True:
 
@@ -142,9 +138,6 @@ class MenuUi:
 
             if local_button.draw():
                 self.display_local()
-
-            if online_button.draw():
-                print("online")
 
             if self._back_btn.draw():
                 self.window()

@@ -27,7 +27,6 @@ class BoardStruct:
         """
         Displays the board and the players rings and pawns in the terminal.
         """
-
         for i in range(19):
             for j in range(11):
                 if self.board[i][j] == 0:  # Invalid case
@@ -47,6 +46,3 @@ class BoardStruct:
                 elif self.board[i][j] == 7:  # Player 2 ring + pawn
                     print("7", end='')
             print(" ")
-
-
-
