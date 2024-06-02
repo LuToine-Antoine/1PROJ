@@ -382,12 +382,12 @@ class Game:
     def ia_moves(self):
         if self.get_turn() > 10:
             all_moves = self._possibles.get_vertical_moves() + self._possibles.get_diagonal_moves()
-            ia = randint(1, len(all_moves))
+            ia = randint(0, len(all_moves)-1)
             return all_moves[ia]
         else:
             rand_x = 0
             rand_y = 0
             while self._board.board[rand_x][rand_y] != 1:
-                rand_x = randint(len(self._board.board[0]))
-                rand_y = randint(len(self._board.board))
+                rand_x = randint(0, len(self._board.board)-1)
+                rand_y = randint(0, len(self._board.board[0])-1)
             return rand_x, rand_y
