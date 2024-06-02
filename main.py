@@ -135,7 +135,7 @@ class Game:
                 self.main_put_first_rings(self._click_x, self._click_y)
 
             # Check if a player can remove a ring and add ring in his ring out stock
-
+            self.alignement()
             if self._player_1_align > self._player_1_out_ring:
                 self.choix_anneaux(1)
                 if (self._click_x, self._click_y) in self._choix:
