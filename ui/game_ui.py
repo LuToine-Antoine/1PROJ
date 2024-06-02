@@ -7,6 +7,11 @@ from ui.buttons import *
 
 class GameUI:
     def __init__(self, width=1280, height=720):
+        """
+        Initialize the game UI.
+        :param width:
+        :param height:
+        """
         self._screen_height = height
         self._screen_width = width
         self._screen = pygame.display.set_mode((self._screen_width, self._screen_height))
@@ -19,12 +24,24 @@ class GameUI:
         self._back_btn_game = ButtonUi(775, 500, self._back_img, 0.32)
 
     def get_screen(self):
+        """
+        Returns the screen.
+        :return: screen
+        """
         return self._screen
 
     def get_game(self):
+        """
+        Returns the game class.
+        :return: Game()
+        """
         return self._main
 
     def board(self):
+        """
+        Initialize theb board images.
+        :return: board img
+        """
         pygame.display.set_caption('Yinch')
         board_img = pygame.image.load('images/game/plateau_yinch.png').convert_alpha()
         board = pygame.transform.scale(board_img, (int(self._screen_width * 0.5), int(self._screen_height * 0.9)))
@@ -32,6 +49,10 @@ class GameUI:
         return board
 
     def window(self):
+        """
+        Display the main window.
+        :return:
+        """
 
         print("GAME MODE", self._main.get_game_mode())
 
@@ -78,15 +99,15 @@ class GameUI:
                 if event.type == pygame.QUIT:
                     run = False
                 elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
-                    if self._main.get_game_mode() == 0:
-                        if self._main.get_player() == 1:
-                            click_coords = ((pos[0] // (532 // len(self._main.get_board())) * 0.540),
-                                            (pos[1] // (558 // len(self._main.get_board()) * 1.15)))
-                        else:
-                            click_coords = self._main.ia_moves()
-                    if self._main.get_game_mode() == 1:
-                        click_coords = ((pos[0] // (532 // len(self._main.get_board())) * 0.540),
-                                        (pos[1] // (558 // len(self._main.get_board()) * 1.15)))
+                    # if self._main.get_game_mode() == 0:
+                        # if self._main.get_player() == 1:
+                        #     click_coords = ((pos[0] // (532 // len(self._main.get_board())) * 0.540),
+                        #                     (pos[1] // (558 // len(self._main.get_board()) * 1.15)))
+                        # else:
+                        #     click_coords = self._main.ia_moves()
+                    #if self._main.get_game_mode() == 1:
+                    click_coords = ((pos[0] // (532 // len(self._main.get_board())) * 0.540),
+                                    (pos[1] // (558 // len(self._main.get_board()) * 1.15)))
                     self._main.game_loop(int(click_coords[1]), int(click_coords[0]))
                     self._screen.fill((255, 255, 255))
                     self.get_screen().blit(self.board(), (-20, -10))
@@ -146,6 +167,11 @@ class GameUI:
                 self.get_screen().blit(selected_player, (780, 295))
 
     def afficher_plateau(self):
+        """
+        Display the board.
+        :return:
+        """
+
         pawn_ring_1 = pygame.image.load('images/game/pawn_and_ring_1.png').convert_alpha()
         pawn_ring_2 = pygame.image.load('images/game/pawn_and_ring_2.png').convert_alpha()
         pawn_1 = pygame.image.load('images/game/pawn_player_1.png').convert_alpha()
@@ -188,12 +214,22 @@ class GameUI:
                         self._screen.blit(pawn_ring_2, ((-15) + i * 54, (-15) + j * 33))
 
     def taiko_sound(self, volume=1):
+        """
+        Play the taiko sound.
+        :param volume:
+        :return:
+        """
         pygame.mixer.init()
         pygame.mixer.music.load('musics/dunk.ogg', "ogg")
         pygame.mixer.music.set_volume(volume)
         pygame.mixer.music.play(loops=-1, start=0.0)
 
     def taiko_sound_2(self, volume=1):
+        """
+        Play the taiko sound.
+        :param volume:
+        :return:
+        """
         pygame.mixer.init()
         pygame.mixer.music.load('musics/taiko_sound.ogg', "ogg")
         pygame.mixer.music.set_volume(volume)
