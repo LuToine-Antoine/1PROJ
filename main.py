@@ -385,9 +385,9 @@ class Game:
             ia = randint(1, len(all_moves))
             return all_moves[ia]
         else:
-            move_x = randint(1, len(self._board.board)-1)
-            move_y = randint(1, len(self._board.board)-1)
-            while self._board.board[move_x][move_y] == 0:
-                move_x = randint(1, len(self._board.board))
-                move_y = randint(1, len(self._board.board))
-            return move_x, move_y
+            rand_x = 0
+            rand_y = 0
+            while self._board.board[rand_x][rand_y] != 1:
+                rand_x = randint(len(self._board.board[0]))
+                rand_y = randint(len(self._board.board))
+            return rand_x, rand_y
