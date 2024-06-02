@@ -12,25 +12,31 @@ class GameUI:
         :param width:
         :param height:
         """
+
+        # Initialize the window.
         self._screen_height = height
         self._screen_width = width
         self._screen = pygame.display.set_mode((self._screen_width, self._screen_height))
+
         self._main = Game()
         self._possibles = RingsMoves(0, 0, self._main.get_board())
+
+        # Initialize images that will be often use.
         self._leave_img = pygame.image.load('images/leave.png').convert_alpha()
         self.show_possible_moves = []
         self._back_img = pygame.image.load('images/back.png').convert_alpha()
         self._back_btn = ButtonUi(570, 300, self._back_img, 0.32)
         self._back_btn_game = ButtonUi(775, 500, self._back_img, 0.32)
-
         self._leave_btn = ButtonUi(1200, 0, self._leave_img, 0.03)
-
         self._blue_taiko = pygame.image.load('images/game/ring_player_1.png').convert_alpha()
-        self._blue_taiko = pygame.transform.scale(self._blue_taiko, (int(self._screen_width * 0.09), int(self._screen_height * 0.16)))
+        self._blue_taiko = pygame.transform.scale(
+            self._blue_taiko, (int(self._screen_width * 0.09), int(self._screen_height * 0.16)))
         self._red_taiko = pygame.image.load('images/game/ring_player_2.png').convert_alpha()
-        self._red_taiko = pygame.transform.scale(self._red_taiko, (int(self._screen_width * 0.09), int(self._screen_height * 0.16)))
+        self._red_taiko = pygame.transform.scale(
+            self._red_taiko, (int(self._screen_width * 0.09), int(self._screen_height * 0.16)))
         self._taiko_under = pygame.image.load('images/game/menu/taiko_under.png').convert_alpha()
-        self._taiko_under = pygame.transform.scale(self._taiko_under, (int(self._screen_width * 0.09), int(self._screen_height * 0.16)))
+        self._taiko_under = pygame.transform.scale(
+            self._taiko_under, (int(self._screen_width * 0.09), int(self._screen_height * 0.16)))
 
     def get_screen(self):
         """
@@ -48,7 +54,7 @@ class GameUI:
 
     def board_ui(self):
         """
-        Initialize theb board images.
+        Initialize the board images.
         :return: board img
         """
         pygame.display.set_caption('Yinch')
@@ -60,19 +66,18 @@ class GameUI:
     def window(self):
         """
         Display the main window.
-        :return:
         """
-
-        print("GAME MODE", self._main.get_game_mode())
-
+        # Create colors var
         black = (0, 0, 0)
         red = (255, 0, 0)
         blue = (0, 0, 255)
 
+        # Build the screen and display the board
         self._screen.fill((255, 255, 255))
         self._screen.blit(self.board_ui(), (-20, -10))
-        self.afficher_plateau()
+        self.display_board()
 
+        # Initialize fonts
         pygame.font.init()
         font_title = pygame.font.SysFont('freesansbold.ttf', 50)
         font_action = pygame.font.SysFont('freesansbold.ttf', 30)
@@ -81,18 +86,20 @@ class GameUI:
         selected_player = pygame.transform.scale(
             selected_player_img, (int(self._screen_width * 0.04), int(self._screen_height * 0.06)))
 
-        text_tips = font_action.render('Astuce : Cliquez droit sur votre anneau pour voir vos déplacements possibles.', True, black)
-
+        text_tips = font_action.render(
+            'Astuce : Cliquez droit sur votre anneau pour voir vos déplacements possibles.', True, black)
         text_player_1 = font_title.render('Joueur 1', True, blue)
         text_player_2 = font_title.render('Joueur 2', True, red)
 
+        # Display loop.
         run = True
         while run:
 
             text_ring_number_1 = font_title.render(f'Anneau(x) retiré(s) {self._main.get_player_1_ring()}', True, blue)
             text_ring_number_2 = font_title.render(f'Anneau(x) retiré(s)  {self._main.get_player_2_ring()}', True, red)
 
-            text_pawn_reaming = font_action.render(f'Pions restants {self._main.get_pawn().get_pawn_stock()}', True, black)
+            text_pawn_reaming = font_action.render(
+                f'Pions restants {self._main.get_pawn().get_pawn_stock()}', True, black)
             self.get_screen().blit(text_pawn_reaming, (840, 100))
 
             if self._main.get_blitz_mode() == 1:
@@ -100,7 +107,7 @@ class GameUI:
                 self.get_screen().blit(self._taiko_under, (840, 540))
 
             if self._main.get_blitz_mode() == 0:
-                # Player 1
+                # Player 1 rings remains
                 self.get_screen().blit(self._taiko_under, (750, 240))
                 self.get_screen().blit(self._taiko_under, (855, 240))
                 self.get_screen().blit(self._taiko_under, (960, 240))
@@ -115,7 +122,7 @@ class GameUI:
                         self.get_screen().blit(self._blue_taiko, (855, 240))
                         self.get_screen().blit(self._blue_taiko, (960, 240))
 
-                #Player 2
+                # Player 2 rings remain
                 self.get_screen().blit(self._taiko_under, (750, 440))
                 self.get_screen().blit(self._taiko_under, (855, 440))
                 self.get_screen().blit(self._taiko_under, (960, 440))
@@ -129,7 +136,6 @@ class GameUI:
                         self.get_screen().blit(self._red_taiko, (750, 440))
                         self.get_screen().blit(self._red_taiko, (855, 440))
                         self.get_screen().blit(self._red_taiko, (960, 440))
-
 
             pos = pygame.mouse.get_pos()
 
@@ -146,7 +152,7 @@ class GameUI:
             self.get_screen().blit(text_ring_number_1, (760, 200))
             self.get_screen().blit(text_ring_number_2, (760, 400))
 
-            # get mouse position
+            # Get mouse position
             click = False
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -164,9 +170,7 @@ class GameUI:
                     self._main.game_loop(int(click_coords[1]), int(click_coords[0]))
                     self._screen.fill((255, 255, 255))
                     self.get_screen().blit(self.board_ui(), (-20, -10))
-                    print(int(click_coords[1]), int(click_coords[0]))
-                    self.afficher_plateau()
-                    print(click_coords)
+                    self.display_board()
 
                 elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 3:
                     see_moves = ((pos[0] // (532 // len(self._main.get_board())) * 0.540),
@@ -175,7 +179,7 @@ class GameUI:
                         self._screen.fill((255, 255, 255))
                         self.get_screen().blit(self.board_ui(), (-20, -10))
                         self.view_possible_moves(int(see_moves[1]), int(see_moves[0]))
-                        self.afficher_plateau()
+                        self.display_board()
 
             text_turn = font_title.render(f'Tour {self._main.get_turn()}', True, black)
             self.get_screen().blit(text_turn, (860, 30))
@@ -213,12 +217,11 @@ class GameUI:
             if self._main.get_player() == 2:
                 self.get_screen().blit(selected_player, (780, 345))
 
-    def afficher_plateau(self):
+    def display_board(self):
         """
         Display the board.
-        :return:
         """
-
+        # Initialize the pictures that will be used
         pawn_ring_1 = pygame.image.load('images/game/pawn_and_ring_1.png').convert_alpha()
         pawn_ring_2 = pygame.image.load('images/game/pawn_and_ring_2.png').convert_alpha()
         pawn_1 = pygame.image.load('images/game/pawn_player_1.png').convert_alpha()
@@ -253,6 +256,12 @@ class GameUI:
                         self._screen.blit(pawn_ring_2, ((-15) + i * 54, (-15) + j * 33))
 
     def view_possible_moves(self, x, y):
+        """
+        Display the possible cases where you could place your ring.
+        :param x:
+        :param y:
+        :return:
+        """
         self.show_possible_moves.clear()
         possible = pygame.image.load('images/game/case_possible.png').convert_alpha()
         possible = pygame.transform.scale(possible, (70, 70))
@@ -265,7 +274,9 @@ class GameUI:
                         self._screen.blit(possible, ((-10) + i * 54, (-10) + j * 33))
 
     def win_menu(self):
-
+        """
+        Display the win menu.
+        """
         black = (0, 0, 0)
         sakura = (214, 173, 166)
 
@@ -312,12 +323,18 @@ class GameUI:
                 pygame.display.update()
 
     def win_music(self):
+        """
+        Plays the win music
+        """
         pygame.mixer.init()
         pygame.mixer.music.load('musics/win_sound.ogg', "ogg")
         pygame.mixer.music.set_volume(1.0)
         pygame.mixer.music.play(loops=-1, start=0.0)
 
     def restart(self):
+        """
+        Restarts the game.
+        """
         pygame.mixer.music.set_volume(0)
         self._main.reset_board()
         self._main.reset_player_rings()
