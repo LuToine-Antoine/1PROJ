@@ -92,6 +92,9 @@ class GameUI:
             text_ring_number_1 = font_title.render(f'Anneau(x) retiré(s) {self._main.get_player_1_ring()}', True, blue)
             text_ring_number_2 = font_title.render(f'Anneau(x) retiré(s)  {self._main.get_player_2_ring()}', True, red)
 
+            text_pawn_reaming = font_action.render(f'Pions restants {self._main.get_pawn().get_pawn_stock()}', True, black)
+            self.get_screen().blit(text_pawn_reaming, (840, 100))
+
             pos = pygame.mouse.get_pos()
 
             if self._main.win():
@@ -283,4 +286,5 @@ class GameUI:
         self._main.reset_board()
         self._main.reset_player_rings()
         self._main.reset_turn()
+        self._main.get_pawn().reset_pawn()
         self.window()

@@ -6,10 +6,14 @@ class Paws:
         self._stock = False
         self._pawn_stock = 51
 
+    def reset_pawn(self):
+        self._pawn_stock = 51
+
     def empty_stock(self, board):
         """
         Check if stock is empty or not
         """
+        self._pawn_stock = 51
         for i in range(len(board)):
             for j in range(len(board[0])):
                 if board[i][j] == 4 or board[i][j] == 5:
@@ -17,9 +21,10 @@ class Paws:
 
         self._stock = self._pawn_stock
         if self._pawn_stock == 0:
-            self._stock = True # Stock is empty
-        else :
-            self._stock = False # Stock is not empty
+            self._stock = True  # Stock is empty
+        else:
+            self._stock = False  # Stock is not empty
+
     def get_stock(self):
         """
         Get the stock to check if it's empty or not
@@ -44,6 +49,3 @@ class Paws:
         elif player == 2:
             self._board[self._x][self._y] = 5  # Change the state of the case of the board Player 2
         return board
-
-
-

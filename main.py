@@ -33,6 +33,9 @@ class Game:
         self._click_x = None
         self._click_y = None
 
+    def get_pawn(self):
+        return self._pawns
+
     def set_game_mode(self, mode=1):
         self._game_mode = mode
 
@@ -49,7 +52,11 @@ class Game:
         return self._board.board
 
     def reset_board(self):
-        self._board = BoardStruct()
+        for i in range(len(self._board.board)):
+            for j in range(len(self._board.board[0])):
+                if self._board.board[i][j] not in (0, 1):
+                    self._board.board[i][j] = 1
+        return self._board.board
 
     def get_player(self):
         return self._player
