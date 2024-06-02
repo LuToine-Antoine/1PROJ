@@ -96,9 +96,8 @@ class GameUI:
 
             pos = pygame.mouse.get_pos()
 
-            #if self._main.win():
-            #    self.win_menu()
-            self.win_menu()
+            if self._main.win():
+                self.win_menu()
 
             if self._leave_btn.draw():
                 sys.exit("Game leave")
