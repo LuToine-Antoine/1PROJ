@@ -279,5 +279,7 @@ class GameUI:
         pygame.mixer.music.play(loops=-1, start=0.0)
 
     def restart(self):
-        # self.board_ui() = self._main.get_board()
+        self._main.reset_board()
+        self._main.reset_player_rings()
+        self._main.reset_turn()
         self.window()

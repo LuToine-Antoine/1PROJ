@@ -48,11 +48,17 @@ class Game:
     def get_board(self):
         return self._board.board
 
+    def reset_board(self):
+        self._board = BoardStruct()
+
     def get_player(self):
         return self._player
 
     def get_turn(self):
         return self._round
+
+    def reset_turn(self):
+        self._round = 0
 
     def get_possible(self):
         return self._possibles
@@ -62,6 +68,10 @@ class Game:
 
     def get_ring_player_2(self):
         return self._player_2_out_ring
+
+    def reset_player_rings(self):
+        self._player_1_out_ring = 0
+        self._player_2_out_ring = 0
 
     def set_blitz_mode(self, mode=0):
         """
