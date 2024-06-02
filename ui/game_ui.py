@@ -23,6 +23,13 @@ class GameUI:
         self._back_btn = ButtonUi(570, 300, self._back_img, 0.32)
         self._back_btn_game = ButtonUi(775, 500, self._back_img, 0.32)
 
+        self._blue_taiko = pygame.image.load('images/game/ring_player_1.png').convert_alpha()
+        self._blue_taiko = pygame.transform.scale(self._blue_taiko, (int(self._screen_width * 0.3), int(self._screen_height * 0.5)))
+        self._red_taiko = pygame.image.load('images/game/ring_player_2.png').convert_alpha()
+        self._red_taiko = pygame.transform.scale(self._red_taiko, (int(self._screen_width * 0.3), int(self._screen_height * 0.5)))
+        self._taiko_under = pygame.image.load('images/game/menu/taiko_under.png').convert_alpha()
+        self._taiko_under = pygame.transform.scale(self._taiko_under, (int(self._screen_width * 0.3), int(self._screen_height * 0.5)))
+
     def get_screen(self):
         """
         Returns the screen.
@@ -82,6 +89,8 @@ class GameUI:
         run = True
         while run:
 
+            for i in range(self._main.get_player_1_ring()):
+                self._screen.blit(self._blue_taiko, (10, 10))
             text_ring_number_1 = font_title.render(f'Anneau(x) retiré(s) {self._main.get_player_1_ring()}', True, blue)
             text_ring_number_2 = font_title.render(f'Anneau(x) retiré(s)  {self._main.get_player_2_ring()}', True, red)
 
