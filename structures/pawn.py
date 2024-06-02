@@ -4,7 +4,7 @@ class Paws:
         self._y = y
         self._board = board
         self._stock = False
-        self._pawn_stock = 1
+        self._pawn_stock = 51
 
     def empty_stock(self, board):
         """
@@ -16,9 +16,10 @@ class Paws:
                     self._pawn_stock -= 1
 
         self._stock = self._pawn_stock
-        if self._pawn_stock <= 0:
-            self._pawn_stock = True # Stock is empty
-
+        if self._pawn_stock == 0:
+            self._stock = True # Stock is empty
+        else :
+            self._stock = False # Stock is not empty
     def get_stock(self):
         """
         Get the stock to check if it's empty or not
