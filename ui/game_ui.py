@@ -23,6 +23,15 @@ class GameUI:
         self._back_btn = ButtonUi(570, 300, self._back_img, 0.32)
         self._back_btn_game = ButtonUi(775, 500, self._back_img, 0.32)
 
+        self._leave_btn = ButtonUi(1200, 0, self._leave_img, 0.03)
+
+        self._blue_taiko = pygame.image.load('images/game/ring_player_1.png').convert_alpha()
+        self._blue_taiko = pygame.transform.scale(self._blue_taiko, (int(self._screen_width * 0.3), int(self._screen_height * 0.5)))
+        self._red_taiko = pygame.image.load('images/game/ring_player_2.png').convert_alpha()
+        self._red_taiko = pygame.transform.scale(self._red_taiko, (int(self._screen_width * 0.3), int(self._screen_height * 0.5)))
+        self._taiko_under = pygame.image.load('images/game/menu/taiko_under.png').convert_alpha()
+        self._taiko_under = pygame.transform.scale(self._taiko_under, (int(self._screen_width * 0.3), int(self._screen_height * 0.5)))
+
     def get_screen(self):
         """
         Returns the screen.
@@ -60,8 +69,6 @@ class GameUI:
         red = (255, 0, 0)
         blue = (0, 0, 255)
 
-        leave_btn = ButtonUi(1200, 0, self._leave_img, 0.03)
-
         self._screen.fill((255, 255, 255))
         self._screen.blit(self.board(), (-20, -10))
         self.afficher_plateau()
@@ -79,19 +86,20 @@ class GameUI:
         text_player_1 = font_title.render('Joueur 1', True, blue)
         text_player_2 = font_title.render('Joueur 2', True, red)
 
-
         run = True
         while run:
 
-            text_ring_number_1 = font_title.render(f'Pawn number {self._main.get_player_1_ring()}', True, blue)
-            text_ring_number_2 = font_title.render(f'Pawn number {self._main.get_player_2_ring()}', True, red)
+            for i in range(self._main.get_player_1_ring()):
+                self._screen.blit(self._blue_taiko, (10, 10))
+            text_ring_number_1 = font_title.render(f'Anneau(x) retiré(s) {self._main.get_player_1_ring()}', True, blue)
+            text_ring_number_2 = font_title.render(f'Anneau(x) retiré(s)  {self._main.get_player_2_ring()}', True, red)
 
             pos = pygame.mouse.get_pos()
 
             if self._main.win():
                 self.win_menu()
 
-            if leave_btn.draw():
+            if self._leave_btn.draw():
                 sys.exit("Game leave")
             pygame.display.update()
 
@@ -103,8 +111,8 @@ class GameUI:
                 elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                     if self._main.get_game_mode() == 0:
                         if self._main.get_player() == 1:
-                             click_coords = ((pos[0] // (532 // len(self._main.get_board())) * 0.540),
-                                             (pos[1] // (558 // len(self._main.get_board()) * 1.15)))
+                            click_coords = ((pos[0] // (532 // len(self._main.get_board())) * 0.540),
+                                            (pos[1] // (558 // len(self._main.get_board()) * 1.15)))
                         else:
                             click_coords = self._main.ia_moves()
                     if self._main.get_game_mode() == 1:
@@ -240,7 +248,7 @@ class GameUI:
     def view_possible_moves(self, x, y):
         self.show_possible_moves.clear()
         possible = pygame.image.load('images/game/case_possible.png').convert_alpha()
-        possible = pygame.transform.scale(possible, (70, 70))
+        possible = pygame.transform.scale(possible, (300, 300))
         self.show_possible_moves = list(self._possibles.get_possible_moves(x, y))
 
         for i in range(len(self._main.get_board()[0])):
@@ -264,12 +272,15 @@ class GameUI:
 
         pygame.display.set_caption(f'Yinch - {winner} Win !')
 
+        cat_img = pygame.image.load('images/cat_win.png').convert_alpha()
+        cat_img = pygame.transform.scale(cat_img, (int(self._screen_width * 0.3), int(self._screen_height * 0.5)))
+
         restart_img = pygame.image.load('images/button_restart.png').convert_alpha()
-        restart_btn = ButtonUi(350, 500, restart_img, 0.32)
+        restart_btn = ButtonUi(350, 525, restart_img, 0.32)
 
-        back_button = ButtonUi(670, 500, self._back_img, 0.32)
+        back_button = ButtonUi(670, 525, self._back_img, 0.32)
 
-        text_winner = font_title.render(f'Bien jouer Joueur {winner}', True, black)
+        text_winner = font_title.render(f'Bien joué Joueur {winner}', True, black)
 
         self.win_music()
 
@@ -277,10 +288,14 @@ class GameUI:
 
             self._screen.fill(sakura)
 
-            self._screen.blit(text_winner, (470, 100))
+            self._screen.blit(text_winner, (470, 70))
+            self._screen.blit(cat_img, (440, 150))
+
+            if self._leave_btn.draw():
+                sys.exit("Game leave")
 
             if restart_btn.draw():
-                print("restart")
+                self.window()
 
             if back_button.draw():
                 print("TG")
