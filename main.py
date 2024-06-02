@@ -117,7 +117,7 @@ class Game:
         self._click_x = x
         self._click_y = y
 
-        if self.in_board_verification(self._click_x, self._click_y) :
+        if self.in_board_verification(self._click_x, self._click_y):
             if self._player == 1:
                 caseplayer = 2
             else:
@@ -133,31 +133,34 @@ class Game:
                             self.main_see_moves_rings()
                             self._clickCount = 1
 
-            if self._clickCount == 1:
-                if self.main_move_rings(x, y, self._player):
-                    self._board.see_board()
-                    self._round += 1
-                    if self._player == 1:
-                        self._player = 2
-                    else:
-                        self._player = 1
-                    self._clickCount = 0
-        # Check if a player can remove a ring and add ring in his ring out stock
+            # Check if a player can remove a ring and add ring in his ring out stock
             align_result = self.alignement()
             if align_result == 1 and self._player_1_align > self._player_1_out_ring:
                 self.choix_anneaux(1)
                 if (self._click_x, self._click_y) in self._choix:
                     self.ring_out(self._click_x, self._click_y, 1)
+                    self._player = 2
+                    return
 
             elif align_result == 2 and self._player_2_align > self._player_2_out_ring:
                 self.choix_anneaux(2)
                 if (self._click_x, self._click_y) in self._choix:
-                        self.ring_out(self._click_x, self._click_y, 2)
+                    self.ring_out(self._click_x, self._click_y, 2)
+                    self._player = 1
+                    return
 
 
+        print("count", self._clickCount)
 
-
-
+        if self._clickCount == 1 and self._player_1_align == 0 and self._player_2_align == 0 :
+            if self.main_move_rings(x, y, self._player):
+                self._board.see_board()
+                self._round += 1
+                if self._player == 1:
+                    self._player = 2
+                else:
+                    self._player = 1
+                self._clickCount = 0
 
             # Reset click
             self._click_x = None

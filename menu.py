@@ -10,8 +10,6 @@ class MenuUi:
     def __init__(self, width=1280, height=720):
         """
         Initialize the MenuUi class
-        :param width:
-        :param height:
         """
         self._screen_height = height
         self._screen_width = width
@@ -160,7 +158,6 @@ class MenuUi:
     def display_local(self):
         """
         Display the local menu.
-        :return:
         """
         self._board_ui.get_game().set_game_mode(1)
 
@@ -169,7 +166,7 @@ class MenuUi:
         normal_img = pygame.image.load('images/menu/button_classic.png').convert_alpha()
         blitz_img = pygame.image.load('images/menu/button_blitz.png').convert_alpha()
 
-        normal_btn = ButtonUi(510, 90, normal_img, 0.32)
+        normal_btn = ButtonUi(510, 190, normal_img, 0.32)
         blitz_btn = ButtonUi(510, 290, blitz_img, 0.32)
 
         while True:
@@ -201,7 +198,6 @@ class MenuUi:
     def display_rules(self):
         """
         Display the game rules.
-        :return:
         """
         black = (0, 0, 0)
         sakura = (214, 173, 166)
