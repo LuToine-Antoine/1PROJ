@@ -46,7 +46,7 @@ class GameUI:
         """
         return self._main
 
-    def board(self):
+    def board_ui(self):
         """
         Initialize theb board images.
         :return: board img
@@ -70,7 +70,7 @@ class GameUI:
         blue = (0, 0, 255)
 
         self._screen.fill((255, 255, 255))
-        self._screen.blit(self.board(), (-20, -10))
+        self._screen.blit(self.board_ui(), (-20, -10))
         self.afficher_plateau()
 
         pygame.font.init()
@@ -124,7 +124,7 @@ class GameUI:
                                         (pos[1] // (558 // len(self._main.get_board()) * 1.15)))
                     self._main.game_loop(int(click_coords[1]), int(click_coords[0]))
                     self._screen.fill((255, 255, 255))
-                    self.get_screen().blit(self.board(), (-20, -10))
+                    self.get_screen().blit(self.board_ui(), (-20, -10))
                     print(int(click_coords[1]), int(click_coords[0]))
                     self.afficher_plateau()
                     print(click_coords)
@@ -134,7 +134,7 @@ class GameUI:
                                  (pos[1] // (558 // len(self._main.get_board()) * 1.15)))
                     if self._main.get_board()[int(see_moves[1])][int(see_moves[0])] in (2, 3, 6, 7):
                         self._screen.fill((255, 255, 255))
-                        self.get_screen().blit(self.board(), (-20, -10))
+                        self.get_screen().blit(self.board_ui(), (-20, -10))
                         self.view_possible_moves(int(see_moves[1]), int(see_moves[0]))
                         self.afficher_plateau()
 
@@ -201,47 +201,17 @@ class GameUI:
                 board_ui = self._main.get_board()[j][i]
                 match board_ui:
                     case 2:
-                        self.taiko_sound(0)
-                        self.taiko_sound_2(1)
                         self._screen.blit(ring_1, ((-15) + i * 54, (-15) + j * 33))
                     case 3:
-                        self.taiko_sound(0)
-                        self.taiko_sound_2(1)
                         self._screen.blit(ring_2, ((-15) + i * 54, (-15) + j * 33))
                     case 4:
                         self._screen.blit(pawn_1, ((-15) + i * 54, (-15) + j * 33))
                     case 5:
                         self._screen.blit(pawn_2, ((-20) + i * 54, (-15) + j * 33))
                     case 6:
-                        self.taiko_sound(1)
-                        self.taiko_sound_2(0)
                         self._screen.blit(pawn_ring_1, ((-15) + i * 54, (-15) + j * 33))
                     case 7:
-                        self.taiko_sound(1)
-                        self.taiko_sound_2(0)
                         self._screen.blit(pawn_ring_2, ((-15) + i * 54, (-15) + j * 33))
-
-    def taiko_sound(self, volume=1):
-        """
-        Play the taiko sound.
-        :param volume:
-        :return:
-        """
-        pygame.mixer.init()
-        pygame.mixer.music.load('musics/dunk.ogg', "ogg")
-        pygame.mixer.music.set_volume(volume)
-        pygame.mixer.music.play(loops=-1, start=0.0)
-
-    def taiko_sound_2(self, volume=1):
-        """
-        Play the taiko sound.
-        :param volume:
-        :return:
-        """
-        pygame.mixer.init()
-        pygame.mixer.music.load('musics/taiko_sound.ogg', "ogg")
-        pygame.mixer.music.set_volume(volume)
-        pygame.mixer.music.play(loops=-1, start=0.0)
 
     def view_possible_moves(self, x, y):
         self.show_possible_moves.clear()
@@ -268,17 +238,18 @@ class GameUI:
         else:
             winner = 1
 
-        pygame.display.set_caption(f'Yinch - {winner} Win !')
+        if self._main.win() == 3:
+            pygame.display.set_caption(f'Yinch - Egalité ! !')
+            text_winner = font_title.render(f'Bien joué égalité !', True, black)
+        else:
+            pygame.display.set_caption(f'Yinch - {winner} Win !')
+            text_winner = font_title.render(f'Bien joué Joueur {winner}', True, black)
 
         cat_img = pygame.image.load('images/cat_win.png').convert_alpha()
         cat_img = pygame.transform.scale(cat_img, (int(self._screen_width * 0.3), int(self._screen_height * 0.5)))
 
         restart_img = pygame.image.load('images/button_restart.png').convert_alpha()
-        restart_btn = ButtonUi(350, 525, restart_img, 0.32)
-
-        back_button = ButtonUi(670, 525, self._back_img, 0.32)
-
-        text_winner = font_title.render(f'Bien joué Joueur {winner}', True, black)
+        restart_btn = ButtonUi(510, 540, restart_img, 0.32)
 
         self.win_music()
 
@@ -293,10 +264,7 @@ class GameUI:
                 sys.exit("Game leave")
 
             if restart_btn.draw():
-                self.window()
-
-            if back_button.draw():
-                print("TG")
+                self.restart()
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -309,3 +277,7 @@ class GameUI:
         pygame.mixer.music.load('musics/win_sound.ogg', "ogg")
         pygame.mixer.music.set_volume(1.0)
         pygame.mixer.music.play(loops=-1, start=0.0)
+
+    def restart(self):
+        # self.board_ui() = self._main.get_board()
+        self.window()
