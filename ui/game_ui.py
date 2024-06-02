@@ -26,9 +26,9 @@ class GameUI:
         self._leave_btn = ButtonUi(1200, 0, self._leave_img, 0.03)
 
         self._blue_taiko = pygame.image.load('images/game/ring_player_1.png').convert_alpha()
-        self._blue_taiko = pygame.transform.scale(self._blue_taiko, (int(self._screen_width * 0.1), int(self._screen_height * 0.18)))
+        self._blue_taiko = pygame.transform.scale(self._blue_taiko, (int(self._screen_width * 0.09), int(self._screen_height * 0.16)))
         self._red_taiko = pygame.image.load('images/game/ring_player_2.png').convert_alpha()
-        self._red_taiko = pygame.transform.scale(self._red_taiko, (int(self._screen_width * 0.3), int(self._screen_height * 0.5)))
+        self._red_taiko = pygame.transform.scale(self._red_taiko, (int(self._screen_width * 0.09), int(self._screen_height * 0.16)))
         self._taiko_under = pygame.image.load('images/game/menu/taiko_under.png').convert_alpha()
         self._taiko_under = pygame.transform.scale(self._taiko_under, (int(self._screen_width * 0.09), int(self._screen_height * 0.16)))
 
@@ -104,11 +104,32 @@ class GameUI:
                 self.get_screen().blit(self._taiko_under, (750, 240))
                 self.get_screen().blit(self._taiko_under, (855, 240))
                 self.get_screen().blit(self._taiko_under, (960, 240))
+                match self._main.get_player_1_ring():
+                    case 1:
+                        self.get_screen().blit(self._blue_taiko, (750, 240))
+                    case 2:
+                        self.get_screen().blit(self._blue_taiko, (750, 240))
+                        self.get_screen().blit(self._blue_taiko, (855, 240))
+                    case 3:
+                        self.get_screen().blit(self._blue_taiko, (750, 240))
+                        self.get_screen().blit(self._blue_taiko, (855, 240))
+                        self.get_screen().blit(self._blue_taiko, (960, 240))
 
                 #Player 2
                 self.get_screen().blit(self._taiko_under, (750, 440))
                 self.get_screen().blit(self._taiko_under, (855, 440))
                 self.get_screen().blit(self._taiko_under, (960, 440))
+                match self._main.get_player_2_ring():
+                    case 1:
+                        self.get_screen().blit(self._red_taiko, (750, 440))
+                    case 2:
+                        self.get_screen().blit(self._red_taiko, (750, 440))
+                        self.get_screen().blit(self._red_taiko, (855, 440))
+                    case 3:
+                        self.get_screen().blit(self._red_taiko, (750, 440))
+                        self.get_screen().blit(self._red_taiko, (855, 440))
+                        self.get_screen().blit(self._red_taiko, (960, 440))
+
 
             pos = pygame.mouse.get_pos()
 
