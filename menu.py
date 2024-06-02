@@ -125,7 +125,6 @@ class MenuUi:
     def display_multi(self):
         """
         Display the multiplayer menu.
-        :return:
         """
 
         pygame.display.set_caption('Yinch Multiplayer mode')

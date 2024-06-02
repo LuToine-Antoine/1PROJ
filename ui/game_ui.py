@@ -216,7 +216,7 @@ class GameUI:
     def view_possible_moves(self, x, y):
         self.show_possible_moves.clear()
         possible = pygame.image.load('images/game/case_possible.png').convert_alpha()
-        possible = pygame.transform.scale(possible, (300, 300))
+        possible = pygame.transform.scale(possible, (70, 70))
         self.show_possible_moves = list(self._possibles.get_possible_moves(x, y))
 
         for i in range(len(self._main.get_board()[0])):
