@@ -12,11 +12,8 @@ class Game:
         self._rotation = None
         self._mode = None
         self._game_mode = None
-<<<<<<< HEAD
         self._solo_mode = 0
-=======
         self._change_player = True
->>>>>>> 77edc3c02f2f22d323fd28a716995e7ef175b485
         self._player_1_out_ring = 0
         self._player_2_out_ring = 0
         self._player_1_align = 0

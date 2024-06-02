@@ -6,8 +6,10 @@ class RingsMoves:
         self._y = y
         self._board = board
         self._vertical_moves = []
-        self._right_diagonal_moves = []
-        self._left_diagonal_moves = []
+        self._up_right_diagonal_moves = []
+        self._up_left_diagonal_moves = []
+        self._down_right_diagonal_moves = []
+        self._down_left_diagonal_moves = []
 
     def set_vertical_moves(self):
         self._vertical_moves.clear()
@@ -58,8 +60,10 @@ class RingsMoves:
         return self._vertical_moves
 
     def set_diagonal_moves(self):
-        self._right_diagonal_moves.clear()
-        self._left_diagonal_moves.clear()
+        self._up_right_diagonal_moves.clear()
+        self._up_left_diagonal_moves.clear()
+        self._down_right_diagonal_moves.clear()
+        self._down_left_diagonal_moves.clear()
         up_left = []
         up_right = []
         down_left = []
@@ -157,17 +161,25 @@ class RingsMoves:
                 if self._board[self._x + i][self._y - i] == 1:
                     down_left.append((self._x + i, self._y - i))
 
-        self._left_diagonal_moves = up_left + down_left
-        self._right_diagonal_moves = up_right + down_right
+        self._up_left_diagonal_moves = up_left 
+        self._down_left_diagonal_moves = down_left
+        self._up_right_diagonal_moves = up_right 
+        self._down_right_diagonal_moves = down_right
 
-    def get_right_diagonal_moves(self):
-        return self._right_diagonal_moves
+    def get_up_right_diagonal_moves(self):
+        return self._up_right_diagonal_moves
 
-    def get_left_diagonal_moves(self):
-        return self._left_diagonal_moves
+    def get_up_left_diagonal_moves(self):
+        return self._up_left_diagonal_moves
+
+    def get_down_right_diagonal_moves(self):
+        return self._down_right_diagonal_moves
+
+    def get_down_left_diagonal_moves(self):
+        return self._down_left_diagonal_moves
 
     def get_diagonal_moves(self):
-        return self._right_diagonal_moves + self._left_diagonal_moves
+        return self._up_right_diagonal_moves + self._up_left_diagonal_moves + self._down_right_diagonal_moves + self._down_left_diagonal_moves
 
     def get_possible_moves(self, x, y):
         self._x = x
