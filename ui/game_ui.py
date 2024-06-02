@@ -239,7 +239,7 @@ class GameUI:
     def view_possible_moves(self, x, y):
         self.show_possible_moves.clear()
         possible = pygame.image.load('images/game/case_possible.png').convert_alpha()
-        possible = pygame.transform.scale(possible, (70, 70))
+        possible = pygame.transform.scale(possible, (300, 300))
         self.show_possible_moves = list(self._possibles.get_possible_moves(x, y))
 
         for i in range(len(self._main.get_board()[0])):
@@ -263,12 +263,15 @@ class GameUI:
 
         pygame.display.set_caption(f'Yinch - {winner} Win !')
 
+        cat_img = pygame.image.load('images/cat_win.png').convert_alpha()
+        cat_img = pygame.transform.scale(cat_img, (int(self._screen_width * 0.3), int(self._screen_height * 0.5)))
+
         restart_img = pygame.image.load('images/button_restart.png').convert_alpha()
-        restart_btn = ButtonUi(350, 500, restart_img, 0.32)
+        restart_btn = ButtonUi(350, 525, restart_img, 0.32)
 
-        back_button = ButtonUi(670, 500, self._back_img, 0.32)
+        back_button = ButtonUi(670, 525, self._back_img, 0.32)
 
-        text_winner = font_title.render(f'Bien jouer Joueur {winner}', True, black)
+        text_winner = font_title.render(f'Bien joué Joueur {winner}', True, black)
 
         self.win_music()
 
@@ -276,10 +279,12 @@ class GameUI:
 
             self._screen.fill(sakura)
 
-            self._screen.blit(text_winner, (470, 100))
+            self._screen.blit(text_winner, (470, 70))
+
+            self._screen.blit(cat_img, (440, 150))
 
             if restart_btn.draw():
-                print("restart")
+                self.window()
 
             if back_button.draw():
                 print("TG")
