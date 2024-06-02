@@ -27,9 +27,9 @@ class Game:
         self.all_possibles_moves = []
         self._choix = []
         self._pawns = Paws(0, 0, self._board.board)
-        self._pawnStock = self._pawns.empty_stock(self._board.board)
         self._possibles = RingsMoves(0, 0, self._board.board)
         self._firstRing = Rings(0, 0, self._board.board)
+        self._pawnStock = False
         self._click_x = None
         self._click_y = None
 
@@ -82,6 +82,7 @@ class Game:
         board = BoardStruct()
         numberRingPlayer1 = self._player_1_out_ring
         numberRingPlayer2 = self._player_2_out_ring
+        self._pawnStock = self._pawns.get_stock()
 
         if not self._mode:
             numberToWin = 3
