@@ -26,7 +26,7 @@ class GameUI:
         self._leave_btn = ButtonUi(1200, 0, self._leave_img, 0.03)
 
         self._blue_taiko = pygame.image.load('images/game/ring_player_1.png').convert_alpha()
-        self._blue_taiko = pygame.transform.scale(self._blue_taiko, (int(self._screen_width * 0.3), int(self._screen_height * 0.5)))
+        self._blue_taiko = pygame.transform.scale(self._blue_taiko, (int(self._screen_width * 0.1), int(self._screen_height * 0.18)))
         self._red_taiko = pygame.image.load('images/game/ring_player_2.png').convert_alpha()
         self._red_taiko = pygame.transform.scale(self._red_taiko, (int(self._screen_width * 0.3), int(self._screen_height * 0.5)))
         self._taiko_under = pygame.image.load('images/game/menu/taiko_under.png').convert_alpha()
@@ -89,8 +89,6 @@ class GameUI:
         run = True
         while run:
 
-            for i in range(self._main.get_player_1_ring()):
-                self._screen.blit(self._blue_taiko, (10, 10))
             text_ring_number_1 = font_title.render(f'Anneau(x) retiré(s) {self._main.get_player_1_ring()}', True, blue)
             text_ring_number_2 = font_title.render(f'Anneau(x) retiré(s)  {self._main.get_player_2_ring()}', True, red)
 
@@ -137,9 +135,6 @@ class GameUI:
             text_turn = font_title.render(f'Tour {self._main.get_turn()}', True, black)
             self.get_screen().blit(text_turn, (860, 30))
 
-            self.get_screen().blit(text_ring_number_1, (860, 250))
-            self.get_screen().blit(text_ring_number_2, (860, 500))
-
             texts = {
                 (0, 1): font_action.render('Placez vos premiers anneaux', True, blue),
                 (1, 1): font_action.render("Déplacez l'anneau", True, blue),
@@ -167,14 +162,17 @@ class GameUI:
             self.get_screen().blit(text, (760, 70))
 
             self.get_screen().blit(text_player_1, (840, 150))
-            self.get_screen().blit(text_player_2, (840, 300))
+            self.get_screen().blit(text_player_2, (840, 350))
+
+            self.get_screen().blit(text_ring_number_1, (760, 200))
+            self.get_screen().blit(text_ring_number_2, (760, 400))
 
             self.get_screen().blit(text_tips, (450, 650))
 
             if self._main.get_player() == 1:
                 self.get_screen().blit(selected_player, (780, 145))
             if self._main.get_player() == 2:
-                self.get_screen().blit(selected_player, (780, 295))
+                self.get_screen().blit(selected_player, (780, 345))
 
     def afficher_plateau(self):
         """
