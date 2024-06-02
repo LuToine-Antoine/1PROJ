@@ -321,6 +321,7 @@ class GameUI:
         pygame.mixer.music.set_volume(0)
         self._main.reset_board()
         self._main.reset_player_rings()
+        self._main.reset_player()
         self._main.reset_turn()
         self._main.get_pawn().reset_pawn()
         self.window()
