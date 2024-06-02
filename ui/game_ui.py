@@ -79,11 +79,13 @@ class GameUI:
         text_player_1 = font_title.render('Joueur 1', True, blue)
         text_player_2 = font_title.render('Joueur 2', True, red)
 
-        text_ring_number_1 = font_title.render(f'Pawn number {self._main.get_player_1_ring()}', True, blue)
-        text_ring_number_2 = font_title.render(f'Pawn number {self._main.get_player_2_ring()}', True, red)
 
         run = True
         while run:
+
+            text_ring_number_1 = font_title.render(f'Pawn number {self._main.get_player_1_ring()}', True, blue)
+            text_ring_number_2 = font_title.render(f'Pawn number {self._main.get_player_2_ring()}', True, red)
+
             pos = pygame.mouse.get_pos()
 
             if self._main.win():
@@ -99,15 +101,15 @@ class GameUI:
                 if event.type == pygame.QUIT:
                     run = False
                 elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
-                    # if self._main.get_game_mode() == 0:
-                        # if self._main.get_player() == 1:
-                        #     click_coords = ((pos[0] // (532 // len(self._main.get_board())) * 0.540),
-                        #                     (pos[1] // (558 // len(self._main.get_board()) * 1.15)))
-                        # else:
-                        #     click_coords = self._main.ia_moves()
-                    #if self._main.get_game_mode() == 1:
-                    click_coords = ((pos[0] // (532 // len(self._main.get_board())) * 0.540),
-                                    (pos[1] // (558 // len(self._main.get_board()) * 1.15)))
+                    if self._main.get_game_mode() == 0:
+                        if self._main.get_player() == 1:
+                             click_coords = ((pos[0] // (532 // len(self._main.get_board())) * 0.540),
+                                             (pos[1] // (558 // len(self._main.get_board()) * 1.15)))
+                        else:
+                            click_coords = self._main.ia_moves()
+                    if self._main.get_game_mode() == 1:
+                        click_coords = ((pos[0] // (532 // len(self._main.get_board())) * 0.540),
+                                        (pos[1] // (558 // len(self._main.get_board()) * 1.15)))
                     self._main.game_loop(int(click_coords[1]), int(click_coords[0]))
                     self._screen.fill((255, 255, 255))
                     self.get_screen().blit(self.board(), (-20, -10))

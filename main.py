@@ -136,6 +136,7 @@ class Game:
 
             # Check if a player can remove a ring and add ring in his ring out stock
 
+            self.alignement()
             if self._player_1_align > self._player_1_out_ring:
                 self.choix_anneaux(1)
                 if (self._click_x, self._click_y) in self._choix:
@@ -181,9 +182,6 @@ class Game:
                 print("Game continue")
 
         self._pawns.empty_stock(self._board.board)
-        print(self._pawnStock)
-
-        print(self._player_1_out_ring, self._player_2_out_ring)
 
     def get_click_count(self):
         return self._clickCount
@@ -385,9 +383,9 @@ class Game:
             ia = randint(1, len(all_moves))
             return all_moves[ia]
         else:
-            rand_x = 0
-            rand_y = 0
-            while self._board.board[rand_x][rand_y] != 1:
-                rand_x = randint(len(self._board.board[0]))
-                rand_y = randint(len(self._board.board))
-            return rand_x, rand_y
+            move_x = randint(1, len(self._board.board)-1)
+            move_y = randint(1, len(self._board.board)-1)
+            while self._board.board[move_x][move_y] == 0:
+                move_x = randint(1, len(self._board.board))
+                move_y = randint(1, len(self._board.board))
+            return move_x, move_y
