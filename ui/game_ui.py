@@ -23,6 +23,8 @@ class GameUI:
         self._back_btn = ButtonUi(570, 300, self._back_img, 0.32)
         self._back_btn_game = ButtonUi(775, 500, self._back_img, 0.32)
 
+        self._leave_btn = ButtonUi(1200, 0, self._leave_img, 0.03)
+
         self._blue_taiko = pygame.image.load('images/game/ring_player_1.png').convert_alpha()
         self._blue_taiko = pygame.transform.scale(self._blue_taiko, (int(self._screen_width * 0.3), int(self._screen_height * 0.5)))
         self._red_taiko = pygame.image.load('images/game/ring_player_2.png').convert_alpha()
@@ -67,8 +69,6 @@ class GameUI:
         red = (255, 0, 0)
         blue = (0, 0, 255)
 
-        leave_btn = ButtonUi(1200, 0, self._leave_img, 0.03)
-
         self._screen.fill((255, 255, 255))
         self._screen.blit(self.board(), (-20, -10))
         self.afficher_plateau()
@@ -96,10 +96,11 @@ class GameUI:
 
             pos = pygame.mouse.get_pos()
 
-            if self._main.win():
-                self.win_menu()
+            #if self._main.win():
+            #    self.win_menu()
+            self.win_menu()
 
-            if leave_btn.draw():
+            if self._leave_btn.draw():
                 sys.exit("Game leave")
             pygame.display.update()
 
@@ -289,8 +290,10 @@ class GameUI:
             self._screen.fill(sakura)
 
             self._screen.blit(text_winner, (470, 70))
-
             self._screen.blit(cat_img, (440, 150))
+
+            if self._leave_btn.draw():
+                sys.exit("Game leave")
 
             if restart_btn.draw():
                 self.window()
