@@ -364,3 +364,16 @@ class Game:
 
     def get_player_2_ring(self):
         return self._player_2_out_ring
+
+    def ia_moves(self):
+        if self.get_turn() > 10:
+            all_moves = self._possibles.get_vertical_moves() + self._possibles.get_diagonal_moves()
+            ia = randint(1, len(all_moves))
+            return all_moves[ia]
+        else:
+            move_x = randint(1, len(self._board.board)-1)
+            move_y = randint(1, len(self._board.board)-1)
+            while self._board.board[move_x][move_y] == 0:
+                move_x = randint(1, len(self._board.board))
+                move_y = randint(1, len(self._board.board))
+            return move_x, move_y

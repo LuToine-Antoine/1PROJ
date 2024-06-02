@@ -83,7 +83,7 @@ class GameUI:
                             click_coords = ((pos[0] // (532 // len(self._main.get_board())) * 0.540),
                                             (pos[1] // (558 // len(self._main.get_board()) * 1.15)))
                         else:
-                            click_coords = self._main.get_possible().ia_moves()
+                            click_coords = self._main.ia_moves()
                     if self._main.get_game_mode() == 1:
                         click_coords = ((pos[0] // (532 // len(self._main.get_board())) * 0.540),
                                         (pos[1] // (558 // len(self._main.get_board()) * 1.15)))
