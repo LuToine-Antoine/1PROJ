@@ -403,10 +403,10 @@ class Game:
         if self.get_turn() >= 10:
             for i in range(len(self._board.board)):
                 for j in range(len(self._board.board[0])):
-                    if self._board.board[i][j] == 2:
+                    if self._board.board[i][j] == 3:
                         rings.append((i, j))
-            rand_pawn = randint(0, len(rings) - 1)
-            rand_pawn = self._board.board[rand_pawn]
+            rand_pawn = randint(0, len(rings)-1)
+            rand_pawn = rings[rand_pawn]
             self.main_put_pawns(rand_pawn[0], rand_pawn[1], 2)
             self.main_see_moves_rings()
 
