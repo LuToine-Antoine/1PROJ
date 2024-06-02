@@ -6,31 +6,41 @@ from ui.game_ui import *
 from ui.buttons import *
 
 
-class Menu:
+class MenuUi:
     def __init__(self, width=1280, height=720):
+        """
+        Initialize the MenuUi class
+        """
         self._screen_height = height
         self._screen_width = width
         self._screen = pygame.display.set_mode((self._screen_width, self._screen_height))
 
-        pygame.display.set_caption('Yinch')
         self._bg = pygame.image.load('images/menu/bg.jpg').convert_alpha()
 
         self._leave_img = pygame.image.load('images/leave.png').convert_alpha()
         self._leave_btn = ButtonUi(1200, 0, self._leave_img, 0.03)
 
         self._back_img = pygame.image.load('images/back.png').convert_alpha()
-        self._back_btn = ButtonUi(288, 300, self._back_img, 0.32)
+        self._back_btn = ButtonUi(510, 420, self._back_img, 0.32)
 
         super(GameUI)
         self._board_ui = GameUI()
 
     def music_menu(self):
+        """
+        Play the menu music.
+        :return:
+        """
         pygame.mixer.init()
         pygame.mixer.music.load('musics/menu_music.ogg', "ogg")
         pygame.mixer.music.set_volume(1.0)
         pygame.mixer.music.play(loops=-1, start=0.0)
 
     def window(self):
+        """
+        Display the main menu of the game.
+        :return:
+        """
 
         pygame.display.set_caption('Yinch menu - LuToine')
 
@@ -73,14 +83,18 @@ class Menu:
                 pygame.display.update()
 
     def display_solo(self):
+        """
+        Display the solo menu.
+        :return:
+        """
         self._board_ui.get_game().set_game_mode(0)
         pygame.display.set_caption('Yinch Solo mode')
 
         normal_img = pygame.image.load('images/menu/button_classic.png').convert_alpha()
         blitz_img = pygame.image.load('images/menu/button_blitz.png').convert_alpha()
 
-        normal_btn = ButtonUi(288, -10, normal_img, 0.32)
-        blitz_btn = ButtonUi(288, 110, blitz_img, 0.32)
+        normal_btn = ButtonUi(510, 100, normal_img, 0.32)
+        blitz_btn = ButtonUi(510, 300, blitz_img, 0.32)
 
         while True:
 
@@ -93,12 +107,12 @@ class Menu:
                 self.window()
 
             if normal_btn.draw():
-                self._board_ui.get_game().set_game_mode(0)
+                self._board_ui.get_game().set_blitz_mode(1)
                 pygame.mixer.music.pause()
                 self._board_ui.window()
 
             if blitz_btn.draw():
-                self._board_ui.get_game().set_game_mode(1)
+                self._board_ui.get_game().set_blitz_mode(0)
                 pygame.mixer.music.pause()
                 self._board_ui.window()
 
@@ -109,21 +123,25 @@ class Menu:
                 pygame.display.update()
 
     def display_multi(self):
+        """
+        Display the multiplayer menu.
+        :return:
+        """
 
         pygame.display.set_caption('Yinch Multiplayer mode')
 
         local_img = pygame.image.load('images/menu/multi_menu/button_local.png').convert_alpha()
-        local_button = ButtonUi(288, -10, local_img, 0.32)
+        local_button = ButtonUi(510, 90, local_img, 0.32)
 
         online_img = pygame.image.load('images/menu/multi_menu/button_online.png').convert_alpha()
-        online_button = ButtonUi(288, 110, online_img, 0.32)
+        online_button = ButtonUi(510, 220, online_img, 0.32)
 
         while True:
 
             self._screen.blit(self._bg, (0, 0))
 
             if local_button.draw():
-                print("local")
+                self.display_local()
 
             if online_button.draw():
                 print("online")
@@ -138,6 +156,9 @@ class Menu:
                 pygame.display.update()
 
     def display_local(self):
+        """
+        Display the local menu.
+        """
         self._board_ui.get_game().set_game_mode(1)
 
         pygame.display.set_caption('Yinch Local Mode')
@@ -145,8 +166,8 @@ class Menu:
         normal_img = pygame.image.load('images/menu/button_classic.png').convert_alpha()
         blitz_img = pygame.image.load('images/menu/button_blitz.png').convert_alpha()
 
-        normal_btn = ButtonUi(288, -10, normal_img, 0.32)
-        blitz_btn = ButtonUi(288, 110, blitz_img, 0.32)
+        normal_btn = ButtonUi(510, 190, normal_img, 0.32)
+        blitz_btn = ButtonUi(510, 290, blitz_img, 0.32)
 
         while True:
 
@@ -159,12 +180,12 @@ class Menu:
                 self.window()
 
             if normal_btn.draw():
-                self._board_ui.get_game().set_game_mode(0)
+                self._board_ui.get_game().set_blitz_mode(1)
                 pygame.mixer.music.pause()
                 self._board_ui.window()
 
             if blitz_btn.draw():
-                self._board_ui.get_game().set_game_mode(1)
+                self._board_ui.get_game().set_blitz_mode(0)
                 pygame.mixer.music.pause()
                 self._board_ui.window()
 
@@ -175,6 +196,9 @@ class Menu:
                 pygame.display.update()
 
     def display_rules(self):
+        """
+        Display the game rules.
+        """
         black = (0, 0, 0)
         sakura = (214, 173, 166)
         scale = 0.2
@@ -220,7 +244,7 @@ class Menu:
         title_rect.center = (self._screen_width // 2, 35)
 
         # Buttons
-        back_button_rules = ButtonUi(300, 300, self._back_img, 0.32)
+        back_button_rules = ButtonUi(500, 420, self._back_img, 0.32)
 
         # infinite loop
         while True:
@@ -255,6 +279,6 @@ class Menu:
                 pygame.display.update()
 
 
-menu = Menu()
+menu = MenuUi()
 menu.music_menu()
 menu.window()

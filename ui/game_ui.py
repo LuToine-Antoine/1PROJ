@@ -16,6 +16,7 @@ class GameUI:
         self.show_possible_moves = []
         self._back_img = pygame.image.load('images/back.png').convert_alpha()
         self._back_btn = ButtonUi(570, 300, self._back_img, 0.32)
+        self._back_btn_game = ButtonUi(775, 500, self._back_img, 0.32)
 
     def get_screen(self):
         return self._screen
@@ -31,6 +32,9 @@ class GameUI:
         return board
 
     def window(self):
+
+        print("GAME MODE", self._main.get_game_mode())
+
         black = (0, 0, 0)
         red = (255, 0, 0)
         blue = (0, 0, 255)
@@ -49,15 +53,24 @@ class GameUI:
         selected_player = pygame.transform.scale(
             selected_player_img, (int(self._screen_width * 0.04), int(self._screen_height * 0.06)))
 
-        # text_tips = font_title.render('Astuce : Cliquez droit sur votre anneau pour voir vos déplacements possibles.', True, blue),
+        text_tips = font_action.render('Astuce : Cliquez droit sur votre anneau pour voir vos déplacements possibles.', True, black)
 
         text_player_1 = font_title.render('Joueur 1', True, blue)
-        # text_ring_number_1 = font_title.render(f'Pawn number {self._main.get_player_1_ring()}', True, red)
         text_player_2 = font_title.render('Joueur 2', True, red)
+
+        text_ring_number_1 = font_title.render(f'Pawn number {self._main.get_player_1_ring()}', True, blue)
+        text_ring_number_2 = font_title.render(f'Pawn number {self._main.get_player_2_ring()}', True, red)
 
         run = True
         while run:
             pos = pygame.mouse.get_pos()
+
+            if self._main.win():
+                self.win_menu()
+
+            if leave_btn.draw():
+                sys.exit("Game leave")
+            pygame.display.update()
 
             # get mouse position
             click = False
@@ -65,14 +78,21 @@ class GameUI:
                 if event.type == pygame.QUIT:
                     run = False
                 elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
-                    isintable = ((pos[0] // (532 // len(self._main.get_board())) * 0.540),
-                                 (pos[1] // (558 // len(self._main.get_board()) * 1.15)))
-                    self._main.game_loop(int(isintable[1]), int(isintable[0]))
+                    if self._main.get_game_mode() == 0:
+                        if self._main.get_player() == 1:
+                            click_coords = ((pos[0] // (532 // len(self._main.get_board())) * 0.540),
+                                            (pos[1] // (558 // len(self._main.get_board()) * 1.15)))
+                        else:
+                            click_coords = self._main.ia_moves()
+                    if self._main.get_game_mode() == 1:
+                        click_coords = ((pos[0] // (532 // len(self._main.get_board())) * 0.540),
+                                        (pos[1] // (558 // len(self._main.get_board()) * 1.15)))
+                    self._main.game_loop(int(click_coords[1]), int(click_coords[0]))
                     self._screen.fill((255, 255, 255))
                     self.get_screen().blit(self.board(), (-20, -10))
-                    print(int(isintable[1]), int(isintable[0]))
+                    print(int(click_coords[1]), int(click_coords[0]))
                     self.afficher_plateau()
-                    print(isintable)
+                    print(click_coords)
 
                 elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 3:
                     see_moves = ((pos[0] // (532 // len(self._main.get_board())) * 0.540),
@@ -83,12 +103,11 @@ class GameUI:
                         self.view_possible_moves(int(see_moves[1]), int(see_moves[0]))
                         self.afficher_plateau()
 
-            if leave_btn.draw():
-                sys.exit("Game leave")
-            pygame.display.update()
-
             text_turn = font_title.render(f'Tour {self._main.get_turn()}', True, black)
             self.get_screen().blit(text_turn, (860, 30))
+
+            self.get_screen().blit(text_ring_number_1, (860, 250))
+            self.get_screen().blit(text_ring_number_2, (860, 500))
 
             texts = {
                 (0, 1): font_action.render('Placez vos premiers anneaux', True, blue),
@@ -119,16 +138,12 @@ class GameUI:
             self.get_screen().blit(text_player_1, (840, 150))
             self.get_screen().blit(text_player_2, (840, 300))
 
-            # if self._main.get_player() < 10:
-            #     self.get_screen().blit(text_tips, (860, 30))
+            self.get_screen().blit(text_tips, (450, 650))
 
             if self._main.get_player() == 1:
                 self.get_screen().blit(selected_player, (780, 145))
             if self._main.get_player() == 2:
                 self.get_screen().blit(selected_player, (780, 295))
-
-            if self._back_btn.draw():
-                print("TG")
 
     def afficher_plateau(self):
         pawn_ring_1 = pygame.image.load('images/game/pawn_and_ring_1.png').convert_alpha()
@@ -152,32 +167,36 @@ class GameUI:
                 board_ui = self._main.get_board()[j][i]
                 match board_ui:
                     case 2:
-                        self.taiko_sound_2()
+                        self.taiko_sound(0)
+                        self.taiko_sound_2(1)
                         self._screen.blit(ring_1, ((-15) + i * 54, (-15) + j * 33))
                     case 3:
-                        self.taiko_sound_2()
+                        self.taiko_sound(0)
+                        self.taiko_sound_2(1)
                         self._screen.blit(ring_2, ((-15) + i * 54, (-15) + j * 33))
                     case 4:
                         self._screen.blit(pawn_1, ((-15) + i * 54, (-15) + j * 33))
                     case 5:
                         self._screen.blit(pawn_2, ((-20) + i * 54, (-15) + j * 33))
                     case 6:
-                        self.taiko_sound()
+                        self.taiko_sound(1)
+                        self.taiko_sound_2(0)
                         self._screen.blit(pawn_ring_1, ((-15) + i * 54, (-15) + j * 33))
                     case 7:
-                        self.taiko_sound()
+                        self.taiko_sound(1)
+                        self.taiko_sound_2(0)
                         self._screen.blit(pawn_ring_2, ((-15) + i * 54, (-15) + j * 33))
 
-    def taiko_sound(self):
+    def taiko_sound(self, volume=1):
         pygame.mixer.init()
         pygame.mixer.music.load('musics/dunk.ogg', "ogg")
-        pygame.mixer.music.set_volume(1.0)
+        pygame.mixer.music.set_volume(volume)
         pygame.mixer.music.play(loops=-1, start=0.0)
 
-    def taiko_sound_2(self):
+    def taiko_sound_2(self, volume=1):
         pygame.mixer.init()
         pygame.mixer.music.load('musics/taiko_sound.ogg', "ogg")
-        pygame.mixer.music.set_volume(1.0)
+        pygame.mixer.music.set_volume(volume)
         pygame.mixer.music.play(loops=-1, start=0.0)
 
     def view_possible_moves(self, x, y):
@@ -191,3 +210,51 @@ class GameUI:
                 for x in range(len(self.show_possible_moves)):
                     if (j, i) in self.show_possible_moves[x]:
                         self._screen.blit(possible, ((-10) + i * 54, (-10) + j * 33))
+
+    def win_menu(self):
+
+        black = (0, 0, 0)
+        sakura = (214, 173, 166)
+
+        pygame.font.init()
+        font_title = pygame.font.SysFont('freesansbold.ttf', 50)
+
+        if self._main.get_player() == 1:
+            winner = 2
+        else:
+            winner = 1
+
+        pygame.display.set_caption(f'Yinch - {winner} Win !')
+
+        restart_img = pygame.image.load('images/button_restart.png').convert_alpha()
+        restart_btn = ButtonUi(350, 500, restart_img, 0.32)
+
+        back_button = ButtonUi(670, 500, self._back_img, 0.32)
+
+        text_winner = font_title.render(f'Bien jouer Joueur {winner}', True, black)
+
+        self.win_music()
+
+        while True:
+
+            self._screen.fill(sakura)
+
+            self._screen.blit(text_winner, (470, 100))
+
+            if restart_btn.draw():
+                print("restart")
+
+            if back_button.draw():
+                print("TG")
+
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    sys.exit("Game leave")
+                pygame.display.update()
+
+    def win_music(self):
+        pygame.mixer.init()
+        pygame.mixer.music.load('musics/win_sound.ogg', "ogg")
+        pygame.mixer.music.set_volume(1.0)
+        pygame.mixer.music.play(loops=-1, start=0.0)

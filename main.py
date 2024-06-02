@@ -12,7 +12,11 @@ class Game:
         self._rotation = None
         self._mode = None
         self._game_mode = None
+<<<<<<< HEAD
         self._solo_mode = 0
+=======
+        self._change_player = True
+>>>>>>> 77edc3c02f2f22d323fd28a716995e7ef175b485
         self._player_1_out_ring = 0
         self._player_2_out_ring = 0
         self._player_1_align = 0
@@ -32,7 +36,7 @@ class Game:
         self._click_x = None
         self._click_y = None
 
-    def set_game_mode(self, mode=0):
+    def set_game_mode(self, mode=1):
         self._game_mode = mode
 
     def set_solo_mode(self):
@@ -53,24 +57,26 @@ class Game:
     def get_turn(self):
         return self._round
 
+    def get_possible(self):
+        return self._possibles
+
     def get_ring_player_1(self):
-        return self._firstRing.get_player_1_ring()
+        return self._player_1_out_ring
 
     def get_ring_player_2(self):
-        return self._firstRing.get_player_2_ring()
+        return self._player_2_out_ring
 
     def set_blitz_mode(self, mode=0):
         """
         True = blitz mode; False = normal mode
         """
-
         if mode == 1:
-            self._game_mode = False  # Isn't blitz mode
+            self._mode = False  # Isn't blitz mode
         else:
-            self._game_mode = True  # It's blitz mode
+            self._mode = True  # It's blitz mode
 
     def get_blitz_mode(self):
-        return self._game_mode
+        return self._mode
 
     def win(self):
         """
@@ -80,7 +86,7 @@ class Game:
         numberRingPlayer1 = self._player_1_out_ring
         numberRingPlayer2 = self._player_2_out_ring
 
-        if not self._game_mode:
+        if not self._mode:
             numberToWin = 3
         else:
             numberToWin = 1
@@ -123,9 +129,6 @@ class Game:
         self._click_y = y
 
         if self.in_board_verification(self._click_x, self._click_y):
-            if self._round == 10:
-                self._player = 1
-
             if self._player == 1:
                 caseplayer = 2
             else:
@@ -134,6 +137,20 @@ class Game:
             if self._round < 10:
                 self.main_put_first_rings(self._click_x, self._click_y)
 
+            # Check if a player can remove a ring and add ring in his ring out stock
+
+            if self._player_1_align > self._player_1_out_ring:
+                self.choix_anneaux(1)
+                if (self._click_x, self._click_y) in self._choix:
+                    self.ring_out(self._click_x, self._click_y, 1)
+                self._player = 2
+
+            elif self._player_2_align > self._player_2_out_ring:
+                self.choix_anneaux(2)
+                if (self._click_x, self._click_y) in self._choix:
+                    self.ring_out(self._click_x, self._click_y, 2)
+                self._player = 1
+
             elif self._round >= 10:
                 if self._board.board[self._click_x][self._click_y] == caseplayer:
                     if self._clickCount == 0:
@@ -141,22 +158,15 @@ class Game:
                             self.main_see_moves_rings()
                             self._clickCount = 1
 
-                if self._clickCount == 1:
-                    if self.main_move_rings(x, y, self._player):
-                        self._board.see_board()
-                        self._round += 1
-                        if self._player == 1:
-                            self._player = 2
-                        else:
-                            self._player = 1
-                        self._clickCount = 0
-            
-            if self._player_1_align > self._player_1_out_ring and (self._click_x,self._click_y) in self._choix and (self._click_x,self._click_y) == 2:
-                self._board.board[self._click_x][self._click_y] == 1
-                self._player_1_out_ring += 1
-            if self._player_2_align > self._player_2_out_ring and (self._click_x,self._click_y) in self._choix and (self._click_x,self._click_y) == 3:
-                self._board.board[self._click_x][self._click_y] == 1
-                self._player_2_out_ring += 1
+        if self._clickCount == 1:
+            if self.main_move_rings(x, y, self._player):
+                self._board.see_board()
+                self._round += 1
+                if self._player == 1:
+                    self._player = 2
+                else:
+                    self._player = 1
+                self._clickCount = 0
 
             # Reset click
             self._click_x = None
@@ -176,8 +186,21 @@ class Game:
         self._pawns.empty_stock(self._board.board)
         print(self._pawnStock)
 
+        print(self._player_1_out_ring, self._player_2_out_ring)
+
     def get_click_count(self):
         return self._clickCount
+
+    def ring_out(self, x, y, player):
+        """
+        Use to remove rings from the board
+        """
+        if player == 1:
+            self._player_1_out_ring += 1
+        else:
+            self._player_2_out_ring += 1
+
+        self._board.board[x][y] = 1
 
     def in_board_verification(self, x, y):
         """
@@ -202,7 +225,6 @@ class Game:
             self._player = 2
         else:
             self._player = 1
-
 
     def main_put_pawns(self, x, y, player):
         """
@@ -254,7 +276,7 @@ class Game:
         if not self.in_board_verification(x, y) or self._board.board[x][y] != 1 or (x,y) not in self.all_possibles_moves:
             return False
 
-        print(x,y, self._possibles.get_vertical_moves())
+        print(x, y, self._possibles.get_vertical_moves())
 
         if (x, y) in self._possibles.get_vertical_moves():
             self._rotation.vertical_rotate(self._ring_move_y, self._ring_move_x, x)
@@ -263,7 +285,6 @@ class Game:
         elif (x, y) in self._possibles.get_left_diagonal_moves():
             self._rotation.diagonal_rotate_left(self._ring_move_x, self._ring_move_y)
 
-
         if self._player == 1:
             self._board.board[x][y] = 2
         else:
@@ -271,7 +292,6 @@ class Game:
         self._board.board[self._ring_move_x][self._ring_move_y] = self._player + 3
 
         return True
-
 
     def alignement(self):
         for i in range(19):
@@ -334,19 +354,19 @@ class Game:
                                     return 2
         return False
 
-    def choix_anneaux(self):
+    def choix_anneaux(self, player):
         self._choix.clear()
-        if alignement() == 1:
+        if player == 1:
             for i in range(19):
                 for j in range(11):
                     if self._board.board[i][j] == 2:
-                        self._choix.append([i][j])
+                        self._choix.append((i,j))
             return self._choix
-        if alignement() == 2:
+        if player == 2:
             for i in range(19):
                 for j in range(11):
                     if self._board.board[i][j] == 3:
-                        self._choix.append([i][j])
+                        self._choix.append((i,j))
             return self._choix
     
     def get_player_1_ring(self):
@@ -354,3 +374,16 @@ class Game:
 
     def get_player_2_ring(self):
         return self._player_2_out_ring
+
+    def ia_moves(self):
+        if self.get_turn() > 10:
+            all_moves = self._possibles.get_vertical_moves() + self._possibles.get_diagonal_moves()
+            ia = randint(1, len(all_moves))
+            return all_moves[ia]
+        else:
+            move_x = randint(1, len(self._board.board)-1)
+            move_y = randint(1, len(self._board.board)-1)
+            while self._board.board[move_x][move_y] == 0:
+                move_x = randint(1, len(self._board.board))
+                move_y = randint(1, len(self._board.board))
+            return move_x, move_y
