@@ -1,4 +1,5 @@
 import tkinter as tk
+import copy
 
 from structures.board.board_struct import *
 from structures.rings import *
@@ -17,7 +18,7 @@ class Game:
         self._player_2_out_ring = 0
         self._player_1_align = 0
         self._player_2_align = 0
-        self._board = BoardStruct()
+        self._board = copy.deepcopy(BoardStruct())
         self._round = 0
         self._player = 1
         self._ring_move_x = 0
@@ -55,16 +56,21 @@ class Game:
             for j in range(len(self._board.board[0])):
                 if self._board.board[i][j] not in (0, 1):
                     self._board.board[i][j] = 1
+
+        print(self._board.board)
         return self._board.board
+
+    def reset_turn(self):
+        self._round = 0
+
+    def reset_player(self):
+        self._player = 1
 
     def get_player(self):
         return self._player
 
     def get_turn(self):
         return self._round
-
-    def reset_turn(self):
-        self._round = 0
 
     def get_possible(self):
         return self._possibles
@@ -78,6 +84,8 @@ class Game:
     def reset_player_rings(self):
         self._player_1_out_ring = 0
         self._player_2_out_ring = 0
+        self._player_1_align = 0
+        self._player_2_align = 0
 
     def set_blitz_mode(self, mode=0):
         """
