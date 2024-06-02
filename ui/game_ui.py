@@ -79,12 +79,11 @@ class GameUI:
         text_player_1 = font_title.render('Joueur 1', True, blue)
         text_player_2 = font_title.render('Joueur 2', True, red)
 
-
         run = True
         while run:
 
-            text_ring_number_1 = font_title.render(f'Pawn number {self._main.get_player_1_ring()}', True, blue)
-            text_ring_number_2 = font_title.render(f'Pawn number {self._main.get_player_2_ring()}', True, red)
+            text_ring_number_1 = font_title.render(f'Anneau(x) retiré(s) {self._main.get_player_1_ring()}', True, blue)
+            text_ring_number_2 = font_title.render(f'Anneau(x) retiré(s)  {self._main.get_player_2_ring()}', True, red)
 
             pos = pygame.mouse.get_pos()
 
