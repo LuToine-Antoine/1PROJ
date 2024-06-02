@@ -1,5 +1,3 @@
-from tkinter import *
-
 class Paws:
     def __init__(self, x, y, board):
         self._x = x
