@@ -58,8 +58,8 @@ class GameUI:
         text_player_1 = font_title.render('Joueur 1', True, blue)
         text_player_2 = font_title.render('Joueur 2', True, red)
 
-        text_ring_number_1 = font_title.render(f'Pawn number {self._main.get_player_1_ring()}', True, red)
-
+        text_ring_number_1 = font_title.render(f'Pawn number {self._main.get_player_1_ring()}', True, blue)
+        text_ring_number_2 = font_title.render(f'Pawn number {self._main.get_player_2_ring()}', True, red)
 
         run = True
         while run:
@@ -72,35 +72,69 @@ class GameUI:
                 sys.exit("Game leave")
             pygame.display.update()
 
-            if self._back_btn_game.draw():
-                print("TG")
-
             # get mouse position
-            click = False
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    run = False
-                elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
-                    click_coords = ((pos[0] // (532 // len(self._main.get_board())) * 0.540),
-                                    (pos[1] // (558 // len(self._main.get_board()) * 1.15)))
-                    self._main.game_loop(int(click_coords[1]), int(click_coords[0]))
-                    self._screen.fill((255, 255, 255))
-                    self.get_screen().blit(self.board(), (-20, -10))
-                    print(int(click_coords[1]), int(click_coords[0]))
-                    self.afficher_plateau()
-                    print(click_coords)
-
-                elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 3:
-                    see_moves = ((pos[0] // (532 // len(self._main.get_board())) * 0.540),
-                                 (pos[1] // (558 // len(self._main.get_board()) * 1.15)))
-                    if self._main.get_board()[int(see_moves[1])][int(see_moves[0])] in (2, 3, 6, 7):
+            if self._main.get_game_mode() == 0:
+                click = False
+                for event in pygame.event.get():
+                    if self._main.get_player() == 1:
+                        if event.type == pygame.QUIT:
+                            run = False
+                        elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+                            click_coords = ((pos[0] // (532 // len(self._main.get_board())) * 0.540),
+                                            (pos[1] // (558 // len(self._main.get_board()) * 1.15)))
+                            self._main.game_loop(int(click_coords[1]), int(click_coords[0]))
+                            self._screen.fill((255, 255, 255))
+                            self.get_screen().blit(self.board(), (-20, -10))
+                            print(int(click_coords[1]), int(click_coords[0]))
+                            self.afficher_plateau()
+                            print(click_coords)
+                    if self._main.get_player() == 2:
+                        click_coords = self._main.get_possible().ia_moves()
+                        self._main.game_loop(int(click_coords[1]), int(click_coords[0]))
                         self._screen.fill((255, 255, 255))
                         self.get_screen().blit(self.board(), (-20, -10))
-                        self.view_possible_moves(int(see_moves[1]), int(see_moves[0]))
+                        print(int(click_coords[1]), int(click_coords[0]))
                         self.afficher_plateau()
+                        print(click_coords)
+
+                    elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 3:
+                        see_moves = ((pos[0] // (532 // len(self._main.get_board())) * 0.540),
+                                     (pos[1] // (558 // len(self._main.get_board()) * 1.15)))
+                        if self._main.get_board()[int(see_moves[1])][int(see_moves[0])] in (2, 3, 6, 7):
+                            self._screen.fill((255, 255, 255))
+                            self.get_screen().blit(self.board(), (-20, -10))
+                            self.view_possible_moves(int(see_moves[1]), int(see_moves[0]))
+                            self.afficher_plateau()
+
+                if self._main.get_game_mode() == 1:
+                    click = False
+                    for event in pygame.event.get():
+                        if event.type == pygame.QUIT:
+                            run = False
+                        elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+                            click_coords = ((pos[0] // (532 // len(self._main.get_board())) * 0.540),
+                                            (pos[1] // (558 // len(self._main.get_board()) * 1.15)))
+                            self._main.game_loop(int(click_coords[1]), int(click_coords[0]))
+                            self._screen.fill((255, 255, 255))
+                            self.get_screen().blit(self.board(), (-20, -10))
+                            print(int(click_coords[1]), int(click_coords[0]))
+                            self.afficher_plateau()
+                            print(click_coords)
+
+                        elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 3:
+                            see_moves = ((pos[0] // (532 // len(self._main.get_board())) * 0.540),
+                                         (pos[1] // (558 // len(self._main.get_board()) * 1.15)))
+                            if self._main.get_board()[int(see_moves[1])][int(see_moves[0])] in (2, 3, 6, 7):
+                                self._screen.fill((255, 255, 255))
+                                self.get_screen().blit(self.board(), (-20, -10))
+                                self.view_possible_moves(int(see_moves[1]), int(see_moves[0]))
+                                self.afficher_plateau()
 
             text_turn = font_title.render(f'Tour {self._main.get_turn()}', True, black)
             self.get_screen().blit(text_turn, (860, 30))
+
+            self.get_screen().blit(text_ring_number_1, (860, 250))
+            self.get_screen().blit(text_ring_number_2, (860, 500))
 
             texts = {
                 (0, 1): font_action.render('Placez vos premiers anneaux', True, blue),

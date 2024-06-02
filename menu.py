@@ -8,11 +8,15 @@ from ui.buttons import *
 
 class MenuUi:
     def __init__(self, width=1280, height=720):
+        """
+        Initialize the MenuUi class
+        :param width:
+        :param height:
+        """
         self._screen_height = height
         self._screen_width = width
         self._screen = pygame.display.set_mode((self._screen_width, self._screen_height))
 
-        pygame.display.set_caption('Yinch')
         self._bg = pygame.image.load('images/menu/bg.jpg').convert_alpha()
 
         self._leave_img = pygame.image.load('images/leave.png').convert_alpha()
@@ -25,12 +29,20 @@ class MenuUi:
         self._board_ui = GameUI()
 
     def music_menu(self):
+        """
+        Play the menu music.
+        :return:
+        """
         pygame.mixer.init()
         pygame.mixer.music.load('musics/menu_music.ogg', "ogg")
         pygame.mixer.music.set_volume(1.0)
         pygame.mixer.music.play(loops=-1, start=0.0)
 
     def window(self):
+        """
+        Display the main menu of the game.
+        :return:
+        """
 
         pygame.display.set_caption('Yinch menu - LuToine')
 
@@ -73,13 +85,17 @@ class MenuUi:
                 pygame.display.update()
 
     def display_solo(self):
+        """
+        Display the solo menu.
+        :return:
+        """
         self._board_ui.get_game().set_game_mode(0)
         pygame.display.set_caption('Yinch Solo mode')
 
         normal_img = pygame.image.load('images/menu/button_classic.png').convert_alpha()
         blitz_img = pygame.image.load('images/menu/button_blitz.png').convert_alpha()
 
-        normal_btn = ButtonUi(510, 90, normal_img, 0.32)
+        normal_btn = ButtonUi(510, 100, normal_img, 0.32)
         blitz_btn = ButtonUi(510, 300, blitz_img, 0.32)
 
         while True:
@@ -109,6 +125,10 @@ class MenuUi:
                 pygame.display.update()
 
     def display_multi(self):
+        """
+        Display the multiplayer menu.
+        :return:
+        """
 
         pygame.display.set_caption('Yinch Multiplayer mode')
 
@@ -138,6 +158,10 @@ class MenuUi:
                 pygame.display.update()
 
     def display_local(self):
+        """
+        Display the local menu.
+        :return:
+        """
         self._board_ui.get_game().set_game_mode(1)
 
         pygame.display.set_caption('Yinch Local Mode')
@@ -175,6 +199,10 @@ class MenuUi:
                 pygame.display.update()
 
     def display_rules(self):
+        """
+        Display the game rules.
+        :return:
+        """
         black = (0, 0, 0)
         sakura = (214, 173, 166)
         scale = 0.2
