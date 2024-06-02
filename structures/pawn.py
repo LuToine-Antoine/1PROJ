@@ -4,7 +4,7 @@ class Paws:
         self._y = y
         self._board = board
         self._stock = False
-        self._pawn_stock = 1
+        self._pawn_stock = 51
 
     def empty_stock(self, board):
         """
